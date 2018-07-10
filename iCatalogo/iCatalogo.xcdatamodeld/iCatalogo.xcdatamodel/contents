@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3401" systemVersion="13B42" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Clients" representedClassName="Clients" syncable="YES">
+        <attribute name="address" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="client" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="country" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="telephone" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="orders" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Orders" inverseName="client" inverseEntity="Orders" syncable="YES"/>
+    </entity>
+    <entity name="Orders" representedClassName="Orders" syncable="YES">
+        <attribute name="note" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="quantity" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="xCartoon" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="xColor" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="xPackage" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="xSubproduct" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="xType" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="client" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Clients" inverseName="orders" inverseEntity="Clients" syncable="YES"/>
+        <relationship name="subproduct" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Subproducts" inverseName="orders" inverseEntity="Subproducts" syncable="YES"/>
+    </entity>
+    <entity name="Products" representedClassName="Products" syncable="YES">
+        <attribute name="category" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="photo" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="product" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="supplier" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="subproducts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Subproducts" inverseName="product" inverseEntity="Subproducts" syncable="YES"/>
+    </entity>
+    <entity name="Subproducts" representedClassName="Subproducts" syncable="YES">
+        <attribute name="barcode" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="note" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="price" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="profit" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="quantity" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="quantityCartoon" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="quantityColor" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="quantityPackage" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="subproduct" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="orders" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Orders" inverseName="subproduct" inverseEntity="Orders" syncable="YES"/>
+        <relationship name="product" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Products" inverseName="subproducts" inverseEntity="Products" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Clients" positionX="279" positionY="-958" width="128" height="148"/>
+        <element name="Orders" positionX="99" positionY="-790" width="128" height="178"/>
+        <element name="Products" positionX="522" positionY="-792" width="128" height="133"/>
+        <element name="Subproducts" positionX="333" positionY="-792" width="128" height="223"/>
+    </elements>
+</model>
