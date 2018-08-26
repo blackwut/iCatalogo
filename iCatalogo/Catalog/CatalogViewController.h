@@ -33,6 +33,13 @@
 @property (weak, nonatomic) IBOutlet UILabel *labelFive;
 @property (weak, nonatomic) IBOutlet UILabel *labelSix;
 
+@property (weak, nonatomic) IBOutlet UILabel *supplierOne;
+@property (weak, nonatomic) IBOutlet UILabel *supplierTwo;
+@property (weak, nonatomic) IBOutlet UILabel *supplierThree;
+@property (weak, nonatomic) IBOutlet UILabel *supplierFour;
+@property (weak, nonatomic) IBOutlet UILabel *supplierFive;
+@property (weak, nonatomic) IBOutlet UILabel *supplierSix;
+
 @property (strong, nonatomic) NSManagedObject *client;
 @property (strong, nonatomic) NSArray *list;
 @property int page;

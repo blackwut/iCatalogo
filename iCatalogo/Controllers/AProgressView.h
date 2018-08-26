@@ -22,8 +22,8 @@
 
 @property (nonatomic, strong) NSURL *url;
 @property (nonatomic, strong) NSMutableData *receivedData;
-@property (nonatomic, assign) int current;
-@property (nonatomic, assign) int max;
+@property (nonatomic, assign) long long current;
+@property (nonatomic, assign) long long max;
 
 - (void)reset;
 - (void)increment;

@@ -35,18 +35,17 @@
     return [list count];
 }
 
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	if(coloredTable){
+		UIColor * selectedColor = (indexPath.row % 2 == 0 ? lightBlue : [UIColor clearColor]);
+		[cell setBackgroundColor:selectedColor];
+	}
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
-        
-    if(coloredTable){
-        
-        [tableView setSeparatorInset:UIEdgeInsetsZero];
-        
-        if([indexPath row]%2 == 0)
-            [cell setBackgroundColor:[UIColor colorWithRed:(0/255.0) green:(122/255.0) blue:(255/255.0) alpha:0.25]];
-        else [cell setBackgroundColor:[UIColor clearColor]];
-    }
     
     NSManagedObject *object = [list objectAtIndex:[indexPath row]];
     
@@ -112,7 +111,9 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+	
+	[self.tableView setSeparatorInset:UIEdgeInsetsZero];
+
     [self.search setDelegate:self];
     
     [self.navigationController setToolbarHidden:YES];

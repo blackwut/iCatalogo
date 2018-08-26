@@ -15,6 +15,7 @@
 
 @synthesize segmented, servers, session, indexServer;
 @synthesize ipField, progressView, progressLabel;
+@synthesize showSubproducts, goBackInsert, selectAutomatic;
 
 
 
@@ -25,7 +26,7 @@
     servers = [[NSMutableArray alloc] init];
     indexServer = 0;
     
-    for(int i = 64; i<200; i++){
+    for(int i = 64; i < 128; ++i){
         NSString *ip = [NSString stringWithFormat:@"http://192.168.1.%d/server.php", i];
         [session downloadFromUrlString:ip];
     }
@@ -260,6 +261,9 @@
     
     NSUserDefaults *options = [NSUserDefaults standardUserDefaults];
     [ipField setText:[options stringForKey:ip]];
+	[showSubproducts setOn:[options boolForKey:showSubproductsOption]];
+	[goBackInsert setOn:[options boolForKey:goBackInsertOption]];
+	[selectAutomatic setOn:[options boolForKey:selectAutomaticOption]];
     
     [progressView setDelegate:self];
     [progressView setLabel:progressLabel];
@@ -269,5 +273,26 @@
 {
     [super didReceiveMemoryWarning];
 }
+
+- (IBAction)showSubproductValueChanged:(id)sender {
+	NSUserDefaults *options = [NSUserDefaults standardUserDefaults];
+	[options setBool:[showSubproducts isOn] forKey:showSubproductsOption];
+	[options synchronize];
+}
+
+- (IBAction)goBackInsertValueChanged:(id)sender
+{
+	NSUserDefaults *options = [NSUserDefaults standardUserDefaults];
+	[options setBool:[goBackInsert isOn] forKey:goBackInsertOption];
+	[options synchronize];
+}
+
+- (void)selectAutomaticValueChanged:(id)sender
+{
+	NSUserDefaults *options = [NSUserDefaults standardUserDefaults];
+	[options setBool:[selectAutomatic isOn] forKey:selectAutomaticOption];
+	[options synchronize];
+}
+
 
 @end

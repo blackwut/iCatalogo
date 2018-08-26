@@ -11,18 +11,25 @@
 @interface ProductViewController ()
 
 @property (nonatomic, strong) NSArray *list;
+@property (nonatomic, assign) BOOL goBackAfterInsert;
+@property (nonatomic, assign) BOOL selectAutomatic;
+
 
 @end
 
 @implementation ProductViewController
 
 @synthesize image, productLabel, supplierLabel, xSubproduct, xColor, xType, xPackage, xCartoon, note, quantity, add, table;
-@synthesize list, client, order, product;
+@synthesize list, client, order, product, goBackAfterInsert, selectAutomatic;
 
 - (void)openPhoto
 {
-    APhoto *photo = [[APhoto alloc] initWithImage:[image image] delegate:self];
-    [photo show];
+	UIImage *img = [image image];
+	
+	if (img) {
+		APhoto *photo = [[APhoto alloc] initWithImage:img delegate:self];
+		[photo show];
+	}
 }
 
 #pragma -mark TextField
@@ -145,8 +152,12 @@
     
     AMessage *message = [[AMessage alloc] initWithMessage:messageText dismissWithin:1.0 delegate:self comeBack:YES];
     [message show];
-    
-    [self.navigationController popViewControllerAnimated:YES];
+	
+	if (goBackAfterInsert || [self.list count] == 1) {
+    	[self.navigationController popViewControllerAnimated:YES];
+	} else {
+		[self.table reloadData];
+	}
 }
 
 - (BOOL)insertSubproduct:(NSManagedObject *)subproduct
@@ -194,16 +205,21 @@
     return [list count];
 }
 
+//- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//	UIColor * selectedColor = (indexPath.row % 2 == 0 ? lightBlue : [UIColor clearColor]);
+//	[cell setBackgroundColor:selectedColor];
+//}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [self.table dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
-    
-    [tableView setSeparatorInset:UIEdgeInsetsZero];
-    
-    if([indexPath row]%2 == 0)
-        [cell setBackgroundColor:[UIColor colorWithRed:(0/255.0) green:(122/255.0) blue:(255/255.0) alpha:0.25]];
-    else [cell setBackgroundColor:[UIColor clearColor]];
-    
+	
+	[cell setSelectionStyle:UITableViewCellSelectionStyleDefault];
+	UIView * selectedBackgroundView = [[UIView alloc] init];
+	[selectedBackgroundView setBackgroundColor:lightGreen];
+	[cell setSelectedBackgroundView:selectedBackgroundView];
+	 
     NSManagedObject *object = [list objectAtIndex:[indexPath row]];
     
     [self configureCell:cell withObject:object];
@@ -253,7 +269,7 @@
         
         [self setInputTextFieldsEnabled:NO];
     }
-    
+
     return indexPath;
 }
 
@@ -289,12 +305,19 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+	
+	NSUserDefaults *options = [NSUserDefaults standardUserDefaults];
+	goBackAfterInsert = [options boolForKey:goBackInsertOption];
+	selectAutomatic = [options boolForKey:selectAutomaticOption];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+	
+	[self.add setBackgroundColor:lightGreen];
+	[self.add setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+	
     [self.navigationController setToolbarHidden:YES];
 
     //Se non si sta facendo un ordine
@@ -339,7 +362,16 @@
         [xType setText:[order valueForKey:@"xType"]];
         [xPackage setText:[order valueForKey:@"xPackage"]];
         [xCartoon setText:[order valueForKey:@"xCartoon"]];
-    }
+	} else {
+		if (selectAutomatic && [list count] == 1) {
+			NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+			[self.table selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+			[self tableView:self.table didSelectRowAtIndexPath:indexPath];
+		}
+	}
+	
+	[self.table setSeparatorInset:UIEdgeInsetsZero];
+//	[self.table setSeparatorColor:[UIColor clearColor]];
 }
 
 @end

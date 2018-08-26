@@ -151,9 +151,8 @@
         NSString *barcode = [[object valueForKey:@"subproduct"] valueForKey:@"barcode"];
         NSString *subproduct = [[object valueForKey:@"subproduct"] valueForKey:@"subproduct"];
         NSString *noteString = [[object valueForKey:@"subproduct"] valueForKey:@"note"];
-        //NSString *supplier = [[[object valueForKey:@"subproduct"] valueForKey:@"product"] valueForKey:@"supplier"];
+        NSMutableString *supplier = [[[[object valueForKey:@"subproduct"] valueForKey:@"product"] valueForKey:@"supplier"] mutableCopy];
         
-        NSMutableString *supplier = [[NSMutableString alloc] init];
         NSString *quantity = [object valueForKey:@"quantity"];
         
         if([quantity length]==0)
@@ -168,7 +167,7 @@
         NSString *xType = [object valueForKey: @"xType"];
         NSString *xPackage = [object valueForKey: @"xPackage"];
         NSString *xCartoon = [object valueForKey: @"xCartoon"];
-        
+		
         if ([note length] > 0)
 			[supplier appendFormat:@" - %@", note];
 		

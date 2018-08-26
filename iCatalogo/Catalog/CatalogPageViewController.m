@@ -10,17 +10,31 @@
 #import "CatalogViewController.h"
 #import "Constants.h"
 #import "AppDelegate.h"
+#import "FilterCatalogViewController.h"
 
 @interface CatalogPageViewController ()
 @property (nonatomic, assign) BOOL isAnimating;
+@property (nonatomic, strong) FilterCatalogViewController * filterCatalogViewController;
 @end
 
 @implementation CatalogPageViewController
 
 @synthesize pageField, totalButton;
-@synthesize client, list, page, maxPage;
-@synthesize isAnimating;
+@synthesize client, originalList, list, page, maxPage;
+@synthesize isAnimating, filterCatalogViewController;
 
+- (IBAction)filterButtonTouched:(id)sender
+{
+	filterCatalogViewController = [[UIStoryboard storyboardWithName:@"Storyboard" bundle:nil] instantiateViewControllerWithIdentifier:@"filterCatalogViewController"];
+	filterCatalogViewController.modalPresentationStyle = UIModalPresentationPageSheet;
+	filterCatalogViewController.catalogPageViewController = self;
+	
+	UINavigationController * navigationController = [[UINavigationController alloc] initWithRootViewController:filterCatalogViewController];
+	navigationController.modalPresentationStyle = UIModalPresentationPageSheet;
+	
+	[self presentViewController:navigationController animated:YES completion:^{
+	}];
+}
 
 - (void)updateTitle
 {
@@ -97,6 +111,24 @@
     return YES;
 }
 
+- (void)reloadPageViewController
+{
+	NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
+	
+	if([[settings valueForKey:searchChanged] boolValue]){
+		page = 1;
+		[settings setBool:NO forKey:searchChanged];
+	} else {
+		page = [[settings valueForKey:catalogPage] intValue];
+	}
+	
+	maxPage = (int)(([list count] + 5) / 6);
+	
+	[pageField setText:[NSString stringWithFormat:@"%d", page]];
+	
+	[self setViewControllers:@[[self createCatalogViewControllerWithIndexPage:page]] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -104,23 +136,9 @@
     
     [self setDataSource:self];
     [self setDelegate:self];
-    
-    NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
-    
-    if([[settings valueForKey:searchChanged] boolValue]){
-        page = 1;
-        [settings setBool:NO forKey:searchChanged];
-    } else {
-        page = [[settings valueForKey:catalogPage] intValue];
-    }
-    
-    //Numero massimo di pagine. Formula (NumeroProdotti / 6) + Se restano prodotti aggiunge una pagina per poterli visualizzare
-    maxPage = (int)([list count]/6) + (([list count]%6 > 0)? 1 : 0);
-    
-    [pageField setText:[NSString stringWithFormat:@"%d", page]];
-    
-    [self setViewControllers:@[[self createCatalogViewControllerWithIndexPage:page]] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
-
+	
+	[self reloadPageViewController];
+	
 	if(client) {
 		NSString *totalString = [[AppDelegate sharedAppDelegate] getTotalOrderOf:client];
 		[totalButton setTitle:totalString];

@@ -12,10 +12,10 @@
 
 @synthesize delegate, imageView;
 
-static const float padding = 20.0f;
-static const float opacity = 0.8f;
-static const float cornerRadius = 10.0f;
-static const CGSize offset = {4.0f, 4.0f};
+//static const float padding = 20.0f;
+//static const float opacity = 0.8f;
+//static const float cornerRadius = 10.0f;
+//static const CGSize offset = {4.0f, 4.0f};
 
 - (id)initWithFrame:(CGRect)frame
 {

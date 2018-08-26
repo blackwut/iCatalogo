@@ -90,12 +90,14 @@
 - (void)configureCell:(UITableViewCell *)cell withObject:(NSManagedObject *)object
 {
     UILabel *productLabel = (UILabel *)[cell viewWithTag:1];
-    UILabel *subproductLabel = (UILabel *)[cell viewWithTag:2];
-    UILabel *quantityLabel = (UILabel *)[cell viewWithTag:3];
+	UILabel *supplierLabel = (UILabel *)[cell viewWithTag:2];
+    UILabel *subproductLabel = (UILabel *)[cell viewWithTag:3];
+    UILabel *quantityLabel = (UILabel *)[cell viewWithTag:4];
     
     
     NSMutableString *product = [[[[object valueForKey:@"subproduct"] valueForKey:@"product"] valueForKey:@"product"] mutableCopy];
     NSString *subproduct = [[object valueForKey:@"subproduct"] valueForKey:@"subproduct"];
+	NSString *supplier = [[[object valueForKey:@"subproduct"] valueForKey:@"product"] valueForKey:@"supplier"];
     NSString *quantity = [object valueForKey:@"quantity"];
     
     NSString *note = [object valueForKey:@"note"];
@@ -128,6 +130,7 @@
         [product appendFormat:@" - %@ x Cartone", xCartoon];
     
     [productLabel setText:product];
+	[supplierLabel setText:supplier];
     [subproductLabel setText:subproduct];
     [quantityLabel setText:quantity];
 }

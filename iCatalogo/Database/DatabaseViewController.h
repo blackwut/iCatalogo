@@ -25,5 +25,14 @@
 @property (nonatomic, strong) IBOutlet UITextField *ipField;
 @property (nonatomic, strong) IBOutlet AProgressView *progressView;
 @property (nonatomic, strong) IBOutlet UILabel *progressLabel;
+@property (nonatomic, strong) IBOutlet UISwitch *showSubproducts;
+@property (nonatomic, strong) IBOutlet UISwitch *goBackInsert;
+@property (nonatomic, strong) IBOutlet UISwitch *selectAutomatic;
+
+
+
+- (IBAction)showSubproductValueChanged:(id)sender;
+- (IBAction)goBackInsertValueChanged:(id)sender;
+- (IBAction)selectAutomaticValueChanged:(id)sender;
 
 @end

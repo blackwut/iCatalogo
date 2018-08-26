@@ -11,6 +11,7 @@
 		F30BF045187D7DC200CA97EF /* PDFCreator.m in Sources */ = {isa = PBXBuildFile; fileRef = F30BF043187D7DC200CA97EF /* PDFCreator.m */; };
 		F30BF046187D7DC200CA97EF /* PDFCreator.xib in Resources */ = {isa = PBXBuildFile; fileRef = F30BF044187D7DC200CA97EF /* PDFCreator.xib */; };
 		F334846C18574C5300D7511C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F334846B18574C5300D7511C /* MessageUI.framework */; };
+		F336242E2126CF3A00D00A50 /* FilterCatalogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F336242D2126CF3A00D00A50 /* FilterCatalogViewController.m */; };
 		F34C626B17FADE8B004FCD9B /* OrdersListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F34C626A17FADE8B004FCD9B /* OrdersListViewController.m */; };
 		F34C626E17FAEBDA004FCD9B /* DatabaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F34C626D17FAEBDA004FCD9B /* DatabaseViewController.m */; };
 		F34C627617FAEDC8004FCD9B /* TBXML.m in Sources */ = {isa = PBXBuildFile; fileRef = F34C627417FAEDC8004FCD9B /* TBXML.m */; };
@@ -54,6 +55,7 @@
 		F3CEAFB017F99692006C4898 /* iCatalogoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CEAFAF17F99692006C4898 /* iCatalogoTests.m */; };
 		F3CEAFBA17F9979A006C4898 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F3CEAFB917F9979A006C4898 /* Storyboard.storyboard */; };
 		F3CEAFBE17F99AE4006C4898 /* ClientsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CEAFBD17F99AE4006C4898 /* ClientsViewController.m */; };
+		F3E1466D2121984000FA358F /* FilterCatalogListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E1466C2121984000FA358F /* FilterCatalogListViewController.m */; };
 		F3FE44E517FD765B0081E554 /* CatalogPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3FE44E417FD765B0081E554 /* CatalogPageViewController.m */; };
 		F3FE44EB17FD9A2B0081E554 /* CatalogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3FE44EA17FD9A2B0081E554 /* CatalogViewController.m */; };
 /* End PBXBuildFile section */
@@ -76,6 +78,8 @@
 		F30BF043187D7DC200CA97EF /* PDFCreator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PDFCreator.m; path = Controllers/PDFCreator.m; sourceTree = "<group>"; };
 		F30BF044187D7DC200CA97EF /* PDFCreator.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PDFCreator.xib; path = Controllers/PDFCreator.xib; sourceTree = "<group>"; };
 		F334846B18574C5300D7511C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		F336242C2126CF3A00D00A50 /* FilterCatalogViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FilterCatalogViewController.h; path = Catalog/FilterCatalogViewController.h; sourceTree = "<group>"; };
+		F336242D2126CF3A00D00A50 /* FilterCatalogViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = FilterCatalogViewController.m; path = Catalog/FilterCatalogViewController.m; sourceTree = "<group>"; };
 		F345766318269DE300B82FAF /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
 		F34C626917FADE8B004FCD9B /* OrdersListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OrdersListViewController.h; path = Orders/OrdersListViewController.h; sourceTree = "<group>"; };
 		F34C626A17FADE8B004FCD9B /* OrdersListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OrdersListViewController.m; path = Orders/OrdersListViewController.m; sourceTree = "<group>"; };
@@ -150,6 +154,8 @@
 		F3CEAFB917F9979A006C4898 /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
 		F3CEAFBC17F99AE4006C4898 /* ClientsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ClientsViewController.h; path = Clients/ClientsViewController.h; sourceTree = "<group>"; };
 		F3CEAFBD17F99AE4006C4898 /* ClientsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ClientsViewController.m; path = Clients/ClientsViewController.m; sourceTree = "<group>"; };
+		F3E1466B2121984000FA358F /* FilterCatalogListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FilterCatalogListViewController.h; path = Catalog/FilterCatalogListViewController.h; sourceTree = "<group>"; };
+		F3E1466C2121984000FA358F /* FilterCatalogListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = FilterCatalogListViewController.m; path = Catalog/FilterCatalogListViewController.m; sourceTree = "<group>"; };
 		F3FE44E317FD765B0081E554 /* CatalogPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CatalogPageViewController.h; path = Catalog/CatalogPageViewController.h; sourceTree = "<group>"; };
 		F3FE44E417FD765B0081E554 /* CatalogPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CatalogPageViewController.m; path = Catalog/CatalogPageViewController.m; sourceTree = "<group>"; };
 		F3FE44E917FD9A2B0081E554 /* CatalogViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CatalogViewController.h; path = Catalog/CatalogViewController.h; sourceTree = "<group>"; };
@@ -202,12 +208,16 @@
 				F35425871BC17102004A18CD /* CollectionView */,
 				F3951CB617FB403400C7E86E /* CatalogListViewController.h */,
 				F3951CB717FB403400C7E86E /* CatalogListViewController.m */,
+				F3E1466B2121984000FA358F /* FilterCatalogListViewController.h */,
+				F3E1466C2121984000FA358F /* FilterCatalogListViewController.m */,
 				F3FE44E317FD765B0081E554 /* CatalogPageViewController.h */,
 				F3FE44E417FD765B0081E554 /* CatalogPageViewController.m */,
 				F3FE44E917FD9A2B0081E554 /* CatalogViewController.h */,
 				F3FE44EA17FD9A2B0081E554 /* CatalogViewController.m */,
 				F3543D941800426800B7DA43 /* ProductViewController.h */,
 				F3543D951800426800B7DA43 /* ProductViewController.m */,
+				F336242C2126CF3A00D00A50 /* FilterCatalogViewController.h */,
+				F336242D2126CF3A00D00A50 /* FilterCatalogViewController.m */,
 			);
 			name = Catalog;
 			sourceTree = "<group>";
@@ -579,7 +589,9 @@
 				F357CB281827076C007960B6 /* ZipArchive.mm in Sources */,
 				F30BF045187D7DC200CA97EF /* PDFCreator.m in Sources */,
 				F3FE44EB17FD9A2B0081E554 /* CatalogViewController.m in Sources */,
+				F3E1466D2121984000FA358F /* FilterCatalogListViewController.m in Sources */,
 				F3627D8C18645B8500A3CF68 /* AProgressView.m in Sources */,
+				F336242E2126CF3A00D00A50 /* FilterCatalogViewController.m in Sources */,
 				F3602E5E18531FB300E555A6 /* APhoto.m in Sources */,
 				F352BDC7185479080046D0BB /* PDF.m in Sources */,
 				F35203A6184E64A600CEF096 /* AMessage.m in Sources */,

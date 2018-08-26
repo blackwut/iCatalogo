@@ -8,14 +8,18 @@
 
 #import "CatalogListViewController.h"
 
+#import "FilterCatalogListViewController.h"
+
+
 @interface CatalogListViewController ()
 @property (strong, nonatomic) UISegmentedControl *segmented;
+@property (strong, nonatomic) UIBarButtonItem *filterButton;
 @end
 
 @implementation CatalogListViewController
 
 @synthesize client;
-@synthesize segmented;
+@synthesize segmented, filterButton;
 
 
 - (void)configureCell:(UITableViewCell *)cell withObject:(NSManagedObject *)object
@@ -34,6 +38,7 @@
     if([[segue identifier]  isEqualToString: @"catalogPage"] ){
         CatalogPageViewController *controller = [segue destinationViewController];
         controller.client = client;
+		controller.originalList = self.list;
         controller.list = self.list;
         
     } else if([[segue identifier] isEqualToString:@"product"]) {
@@ -51,6 +56,19 @@
         self.list = [[AppDelegate sharedAppDelegate] searchEntity:self.entity withPredicate:self.predicate sortedByArray:@[self.sortedAttribute, @"product"]];
         [self.tableView reloadData];
     }
+}
+
+- (IBAction)filterButtonTouched:(id)sender
+{
+	
+	FilterCatalogListViewController * filterViewController = [[UIStoryboard storyboardWithName:@"Storyboard" bundle:nil] instantiateViewControllerWithIdentifier:@"filterCatalogListViewController"];
+	filterViewController.modalPresentationStyle = UIModalPresentationFormSheet;
+	filterViewController.catalogListViewController = self;
+	
+	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:filterViewController];
+	navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+	
+	[self presentViewController:navigationController animated:YES completion:nil];
 }
 
 #pragma -mark Search
@@ -168,9 +186,11 @@
     [segmented setSelectedSegmentIndex:0];
     [segmented addTarget:self action:@selector(changeSort) forControlEvents:UIControlEventValueChanged];
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:segmented];
+	
+	filterButton = [[UIBarButtonItem alloc] initWithTitle:@"Ricerca" style:UIBarButtonItemStylePlain target:self action:@selector(filterButtonTouched:)];
     
     [self.navigationController setToolbarHidden:NO];
-    [self setToolbarItems:@[flexyLeft, item, flexyRight]];
+    [self setToolbarItems:@[flexyLeft, item, flexyRight, filterButton]];
 
     [self restoreSearch];
 }
@@ -187,6 +207,13 @@
     
     [self.search setShowsScopeBar:YES];
     [self.search sizeToFit];
+}
+
+- (void)setSearchText:(NSString *)searchText forFilterType:(NSInteger)type
+{
+	[self.search setSelectedScopeButtonIndex:type + 1]; //+1 because the first index is the product description
+	[self.search setText:searchText];
+	[self searchList];
 }
 
 @end

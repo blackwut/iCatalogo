@@ -44,20 +44,29 @@
     
     float value = [attribute floatValue];
     float pow = powf(10.0f, (float)decimal);
-    value = roundf(value*pow)/pow*2;
-    
+    value = roundf(value * pow) / pow * 2;
+	
+	NSString * baseString;
+	
     switch (decimal) {
         case 1:
-            return [NSString stringWithFormat:@"%.1f", value];
+            baseString = [NSString stringWithFormat:@"%.1f", value];
+			break;
         case 2:
-            return [NSString stringWithFormat:@"%.2f", value];
+            baseString = [NSString stringWithFormat:@"%.2f", value];
+			break;
         case 3:
-            return [NSString stringWithFormat:@"%.3f", value];
+            baseString = [NSString stringWithFormat:@"%.3f", value];
+			break;
         case 4:
-            return [NSString stringWithFormat:@"%.4f", value];
+            baseString = [NSString stringWithFormat:@"%.4f", value];
+			break;
         default:
-            return [NSString stringWithFormat:@"%.5f", value];
+            baseString = [NSString stringWithFormat:@"%.5f", value];
+			break;
     }
+	
+	return [baseString stringByReplacingOccurrencesOfString:@"." withString:@","];
 }
 
 /*

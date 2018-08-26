@@ -41,7 +41,7 @@
 - (void)incrementOf:(long)increment
 {
     self.current += increment;
-    self.progress = (float)current/max;
+    self.progress = (float) self.current / self.max;
 }
 
 - (void)updateAssociatedLabelWithText:(NSString *)text

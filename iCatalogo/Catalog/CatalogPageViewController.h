@@ -12,8 +12,13 @@
 
 @property (strong, nonatomic) IBOutlet UITextField *pageField;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *totalButton;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem * filterButton;
+
+- (IBAction)filterButtonTouched:(id)sender;
+- (void)reloadPageViewController;
 
 @property (strong, nonatomic) NSManagedObject *client;
+@property (strong, nonatomic) NSArray * originalList;
 @property (strong, nonatomic) NSArray *list;
 @property int page;
 @property int maxPage;
