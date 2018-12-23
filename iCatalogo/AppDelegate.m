@@ -266,26 +266,29 @@
 
 - (NSString *)getTotalOrderOf:(NSManagedObject *)client
 {
+    NSNumberFormatter * numberFormatter = [[NSNumberFormatter alloc] init];
+    [numberFormatter setDecimalSeparator:@","];
+    
     float total = 0.0f;
-    NSArray *orders = [[client valueForKey:@"orders"] allObjects];
+    const NSArray *orders = [[client valueForKey:@"orders"] allObjects];
  
     for(NSManagedObject *order in orders){
         
         NSManagedObject *subproduct = [order valueForKey:@"subproduct"];
         
         //Informazioni su subproduct
-        float price = [[subproduct valueForKey:@"price"] floatValue];
-        int quantityPackage = [[subproduct valueForKey:@"quantityPackage"] intValue];
-        int quantityCartoon = [[subproduct valueForKey:@"quantityCartoon"] intValue];
+        const float price = [[numberFormatter numberFromString:[subproduct valueForKey:@"price"]] floatValue];
+        const int quantityPackage = [[subproduct valueForKey:@"quantityPackage"] intValue];
+        const int quantityCartoon = [[subproduct valueForKey:@"quantityCartoon"] intValue];
         //int quantityColor = [[subproduct valueForKey:@"quantityColor"] intValue];
         
         //Informazioni sull'order
-        int quantity = [[order valueForKey:@"quantity"] intValue];
-        int xSubproduct = [[order valueForKey:@"xSubproduct"] intValue];
-        int xType = [[order valueForKey:@"xType"] intValue];
+        const int quantity = [[order valueForKey:@"quantity"] intValue];
+        const int xSubproduct = [[order valueForKey:@"xSubproduct"] intValue];
+        const int xType = [[order valueForKey:@"xType"] intValue];
         //int xColor = [[order valueForKey:@"xColor"] intValue];
-        int xPackage = [[order valueForKey:@"xPackage"] intValue];
-        int xCartoon = [[order valueForKey:@"xCartoon"] intValue];
+        const int xPackage = [[order valueForKey:@"xPackage"] intValue];
+        const int xCartoon = [[order valueForKey:@"xCartoon"] intValue];
         
         //quantità * prezzo
         total += quantity * price;
