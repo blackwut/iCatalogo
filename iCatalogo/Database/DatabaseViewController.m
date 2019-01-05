@@ -13,40 +13,54 @@
 
 @implementation DatabaseViewController
 
-@synthesize segmented, servers, session, indexServer;
-@synthesize ipField, progressView, progressLabel;
+@synthesize segmented, servers, broadcaster, indexServer;
+@synthesize ipField, updateButton, progressView, progressLabel;
 @synthesize showSubproducts, goBackInsert, selectAutomatic;
 
 
 
 #pragma -mark ServerMethods
 
-- (IBAction)searchServers:(id)sender
+- (void)resetSegmented
 {
-    servers = [[NSMutableArray alloc] init];
-    indexServer = 0;
+    for (int i = 0; i < indexServer; ++i) {
+        [segmented setTitle:@"" forSegmentAtIndex:i];
+        [segmented setEnabled:NO forSegmentAtIndex:i];
+    }
     
-    for(int i = 64; i < 128; ++i){
-        NSString *ip = [NSString stringWithFormat:@"http://192.168.1.%d/server.php", i];
-        [session downloadFromUrlString:ip];
+    [segmented setSelectedSegmentIndex:0];
+}
+
+- (void)tcpBroadcaster:(YLTCPBroadcaster *)broadcaster didFoundHost:(NSString *)host
+{
+//    NSLog(@"Host found: %@", host);
+    if ([host isEqualToString:@"192.168.1.1"] || [host isEqualToString:@"192.168.1.254"]) {
+        return;
+    }
+    
+    if(indexServer < 2) {
+        [servers addObject:@{@"server" : host, @"ip" : host}];
+        [segmented setTitle:host forSegmentAtIndex:indexServer];
+        [segmented setEnabled:YES forSegmentAtIndex:indexServer];
+        
+        if(indexServer == 0)
+            [self changeIndexServer:segmented];
+        
+        indexServer++;
     }
 }
 
-- (void)sessionManagerRecivedData:(NSData *)data
+- (IBAction)searchServers:(id)sender
 {
-    dispatch_async(dispatch_get_main_queue(), ^{
-
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-        [servers addObject:dict];
-        if(indexServer <3){
-            [segmented setTitle:[dict valueForKey:@"server"] forSegmentAtIndex:indexServer];
-            [segmented setEnabled:YES forSegmentAtIndex:indexServer];
-            
-            if(indexServer == 0)
-                [self changeIndexServer:segmented];
-            
-            indexServer++;
-        }
+//    NSLog(@"button pressed");
+    [updateButton setUserInteractionEnabled:NO];
+    [self resetSegmented];
+    [servers removeAllObjects];
+    indexServer = 0;
+    [broadcaster scanWithPort:80 timeoutInterval:4 completionHandler:nil];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [updateButton setUserInteractionEnabled:YES];
     });
 }
 
@@ -250,9 +264,11 @@
     [super viewDidLoad];
     [self setTitle:@"Database"];
     
-    session = [[AMSessionManager alloc] initWithDelegate:self timeoutInterval:30];
-    
-//    [self searchServers:nil];
+    servers = [[NSMutableArray alloc] init];
+    NSString *ip = @"192.168.1.1";//[YLTCPUtils localIp];
+    NSString *subnetMask = @"255.255.255.0";//[YLTCPUtils localSubnetMask];
+    broadcaster = [[YLTCPBroadcaster alloc] initWithIp:ip subnetMask:subnetMask];
+    [broadcaster setDelegate:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated

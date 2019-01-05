@@ -11,18 +11,19 @@
 #import "Constants.h"
 #import "ZipArchive.h"
 #import "AProgressView.h"
-#import "AMSessionManager.h"
 #import "XMLParser.h"
 #import "XMLCreator.h"
+#import "YLTCPBroadcaster.h"
 
-@interface DatabaseViewController : UIViewController <UIAlertViewDelegate, UITextFieldDelegate, AProgressViewDelegate, AMSessionManagerDelegate>
+@interface DatabaseViewController : UIViewController <UIAlertViewDelegate, UITextFieldDelegate, AProgressViewDelegate, YLTCPBroadcasterDelegate>
 
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmented;
 @property (strong, nonatomic) NSMutableArray *servers;
-@property (strong, nonatomic) AMSessionManager *session;
+@property (nonatomic, strong) YLTCPBroadcaster *broadcaster;
 @property (assign, nonatomic) int indexServer;
 
 @property (nonatomic, strong) IBOutlet UITextField *ipField;
+@property (weak, nonatomic) IBOutlet UIButton *updateButton;
 @property (nonatomic, strong) IBOutlet AProgressView *progressView;
 @property (nonatomic, strong) IBOutlet UILabel *progressLabel;
 @property (nonatomic, strong) IBOutlet UISwitch *showSubproducts;
