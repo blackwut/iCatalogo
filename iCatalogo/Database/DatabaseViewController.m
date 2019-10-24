@@ -31,37 +31,45 @@
     [segmented setSelectedSegmentIndex:0];
 }
 
-- (void)tcpBroadcaster:(YLTCPBroadcaster *)broadcaster didFoundHost:(NSString *)host
+- (void)updateServersWithArray:(NSArray *)hosts
 {
-//    NSLog(@"Host found: %@", host);
-    if ([host isEqualToString:@"192.168.1.1"] || [host isEqualToString:@"192.168.1.254"]) {
-        return;
-    }
     
-    if(indexServer < 2) {
-        [servers addObject:@{@"server" : host, @"ip" : host}];
-        [segmented setTitle:host forSegmentAtIndex:indexServer];
-        [segmented setEnabled:YES forSegmentAtIndex:indexServer];
-        
-        if(indexServer == 0)
-            [self changeIndexServer:segmented];
-        
-        indexServer++;
+    for (NSString * host in hosts) {
+        if ([host isEqualToString:@"192.168.1.1"]) continue;
+        if ([host isEqualToString:@"192.168.1.254"]) continue;
+        if(indexServer < 2) {
+            [servers addObject:@{@"server" : host, @"ip" : host}];
+            [segmented setTitle:host forSegmentAtIndex:indexServer];
+            [segmented setEnabled:YES forSegmentAtIndex:indexServer];
+            
+            if(indexServer == 0) {
+                [self changeIndexServer:segmented];
+            }
+            
+            indexServer++;
+        }
     }
 }
 
 - (IBAction)searchServers:(id)sender
 {
-//    NSLog(@"button pressed");
     [updateButton setUserInteractionEnabled:NO];
     [self resetSegmented];
     [servers removeAllObjects];
     indexServer = 0;
-    [broadcaster scanWithPort:80 timeoutInterval:4 completionHandler:nil];
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ricerca Server!"
+                                                    message:@"Sto cercando il server a cui connettermi."
+                                                   delegate:nil
+                                          cancelButtonTitle:nil
+                                          otherButtonTitles:nil, nil];
+    [alert show];
+    
+    [broadcaster scanWithPort:80 timeoutInterval:4 completionHandler:^(NSArray * _Nonnull hosts) {
+        [self updateServersWithArray:hosts];
+        [alert dismissWithClickedButtonIndex:0 animated:YES];
         [updateButton setUserInteractionEnabled:YES];
-    });
+    }];
 }
 
 - (IBAction)changeIndexServer:(id)sender
@@ -268,7 +276,6 @@
     NSString *ip = @"192.168.1.1";//[YLTCPUtils localIp];
     NSString *subnetMask = @"255.255.255.0";//[YLTCPUtils localSubnetMask];
     broadcaster = [[YLTCPBroadcaster alloc] initWithIp:ip subnetMask:subnetMask];
-    [broadcaster setDelegate:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated
