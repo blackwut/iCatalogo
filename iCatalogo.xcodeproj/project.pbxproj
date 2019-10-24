@@ -29,9 +29,11 @@
 		F357CB281827076C007960B6 /* ZipArchive.mm in Sources */ = {isa = PBXBuildFile; fileRef = F357CB231827076C007960B6 /* ZipArchive.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		F357CB29182707BD007960B6 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F345766318269DE300B82FAF /* libz.1.2.5.dylib */; };
 		F3596FFD182500B30053D3A0 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3596FFC182500B30053D3A0 /* SystemConfiguration.framework */; };
-		F35970011825025E0053D3A0 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = F35970001825025E0053D3A0 /* Reachability.m */; };
 		F3602E5E18531FB300E555A6 /* APhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = F3602E5D18531FB300E555A6 /* APhoto.m */; };
 		F3627D8C18645B8500A3CF68 /* AProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3627D8B18645B8500A3CF68 /* AProgressView.m */; };
+		F371D4AE21E12FA6000E4A6D /* YLTCPUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = F371D4AA21E12FA6000E4A6D /* YLTCPUtils.m */; };
+		F371D4AF21E12FA6000E4A6D /* YLTCPSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = F371D4AB21E12FA6000E4A6D /* YLTCPSocket.m */; };
+		F371D4B021E12FA6000E4A6D /* YLTCPBroadcaster.m in Sources */ = {isa = PBXBuildFile; fileRef = F371D4AC21E12FA6000E4A6D /* YLTCPBroadcaster.m */; };
 		F377660717FC8F3800CFC8F8 /* OrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F377660617FC8F3800CFC8F8 /* OrderViewController.m */; };
 		F379091818684E0D00F7AA81 /* XMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = F379091718684E0D00F7AA81 /* XMLParser.m */; };
 		F379091B1868580D00F7AA81 /* XMLCreator.m in Sources */ = {isa = PBXBuildFile; fileRef = F379091A1868580D00F7AA81 /* XMLCreator.m */; };
@@ -114,12 +116,17 @@
 		F357CB221827076C007960B6 /* ZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZipArchive.h; sourceTree = "<group>"; };
 		F357CB231827076C007960B6 /* ZipArchive.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ZipArchive.mm; sourceTree = "<group>"; };
 		F3596FFC182500B30053D3A0 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		F3596FFF1825025E0053D3A0 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Reachability.h; path = Database/Reachability/Reachability.h; sourceTree = "<group>"; };
-		F35970001825025E0053D3A0 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Reachability.m; path = Database/Reachability/Reachability.m; sourceTree = "<group>"; };
 		F3602E5C18531FB300E555A6 /* APhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = APhoto.h; path = Controllers/APhoto.h; sourceTree = "<group>"; };
 		F3602E5D18531FB300E555A6 /* APhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = APhoto.m; path = Controllers/APhoto.m; sourceTree = "<group>"; };
 		F3627D8A18645B8500A3CF68 /* AProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AProgressView.h; path = Controllers/AProgressView.h; sourceTree = "<group>"; };
 		F3627D8B18645B8500A3CF68 /* AProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AProgressView.m; path = Controllers/AProgressView.m; sourceTree = "<group>"; };
+		F371D4A721E12FA5000E4A6D /* YLTCPBroadcasterDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLTCPBroadcasterDelegate.h; sourceTree = "<group>"; };
+		F371D4A821E12FA5000E4A6D /* YLTCPBroadcaster.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLTCPBroadcaster.h; sourceTree = "<group>"; };
+		F371D4A921E12FA5000E4A6D /* YLTCPUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLTCPUtils.h; sourceTree = "<group>"; };
+		F371D4AA21E12FA6000E4A6D /* YLTCPUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YLTCPUtils.m; sourceTree = "<group>"; };
+		F371D4AB21E12FA6000E4A6D /* YLTCPSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YLTCPSocket.m; sourceTree = "<group>"; };
+		F371D4AC21E12FA6000E4A6D /* YLTCPBroadcaster.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YLTCPBroadcaster.m; sourceTree = "<group>"; };
+		F371D4AD21E12FA6000E4A6D /* YLTCPSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLTCPSocket.h; sourceTree = "<group>"; };
 		F377660517FC8F3800CFC8F8 /* OrderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OrderViewController.h; path = Orders/OrderViewController.h; sourceTree = "<group>"; };
 		F377660617FC8F3800CFC8F8 /* OrderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OrderViewController.m; path = Orders/OrderViewController.m; sourceTree = "<group>"; };
 		F379091618684E0D00F7AA81 /* XMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XMLParser.h; path = Controllers/XMLParser.h; sourceTree = "<group>"; };
@@ -236,8 +243,8 @@
 		F34C626817FADD69004FCD9B /* Database */ = {
 			isa = PBXGroup;
 			children = (
+				F371D4A621E12F72000E4A6D /* YLTCPBroadcaster */,
 				F357CB1718270757007960B6 /* ZipArchive */,
-				F3596FFE1825020E0053D3A0 /* Reachability */,
 				F34C627017FAED70004FCD9B /* TBXML */,
 				F34C626C17FAEBDA004FCD9B /* DatabaseViewController.h */,
 				F34C626D17FAEBDA004FCD9B /* DatabaseViewController.m */,
@@ -301,13 +308,19 @@
 			path = minizip;
 			sourceTree = "<group>";
 		};
-		F3596FFE1825020E0053D3A0 /* Reachability */ = {
+		F371D4A621E12F72000E4A6D /* YLTCPBroadcaster */ = {
 			isa = PBXGroup;
 			children = (
-				F3596FFF1825025E0053D3A0 /* Reachability.h */,
-				F35970001825025E0053D3A0 /* Reachability.m */,
+				F371D4A821E12FA5000E4A6D /* YLTCPBroadcaster.h */,
+				F371D4AC21E12FA6000E4A6D /* YLTCPBroadcaster.m */,
+				F371D4A721E12FA5000E4A6D /* YLTCPBroadcasterDelegate.h */,
+				F371D4AD21E12FA6000E4A6D /* YLTCPSocket.h */,
+				F371D4AB21E12FA6000E4A6D /* YLTCPSocket.m */,
+				F371D4A921E12FA5000E4A6D /* YLTCPUtils.h */,
+				F371D4AA21E12FA6000E4A6D /* YLTCPUtils.m */,
 			);
-			name = Reachability;
+			name = YLTCPBroadcaster;
+			path = Database/YLTCPBroadcaster;
 			sourceTree = "<group>";
 		};
 		F37C7B6E1801537700FE7BF8 /* Controllers */ = {
@@ -494,6 +507,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = F3CEAF7817F99692006C4898;
@@ -571,16 +585,18 @@
 				F35425901BC171A7004A18CD /* SubproductsCollectionView.m in Sources */,
 				F34C627617FAEDC8004FCD9B /* TBXML.m in Sources */,
 				F377660717FC8F3800CFC8F8 /* OrderViewController.m in Sources */,
+				F371D4AE21E12FA6000E4A6D /* YLTCPUtils.m in Sources */,
 				F3CEAF9A17F99692006C4898 /* iCatalogo.xcdatamodeld in Sources */,
 				F379091818684E0D00F7AA81 /* XMLParser.m in Sources */,
 				F379091B1868580D00F7AA81 /* XMLCreator.m in Sources */,
+				F371D4AF21E12FA6000E4A6D /* YLTCPSocket.m in Sources */,
 				F356C66B18AA3912006E8C32 /* AMSessionManager.m in Sources */,
 				F34C626B17FADE8B004FCD9B /* OrdersListViewController.m in Sources */,
-				F35970011825025E0053D3A0 /* Reachability.m in Sources */,
 				F357CB271827076C007960B6 /* zip.c in Sources */,
 				F3FE44E517FD765B0081E554 /* CatalogPageViewController.m in Sources */,
 				F37C7B71180153A100FE7BF8 /* TableViewController.m in Sources */,
 				F354258A1BC17154004A18CD /* SubproductCollectionViewCell.m in Sources */,
+				F371D4B021E12FA6000E4A6D /* YLTCPBroadcaster.m in Sources */,
 				F357CB251827076C007960B6 /* mztools.c in Sources */,
 				F3CEAF9717F99692006C4898 /* AppDelegate.m in Sources */,
 				F3CEAF9317F99692006C4898 /* main.m in Sources */,

@@ -51,8 +51,7 @@
 
 - (void)loadList
 {
-    if(self.entity != nil){
-        
+    if (self.entity != nil) {
         self.list = [[AppDelegate sharedAppDelegate] searchEntity:self.entity withPredicate:self.predicate sortedByArray:@[self.sortedAttribute, @"product"]];
         [self.tableView reloadData];
     }
@@ -95,29 +94,30 @@
     [self loadList];
 }
 
+- (void)updatePredicateWith:(NSString *)text andAttributeID:(NSInteger)attributeID
+{
+    static NSArray *_attributes;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{ _attributes = @[@"product", @"category", @"supplier", @"subproducts.barcode"]; });
+    
+    NSString * attribute = _attributes[attributeID];
+    NSArray * argumentArray = [NSArray arrayWithObjects:attribute, text, nil];
+    
+    self.predicate = nil;
+    if ([text length] > 0) {
+        if (attributeID == 3) { // barcode = 3
+            self.predicate = [NSPredicate predicateWithFormat:@"ANY %K ENDSWITH[cd] %@" argumentArray:argumentArray];
+        } else {
+            self.predicate = [NSPredicate predicateWithFormat:@"%K BEGINSWITH[cd] %@" argumentArray:argumentArray];
+        }
+    }
+}
+
 - (void)searchList
 {
     NSString *text = [self.search text];
-    NSString *attribute;
     NSInteger selectedColumn = [self.search selectedScopeButtonIndex];
-    
-    switch (selectedColumn) {
-        case 0:
-            attribute = @"product";
-            break;
-            
-        case 1:
-            attribute = @"category";
-            break;
-            
-        case 2:
-            attribute = @"supplier";
-    }
-    
-    if([text length] > 0)
-        [self setPredicate:[NSPredicate predicateWithFormat:@"%K BEGINSWITH[cd] %@", attribute, text]];
-    else [self setPredicate:nil];
-    
+    [self updatePredicateWith:text andAttributeID:selectedColumn];
     
     NSUserDefaults *options = [NSUserDefaults standardUserDefaults];
     [options setObject:text forKey:searchText];
@@ -150,25 +150,8 @@
     }
     
     NSString *text = [self.search text];
-    NSString *attribute;
     NSInteger selectedColumn = [self.search selectedScopeButtonIndex];
-    
-    switch (selectedColumn) {
-        case 0:
-            attribute = @"product";
-            break;
-            
-        case 1:
-            attribute = @"category";
-            break;
-            
-        case 2:
-            attribute = @"supplier";
-    }
-    
-    if([text length] > 0)
-        [self setPredicate:[NSPredicate predicateWithFormat:@"%K BEGINSWITH[cd] %@", attribute, text]];
-    else [self setPredicate:nil];
+    [self updatePredicateWith:text andAttributeID:selectedColumn];
 }
 
 #pragma -mark Application
