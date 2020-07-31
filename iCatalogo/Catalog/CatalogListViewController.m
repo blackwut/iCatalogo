@@ -14,6 +14,8 @@
 @interface CatalogListViewController ()
 @property (strong, nonatomic) UISegmentedControl *segmented;
 @property (strong, nonatomic) UIBarButtonItem *filterButton;
+
+@property (strong, nonatomic) NSString *barcodeText;
 @end
 
 @implementation CatalogListViewController
@@ -45,6 +47,7 @@
         ProductViewController *controller = [segue destinationViewController];
         controller.client = client;
         controller.product = [self.list objectAtIndex:[[self.tableView indexPathForSelectedRow] row]];
+        controller.barcodeText = self.barcodeText;
     }
 }
 
@@ -106,6 +109,7 @@
     self.predicate = nil;
     if ([text length] > 0) {
         if (attributeID == 3) { // barcode = 3
+            self.barcodeText = text;
             self.predicate = [NSPredicate predicateWithFormat:@"ANY %K ENDSWITH[cd] %@" argumentArray:argumentArray];
         } else {
             self.predicate = [NSPredicate predicateWithFormat:@"%K BEGINSWITH[cd] %@" argumentArray:argumentArray];

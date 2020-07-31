@@ -30,4 +30,6 @@
 @property (strong, nonatomic) NSManagedObject *order;
 @property (strong, nonatomic) NSManagedObject *product;
 
+@property (strong, nonatomic) NSString *barcodeText;
+
 @end
