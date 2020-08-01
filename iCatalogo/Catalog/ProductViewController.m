@@ -14,13 +14,13 @@
 @property (nonatomic, assign) BOOL goBackAfterInsert;
 @property (nonatomic, assign) BOOL selectAutomatic;
 
-
 @end
 
 @implementation ProductViewController
 
 @synthesize image, productLabel, supplierLabel, xSubproduct, xColor, xType, xPackage, xCartoon, note, quantity, add, table;
 @synthesize list, client, order, product, goBackAfterInsert, selectAutomatic;
+@synthesize barcodeText;
 
 - (void)openPhoto
 {
@@ -369,6 +369,18 @@
 			[self tableView:self.table didSelectRowAtIndexPath:indexPath];
 		}
 	}
+    
+    if (self.barcodeText) {
+        if (client == nil) [self.table setAllowsSelection:YES]; // make selection even if no client is selected
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"barcode ENDSWITH[cd] %@", barcodeText];
+        NSArray *barcodeList = [self.list filteredArrayUsingPredicate:predicate];
+        for (NSManagedObject *selected in barcodeList) {
+            NSIndexPath *index = [NSIndexPath indexPathForRow:[self.list indexOfObject:selected] inSection:0];
+            [self.table selectRowAtIndexPath:index animated:NO scrollPosition:UITableViewScrollPositionNone];
+            [self tableView:self.table didSelectRowAtIndexPath:index];
+        }
+        if (client == nil) [self.table setAllowsSelection:NO]; // revert if no client is selected
+    }
 	
 	[self.table setSeparatorInset:UIEdgeInsetsZero];
 //	[self.table setSeparatorColor:[UIColor clearColor]];
