@@ -13,7 +13,6 @@
 
 @implementation ClientsViewController
 
-
 - (void)configureCell:(UITableViewCell *)cell withObject:(NSManagedObject *)object
 {
     UILabel *client = (UILabel *)[cell viewWithTag:1];

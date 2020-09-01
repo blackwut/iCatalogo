@@ -7,10 +7,14 @@
 //
 
 #import "XMLParser.h"
+#import "Constants.h"
 
 @implementation XMLParser
 
 @synthesize context, progressView;
+
+bool _clientHidden;
+int _clientCounter;
 
 - (id)initWithProgressView:(AProgressView *)progress
 {
@@ -19,6 +23,10 @@
         context = [[AppDelegate sharedAppDelegate] managedObjectContext];
         progressView = progress;
         [progressView reset];
+        
+        NSUserDefaults *options = [NSUserDefaults standardUserDefaults];
+        _clientHidden = [options boolForKey:clientHiddenOption];
+        _clientCounter = 0;
     }
     return self;
 }
@@ -100,14 +108,26 @@
 	
 	while (Client != nil){
         
-        NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:@"Clients" inManagedObjectContext:context];
-        [object setValue:[self getAttribute:@"id" fromParent:Client capitalized:YES] forKey:@"id"];
-        [object setValue:[self getAttribute:@"client" fromParent:Client capitalized:YES] forKey:@"client"];
-        [object setValue:[self getAttribute:@"country" fromParent:Client capitalized:YES] forKey:@"country"];
-        [object setValue:[self getAttribute:@"address" fromParent:Client capitalized:YES] forKey:@"address"];
-        [object setValue:[self getAttribute:@"telephone" fromParent:Client capitalized:YES] forKey:@"telephone"];
-        [object setValue:[[self getAttribute:@"email" fromParent:Client capitalized:NO] lowercaseString] forKey:@"email"];
-                
+        if (_clientHidden) {
+        // Masks all clients info except id to avoid to expose semsible data
+            _clientCounter++;
+            NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:@"Clients" inManagedObjectContext:context];
+            [object setValue:[self getAttribute:@"id" fromParent:Client capitalized:YES] forKey:@"id"];
+            [object setValue:[NSString stringWithFormat:@"%04d", _clientCounter] forKey:@"client"];
+            [object setValue:@"-" forKey:@"country"];
+            [object setValue:@"-" forKey:@"address"];
+            [object setValue:@"-" forKey:@"telephone"];
+            [object setValue:@"-" forKey:@"email"];
+        } else {
+            NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:@"Clients" inManagedObjectContext:context];
+            [object setValue:[self getAttribute:@"id" fromParent:Client capitalized:YES] forKey:@"id"];
+            [object setValue:[self getAttribute:@"client" fromParent:Client capitalized:YES] forKey:@"client"];
+            [object setValue:[self getAttribute:@"country" fromParent:Client capitalized:YES] forKey:@"country"];
+            [object setValue:[self getAttribute:@"address" fromParent:Client capitalized:YES] forKey:@"address"];
+            [object setValue:[self getAttribute:@"telephone" fromParent:Client capitalized:YES] forKey:@"telephone"];
+            [object setValue:[[self getAttribute:@"email" fromParent:Client capitalized:NO] lowercaseString] forKey:@"email"];
+        }
+
         [progressView performSelectorInBackground:@selector(increment) withObject:nil];
         
         Client = [TBXML nextSiblingNamed:@"Client" searchFromElement:Client];

@@ -30,10 +30,15 @@
 @property (nonatomic, strong) IBOutlet UISwitch *goBackInsert;
 @property (nonatomic, strong) IBOutlet UISwitch *selectAutomatic;
 
+@property (nonatomic, strong) IBOutlet UILabel *clientHiddenLabel;
+@property (nonatomic, strong) IBOutlet UISwitch *clientHidden;
 
 
 - (IBAction)showSubproductValueChanged:(id)sender;
 - (IBAction)goBackInsertValueChanged:(id)sender;
 - (IBAction)selectAutomaticValueChanged:(id)sender;
+- (IBAction)clientHiddenValueChanged:(id)sender;
+
+- (IBAction)showHiddenPreferences:(id)sender;
 
 @end

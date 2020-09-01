@@ -16,6 +16,7 @@
 @synthesize segmented, servers, broadcaster, indexServer;
 @synthesize ipField, updateButton, progressView, progressLabel;
 @synthesize showSubproducts, goBackInsert, selectAutomatic;
+@synthesize clientHiddenLabel, clientHidden;
 
 
 
@@ -276,6 +277,8 @@
     NSString *ip = @"192.168.1.1";//[YLTCPUtils localIp];
     NSString *subnetMask = @"255.255.255.0";//[YLTCPUtils localSubnetMask];
     broadcaster = [[YLTCPBroadcaster alloc] initWithIp:ip subnetMask:subnetMask];
+    
+    [self updateClientHidden:YES];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -287,6 +290,7 @@
 	[showSubproducts setOn:[options boolForKey:showSubproductsOption]];
 	[goBackInsert setOn:[options boolForKey:goBackInsertOption]];
 	[selectAutomatic setOn:[options boolForKey:selectAutomaticOption]];
+    [clientHidden setOn:[options boolForKey:clientHiddenOption]];
     
     [progressView setDelegate:self];
     [progressView setLabel:progressLabel];
@@ -317,5 +321,32 @@
 	[options synchronize];
 }
 
+- (IBAction)clientHiddenValueChanged:(id)sender
+{
+    NSUserDefaults *options = [NSUserDefaults standardUserDefaults];
+    [options setBool:[clientHidden isOn] forKey:clientHiddenOption];
+    [options synchronize];
+}
+
+- (void)updateClientHidden:(BOOL)hidden
+{
+    [clientHidden setUserInteractionEnabled:!hidden];
+    [clientHidden setHidden:hidden];
+    [clientHiddenLabel setHidden:hidden];
+}
+
+- (IBAction)showHiddenPreferences:(id)sender
+{
+    static int counter = 0;
+    static BOOL hidden = false;
+    
+    BOOL before = hidden;
+    ++counter;
+    hidden = (counter < 4);
+    counter = (before == hidden) * counter;
+    
+    NSLog(@"%d %d", counter, hidden);
+    [self updateClientHidden:hidden];
+}
 
 @end
