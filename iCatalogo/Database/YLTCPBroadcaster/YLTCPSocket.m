@@ -45,7 +45,7 @@ const NSUInteger kYLTCPSocketDefaultTimeoutInSeconds = 2;
 
 #pragma mark Creating and Initializing TCP Sockets
 
-- (id)initWithHostname:(NSString *)hostname port:(SInt32)port {
+- (instancetype)initWithHostname:(NSString *)hostname port:(SInt32)port {
   if ((self = [super init])) {
     NSParameterAssert(hostname);
     NSParameterAssert(port);

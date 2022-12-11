@@ -25,14 +25,14 @@
     XMLCreator *xmlCreator = [[XMLCreator alloc] init];
     [xmlCreator createXMLPhotoHash:@"photo_hash.xml"];
     
-    NSString *stringUrl = [NSString stringWithFormat:@"http:/%@/updateWithHash.php", [ipField text]];
+    NSString *stringUrl = [NSString stringWithFormat:@"http:/%@/updateWithHash.php", ipField.text];
     NSURL *url = [NSURL URLWithString:stringUrl];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
-    [request setHTTPMethod:@"POST"];
-    [request setTimeoutInterval:timeoutInterval];
+    request.HTTPMethod = @"POST";
+    request.timeoutInterval = timeoutInterval;
     [request setValue:@"text/html; charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
-    [request setHTTPBody:[xmlCreator data]];
-    [request setCachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData];
+    request.HTTPBody = [xmlCreator data];
+    request.cachePolicy = NSURLRequestReloadIgnoringLocalAndRemoteCacheData;
     
     [progressView startDownloadWithRequest:request timeoutInterval:timeoutInterval];
 }
@@ -46,7 +46,7 @@
         [segmented setEnabled:NO forSegmentAtIndex:i];
     }
     
-    [segmented setSelectedSegmentIndex:0];
+    segmented.selectedSegmentIndex = 0;
 }
 
 - (void)updateServersWithArray:(NSArray *)hosts
@@ -92,9 +92,9 @@
 
 - (IBAction)changeIndexServer:(id)sender
 {
-    NSInteger index = [segmented selectedSegmentIndex];
-    [ipField setText:[[servers objectAtIndex:index] valueForKey:@"ip"]];
-    [[NSUserDefaults standardUserDefaults] setObject:[ipField text] forKey:@"ip"];
+    NSInteger index = segmented.selectedSegmentIndex;
+    ipField.text = [servers[index] valueForKey:@"ip"];
+    [[NSUserDefaults standardUserDefaults] setObject:ipField.text forKey:@"ip"];
 }
 
 #pragma -mark ButtonsMethods
@@ -102,7 +102,7 @@
 - (IBAction)operationButtonClicked:(id)sender
 {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Attenzione!" message:@"Perderai tutti gli ordini se non li hai scaricati!" delegate:self cancelButtonTitle:@"Annulla" otherButtonTitles:@"Procedi" , nil];
-	[alert setTag:[sender tag]];
+	alert.tag = [sender tag];
 	[alert show];
 }
 
@@ -135,7 +135,7 @@
 
 - (void)updateCompleteFromNet
 {
-    NSString *stringUrl = [NSString stringWithFormat:@"http:/%@/getDatabaseComplete.php", [ipField text]];
+    NSString *stringUrl = [NSString stringWithFormat:@"http:/%@/getDatabaseComplete.php", ipField.text];
     [progressView startDownloadFromUrl:stringUrl timeInterval:120];
 }
 
@@ -164,7 +164,7 @@
         
         [self updateProgressLabelWithText:@"Decomprimo file..."];
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString *documentsPath = [paths objectAtIndex:0];
+        NSString *documentsPath = paths[0];
         NSString *filePath = [documentsPath stringByAppendingPathComponent:@"update.zip"];
         
         ZipArchive *zipArchive = [[ZipArchive alloc] init];
@@ -235,13 +235,13 @@
     [xmlCreator createXMLOrders];
     [xmlCreator saveWithFileName:@"DatiEsportati.xml"];
     
-    NSString *stringUrl = [NSString stringWithFormat:@"http:/%@/saveOrders.php", [ipField text]];
+    NSString *stringUrl = [NSString stringWithFormat:@"http:/%@/saveOrders.php", ipField.text];
     NSURL *url = [NSURL URLWithString:stringUrl];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
-    [request setHTTPMethod:@"POST"];
-    [request setTimeoutInterval:120];
+    request.HTTPMethod = @"POST";
+    request.timeoutInterval = 120;
     [request setValue:@"text/html; charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
-    [request setHTTPBody:[xmlCreator data]];
+    request.HTTPBody = [xmlCreator data];
     
     NSData *returnData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
     NSString *returnString = [[NSString alloc] initWithData:returnData encoding:NSUTF8StringEncoding];
@@ -265,14 +265,14 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    [[NSUserDefaults standardUserDefaults] setObject:[textField text] forKey:@"ip"];
+    [[NSUserDefaults standardUserDefaults] setObject:textField.text forKey:@"ip"];
     [textField resignFirstResponder];
     return YES;
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
-    [[NSUserDefaults standardUserDefaults] setObject:[textField text] forKey:@"ip"];
+    [[NSUserDefaults standardUserDefaults] setObject:textField.text forKey:@"ip"];
 }
 
 
@@ -280,8 +280,8 @@
 
 - (void)setInteractionEnabled:(BOOL)boolean
 {
-    [self.view setUserInteractionEnabled:boolean];
-    [self.navigationController.navigationBar setUserInteractionEnabled:boolean];
+    (self.view).userInteractionEnabled = boolean;
+    (self.navigationController.navigationBar).userInteractionEnabled = boolean;
 }
 
 - (void)updateProgressLabelWithText:(NSString *)string
@@ -294,7 +294,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self setTitle:@"Database"];
+    self.title = @"Database";
     
     servers = [[NSMutableArray alloc] init];
     NSString *ip = @"192.168.1.1";//[YLTCPUtils localIp];
@@ -309,14 +309,14 @@
     [super viewWillAppear:animated];
     
     NSUserDefaults *options = [NSUserDefaults standardUserDefaults];
-    [ipField setText:[options stringForKey:ip]];
-	[showSubproducts setOn:[options boolForKey:showSubproductsOption]];
-	[goBackInsert setOn:[options boolForKey:goBackInsertOption]];
-	[selectAutomatic setOn:[options boolForKey:selectAutomaticOption]];
-    [clientHidden setOn:[options boolForKey:clientHiddenOption]];
+    ipField.text = [options stringForKey:ip];
+	showSubproducts.on = [options boolForKey:showSubproductsOption];
+	goBackInsert.on = [options boolForKey:goBackInsertOption];
+	selectAutomatic.on = [options boolForKey:selectAutomaticOption];
+    clientHidden.on = [options boolForKey:clientHiddenOption];
     
-    [progressView setDelegate:self];
-    [progressView setLabel:progressLabel];
+    progressView.delegate = self;
+    progressView.label = progressLabel;
 }
 
 - (void)didReceiveMemoryWarning
@@ -326,36 +326,36 @@
 
 - (IBAction)showSubproductValueChanged:(id)sender {
 	NSUserDefaults *options = [NSUserDefaults standardUserDefaults];
-	[options setBool:[showSubproducts isOn] forKey:showSubproductsOption];
+	[options setBool:showSubproducts.on forKey:showSubproductsOption];
 	[options synchronize];
 }
 
 - (IBAction)goBackInsertValueChanged:(id)sender
 {
 	NSUserDefaults *options = [NSUserDefaults standardUserDefaults];
-	[options setBool:[goBackInsert isOn] forKey:goBackInsertOption];
+	[options setBool:goBackInsert.on forKey:goBackInsertOption];
 	[options synchronize];
 }
 
 - (void)selectAutomaticValueChanged:(id)sender
 {
 	NSUserDefaults *options = [NSUserDefaults standardUserDefaults];
-	[options setBool:[selectAutomatic isOn] forKey:selectAutomaticOption];
+	[options setBool:selectAutomatic.on forKey:selectAutomaticOption];
 	[options synchronize];
 }
 
 - (IBAction)clientHiddenValueChanged:(id)sender
 {
     NSUserDefaults *options = [NSUserDefaults standardUserDefaults];
-    [options setBool:[clientHidden isOn] forKey:clientHiddenOption];
+    [options setBool:clientHidden.on forKey:clientHiddenOption];
     [options synchronize];
 }
 
 - (void)updateClientHidden:(BOOL)hidden
 {
-    [clientHidden setUserInteractionEnabled:!hidden];
-    [clientHidden setHidden:hidden];
-    [clientHiddenLabel setHidden:hidden];
+    clientHidden.userInteractionEnabled = !hidden;
+    clientHidden.hidden = hidden;
+    clientHiddenLabel.hidden = hidden;
 }
 
 - (IBAction)showHiddenPreferences:(id)sender
@@ -368,7 +368,6 @@
     hidden = (counter < 4);
     counter = (before == hidden) * counter;
     
-    NSLog(@"%d %d", counter, hidden);
     [self updateClientHidden:hidden];
 }
 

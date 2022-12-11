@@ -72,7 +72,7 @@ typedef void (^YLTCPSocketCompletionBlock) (BOOL success, NSString * _Nullable e
  * @param port The TCP port number to which the socket should connect.
  * @since 1.0.0
  */
-- (_Nonnull id)initWithHostname:(NSString * _Nonnull)hostname port:(SInt32)port;
+- (_Nonnull id)initWithHostname:(NSString * _Nonnull)hostname port:(SInt32)port NS_DESIGNATED_INITIALIZER;
 
 /**
  * @abstract Creates a TCP socket with an endpoint's name and port number.

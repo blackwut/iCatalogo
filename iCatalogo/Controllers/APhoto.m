@@ -12,7 +12,7 @@
 
 @synthesize delegate, scrollView, imageView;
 
-- (id)initWithImage:(UIImage *)image delegate:(UIViewController *)delegate
+- (instancetype)initWithImage:(UIImage *)image delegate:(UIViewController *)delegate
 {
     self.delegate = delegate;
         
@@ -30,24 +30,24 @@
     self.scrollView = [[UIScrollView alloc] initWithFrame:scrollRect];
     
     self.imageView = [[UIImageView alloc] initWithImage:image];
-    [self.imageView setFrame:imageRect];
+    (self.imageView).frame = imageRect;
     
-    [self.scrollView addSubview:imageView];
-    [self.scrollView setContentSize:imageRect.size];
-    [self.scrollView setDelegate:self];
+    [self.scrollView addSubview:self.imageView];
+    (self.scrollView).contentSize = imageRect.size;
+    (self.scrollView).delegate = self;
     [self.scrollView setScrollEnabled:YES];
-    [self.scrollView setMinimumZoomScale:1.0];
-    [self.scrollView setMaximumZoomScale:3.0];
+    (self.scrollView).minimumZoomScale = 1.0;
+    (self.scrollView).maximumZoomScale = 3.0;
     [self.scrollView setUserInteractionEnabled:YES];
     
     UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapTwice:)];
-    [doubleTap setNumberOfTapsRequired:2];
+    doubleTap.numberOfTapsRequired = 2;
     [self.scrollView addGestureRecognizer:doubleTap];
         
     self = [super initWithFrame:CGRectMake(0, 0, viewSize.width, viewSize.height)];
-    [self setBackgroundColor:[UIColor clearColor]];
-    [self.layer setBackgroundColor:[UIColor blackColor].CGColor];
-    [self.layer setOpacity:0.0];
+    self.backgroundColor = [UIColor clearColor];
+    (self.layer).backgroundColor = [UIColor blackColor].CGColor;
+    (self.layer).opacity = 0.0;
     
     [self addSubview:self.scrollView];
 
@@ -61,17 +61,17 @@
 
 - (void)tapTwice:(UITapGestureRecognizer *)gestureRecognizer
 {
-    if ([self.scrollView zoomScale] < 1.75) {
-        [self.scrollView setZoomScale:[self.scrollView maximumZoomScale] animated:YES];
+    if ((self.scrollView).zoomScale < 1.75) {
+        [self.scrollView setZoomScale:(self.scrollView).maximumZoomScale animated:YES];
     } else {
-        [self.scrollView setZoomScale:[self.scrollView minimumZoomScale] animated:YES];
+        [self.scrollView setZoomScale:(self.scrollView).minimumZoomScale animated:YES];
     }
     
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    UITouch * touch = [[touches allObjects] objectAtIndex:0];
+    UITouch * touch = touches.allObjects[0];
     CGPoint point = [touch locationInView:self];
 
     if(!CGRectContainsPoint(self.scrollView.frame, point)) {
@@ -87,7 +87,7 @@
                           delay:0.0
                         options:(UIViewAnimationOptionCurveEaseIn | UIViewAnimationOptionBeginFromCurrentState)
                      animations:^{
-                         [self.layer setOpacity:1.0f];
+                         (self.layer).opacity = 1.0f;
                      } completion:^(BOOL finished) {
                      }];
 }
@@ -98,7 +98,7 @@
                           delay:0.0
                         options:(UIViewAnimationOptionCurveEaseIn | UIViewAnimationOptionBeginFromCurrentState)
                      animations:^{
-                         [self.layer setOpacity:0.0f];
+                         (self.layer).opacity = 0.0f;
                      } completion:^(BOOL finished) {
                          [self removeFromSuperview];
                      }];

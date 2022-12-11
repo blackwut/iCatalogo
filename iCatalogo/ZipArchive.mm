@@ -17,7 +17,7 @@
 
 -(void) OutputErrorMessage:(NSString*) msg;
 -(BOOL) OverWrite:(NSString*) file;
--(NSDate*) Date1980;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSDate *Date1980;
 @end
 
 
@@ -25,7 +25,7 @@
 @implementation ZipArchive
 @synthesize delegate = _delegate;
 
--(id) init
+-(instancetype) init
 {
 	if( self=[super init] )
 	{
@@ -42,7 +42,7 @@
 
 -(BOOL) CreateZipFile2:(NSString*) zipFile
 {
-	_zipFile = zipOpen( (const char*)[zipFile UTF8String], 0 );
+	_zipFile = zipOpen( (const char*)zipFile.UTF8String, 0 );
 	if( !_zipFile ) 
 		return NO;
 	return YES;
@@ -70,7 +70,7 @@
     NSDictionary *attr = [[NSFileManager defaultManager] attributesOfItemAtPath:file error:nil];
 	if( attr )
 	{
-		NSDate* fileDate = (NSDate*)[attr objectForKey:NSFileModificationDate];
+		NSDate* fileDate = (NSDate*)attr[NSFileModificationDate];
 		if( fileDate )
 		{
 			// some application does use dosDate, but tmz_date instead
@@ -79,21 +79,21 @@
 			uint flags = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | 
 				NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit ;
 			NSDateComponents* dc = [currCalendar components:flags fromDate:fileDate];
-			zipInfo.tmz_date.tm_sec = (int)[dc second];
-			zipInfo.tmz_date.tm_min = (int)[dc minute];
-			zipInfo.tmz_date.tm_hour = (int)[dc hour];
-			zipInfo.tmz_date.tm_mday = (int)[dc day];
-			zipInfo.tmz_date.tm_mon = (int)[dc month] - 1;
-			zipInfo.tmz_date.tm_year = (int)[dc year];
+			zipInfo.tmz_date.tm_sec = (int)dc.second;
+			zipInfo.tmz_date.tm_min = (int)dc.minute;
+			zipInfo.tmz_date.tm_hour = (int)dc.hour;
+			zipInfo.tmz_date.tm_mday = (int)dc.day;
+			zipInfo.tmz_date.tm_mon = (int)dc.month - 1;
+			zipInfo.tmz_date.tm_year = (int)dc.year;
 		}
 	}
 	
 	int ret ;
 	NSData* data = nil;
-	if( [_password length] == 0 )
+	if( _password.length == 0 )
 	{
 		ret = zipOpenNewFileInZip( _zipFile,
-								  (const char*) [newname UTF8String],
+								  (const char*) newname.UTF8String,
 								  &zipInfo,
 								  NULL,0,
 								  NULL,0,
@@ -105,9 +105,9 @@
 	{
 		data = [ NSData dataWithContentsOfFile:file];
 		uLong crcValue = crc32( 0L,NULL, 0L );
-		crcValue = crc32( crcValue, (const Bytef*)[data bytes], (int)[data length] );
+		crcValue = crc32( crcValue, (const Bytef*)data.bytes, (int)data.length );
 		ret = zipOpenNewFileInZip3( _zipFile,
-								  (const char*) [newname UTF8String],
+								  (const char*) newname.UTF8String,
 								  &zipInfo,
 								  NULL,0,
 								  NULL,0,
@@ -129,8 +129,8 @@
 	{
 		data = [ NSData dataWithContentsOfFile:file];
 	}
-	unsigned int dataLen = (unsigned int)[data length];
-	ret = zipWriteInFileInZip( _zipFile, (const void*)[data bytes], dataLen);
+	unsigned int dataLen = (unsigned int)data.length;
+	ret = zipWriteInFileInZip( _zipFile, (const void*)data.bytes, dataLen);
 	if( ret!=Z_OK )
 	{
 		return NO;
@@ -153,7 +153,7 @@
 
 -(BOOL) UnzipOpenFile:(NSString*) zipFile
 {
-	_unzFile = unzOpen( (const char*)[zipFile UTF8String] );
+	_unzFile = unzOpen( (const char*)zipFile.UTF8String );
 	if( _unzFile )
 	{
 		unz_global_info  globalInfo = {0};
@@ -183,7 +183,7 @@
 	}
 	
 	do{
-		if( [_password length]==0 )
+		if( _password.length==0 )
 			ret = unzOpenCurrentFile( _unzFile );
 		else
 			ret = unzOpenCurrentFilePassword( _unzFile, [_password cStringUsingEncoding:NSASCIIStringEncoding] );
@@ -211,7 +211,7 @@
 		// check if it contains directory
 		//NSString * strPath = [NSString  stringWithCString:filename];
 		
-        NSString * strPath =[NSString stringWithCString:filename encoding:NSUTF8StringEncoding];
+        NSString * strPath =@(filename);
         BOOL isDirectory = NO;
 		if( filename[fileInfo.size_filename-1]=='/' || filename[fileInfo.size_filename-1]=='\\')
 			isDirectory = YES;
@@ -225,7 +225,7 @@
 		if( isDirectory )
 			[fman createDirectoryAtPath:fullPath withIntermediateDirectories:YES attributes:nil error:nil];
 		else
-			[fman createDirectoryAtPath:[fullPath stringByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:nil error:nil];
+			[fman createDirectoryAtPath:fullPath.stringByDeletingLastPathComponent withIntermediateDirectories:YES attributes:nil error:nil];
 		if( [fman fileExistsAtPath:fullPath] && !isDirectory && !overwrite )
 		{
 			if( ![self OverWrite:fullPath] )
@@ -235,7 +235,7 @@
 				continue;
 			}
 		}
-		FILE* fp = fopen( (const char*)[fullPath UTF8String], "wb");
+		FILE* fp = fopen( (const char*)fullPath.UTF8String, "wb");
 		while( fp )
 		{
 			read=unzReadCurrentFile(_unzFile, buffer, 4096);
@@ -276,7 +276,7 @@
 			//}}
 			
 			
-			NSDictionary* attr = [NSDictionary dictionaryWithObject:orgDate forKey:NSFileModificationDate]; //[[NSFileManager defaultManager] fileAttributesAtPath:fullPath traverseLink:YES];
+			NSDictionary* attr = @{NSFileModificationDate: orgDate}; //[[NSFileManager defaultManager] fileAttributesAtPath:fullPath traverseLink:YES];
 			if( attr )
 			{
 				//		[attr  setValue:orgDate forKey:NSFileCreationDate];
@@ -323,9 +323,9 @@
 -(NSDate*) Date1980
 {
 	NSDateComponents *comps = [[NSDateComponents alloc] init];
-	[comps setDay:1];
-	[comps setMonth:1];
-	[comps setYear:1980];
+	comps.day = 1;
+	comps.month = 1;
+	comps.year = 1980;
 	NSCalendar *gregorian = [[NSCalendar alloc]
 							 initWithCalendarIdentifier:NSGregorianCalendar];
 	NSDate *date = [gregorian dateFromComponents:comps];

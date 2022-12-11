@@ -41,7 +41,7 @@
 
 #pragma mark Creating and Initializing TCP Broadcasters
 
-- (id)initWithIp:(NSString *)ip subnetMask:(NSString *)subnetMask {
+- (instancetype)initWithIp:(NSString *)ip subnetMask:(NSString *)subnetMask {
   if ((self = [super init])) {
     NSParameterAssert(ip);
     NSParameterAssert(subnetMask);
@@ -59,7 +59,7 @@
   return [[self alloc] initWithIp:ip subnetMask:subnetMask];
 }
 
-+ (instancetype)defaultBroadcaster {
++ (YLTCPBroadcaster*)defaultBroadcaster {
   static YLTCPBroadcaster *defaultBroadcaster;
   static dispatch_once_t once;
 

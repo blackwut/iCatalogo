@@ -13,8 +13,8 @@
 
 @property (nonatomic, strong) NSMutableString *content;
 
-- (NSString *)text;
-- (NSData *)data;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *text;
+@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSData *data;
 - (void)createXMLOrders;
 - (BOOL)saveWithFileName:(NSString *)fileName;
 - (void)createXMLPhotoHash:(NSString *)filename;

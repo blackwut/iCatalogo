@@ -12,7 +12,7 @@
 
 @synthesize _delegate, _session, _configuration;
 
-- (id)initWithDelegate:(id)delegate timeoutInterval:(NSTimeInterval)interval
+- (instancetype)initWithDelegate:(id)delegate timeoutInterval:(NSTimeInterval)interval
 {
     self = [super init];
     
@@ -21,9 +21,9 @@
         
         _configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
         [_configuration setAllowsCellularAccess:YES];
-        [_configuration setTimeoutIntervalForRequest:interval];
-        [_configuration setTimeoutIntervalForResource:interval];
-        [_configuration setHTTPMaximumConnectionsPerHost:10];
+        _configuration.timeoutIntervalForRequest = interval;
+        _configuration.timeoutIntervalForResource = interval;
+        _configuration.HTTPMaximumConnectionsPerHost = 10;
         
         _session = [NSURLSession sessionWithConfiguration:_configuration delegate:self delegateQueue:nil];
         

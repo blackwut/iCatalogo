@@ -71,7 +71,7 @@ typedef void (^YLTCPBroadcasterCompletionBlock) (NSArray * _Nonnull hosts);
  * should be the same of the current device.
  * @since 1.0.0
  */
-- (_Nonnull id)initWithIp:(NSString * _Nonnull)ip subnetMask:(NSString * _Nonnull)subnetMask;
+- (_Nonnull id)initWithIp:(NSString * _Nonnull)ip subnetMask:(NSString * _Nonnull)subnetMask NS_DESIGNATED_INITIALIZER;
 
 /**
  * @abstract Creates a broadcaster with an ip and its subnet mask.

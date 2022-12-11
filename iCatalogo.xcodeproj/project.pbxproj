@@ -532,6 +532,7 @@
 						ProvisioningStyle = Automatic;
 					};
 					F3CEAFA017F99692006C4898 = {
+						DevelopmentTeam = N786DJ4P7A;
 						TestTargetID = F3CEAF8017F99692006C4898;
 					};
 				};
@@ -790,6 +791,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/iCatalogo.app/iCatalogo";
+				DEVELOPMENT_TEAM = N786DJ4P7A;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -804,6 +806,10 @@
 				INFOPLIST_FILE = "iCatalogoTests/iCatalogoTests-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "it.Albertomac.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				TARGETED_DEVICE_FAMILY = 2;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -813,6 +819,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/iCatalogo.app/iCatalogo";
+				DEVELOPMENT_TEAM = N786DJ4P7A;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -823,6 +830,10 @@
 				INFOPLIST_FILE = "iCatalogoTests/iCatalogoTests-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "it.Albertomac.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				TARGETED_DEVICE_FAMILY = 2;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};

@@ -35,17 +35,17 @@
     NSString *xPackage = [order valueForKey: @"xPackage"];
     NSString *xCartoon = [order valueForKey: @"xCartoon"];
     
-    if ([note length] > 0)
+    if (note.length > 0)
         [product appendFormat:@" - %@", note];
-    if ([xSubproduct length] > 0)
+    if (xSubproduct.length > 0)
         [product appendFormat:@" - %@ x Misura", xSubproduct];
-    if ([xColor length] > 0)
+    if (xColor.length > 0)
         [product appendFormat:@" - %@ x Colore", xColor];
-    if ([xType length] > 0)
+    if (xType.length > 0)
         [product appendFormat:@" - %@ x Tipo", xType];
-    if ([xPackage length] > 0)
+    if (xPackage.length > 0)
         [product appendFormat:@" - %@ x Confezione", xPackage];
-    if ([xCartoon length] > 0)
+    if (xCartoon.length > 0)
         [product appendFormat:@" - %@ x Cartone", xCartoon];
     
     return product;
@@ -185,7 +185,7 @@
     NSString *fileName = @"Ordine.pdf";
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *documentsDirectory = paths[0];
     NSString *pdfFileName = [documentsDirectory stringByAppendingPathComponent:fileName];
     
     UIGraphicsBeginPDFContextToFile(pdfFileName, CGRectZero, nil);
@@ -201,7 +201,7 @@
     BOOL done = false;
     int page = 1;
     int index = 0;
-    int countOrders = (int)[orders count];
+    int countOrders = (int)orders.count;
     
     do {
         UIGraphicsBeginPDFPageWithInfo(CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height), nil);
@@ -213,7 +213,7 @@
         
         for (int i = 0; i < maxRows && index != countOrders; i++){
             
-            NSManagedObject *order = [orders objectAtIndex:index++];
+            NSManagedObject *order = orders[index++];
             
             [self drawLineOrderWithBarcode:[self barcodeOfOrder:order] description:[self descriptionOfOrder:order] subproduct:[self subproductOfOrder:order] quantity:[self quantityOfOrder:order] price:[self priceOfOrder:order]];
             
@@ -247,7 +247,7 @@
 }
 
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {

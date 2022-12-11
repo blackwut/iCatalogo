@@ -14,7 +14,7 @@
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) UIImageView *imageView;
 
-- (id)initWithImage:(UIImage *)image delegate:(UIViewController *)del;
+- (instancetype)initWithImage:(UIImage *)image delegate:(UIViewController *)del NS_DESIGNATED_INITIALIZER;
 - (void)show;
 - (void)close;
 

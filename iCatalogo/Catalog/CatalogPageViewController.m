@@ -39,7 +39,7 @@
 
 - (void)updateTitle
 {
-    [pageField setText:[NSString stringWithFormat:@"%d", page]];
+    pageField.text = [NSString stringWithFormat:@"%d", page];
     [pageField resignFirstResponder];
 }
 
@@ -47,19 +47,19 @@
 {
     CatalogViewController * controller = nil;
     for (CatalogViewController * c in _controllers) {
-        if ([c parentViewController] == nil) {
+        if (c.parentViewController == nil) {
             controller = c;
         }
     }
     
     if (controller == nil) {
-        controller = [[self storyboard] instantiateViewControllerWithIdentifier:@"catalog"];
+        controller = [self.storyboard instantiateViewControllerWithIdentifier:@"catalog"];
         [_controllers addObject:controller];
     }
 
-    [controller setClient:client];
-    [controller setList:list];
-    [controller setPage:indexPage];
+    controller.client = client;
+    controller.list = list;
+    controller.page = indexPage;
 
     return controller;
     
@@ -90,11 +90,11 @@
 - (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)completed
 {
     
-    CatalogViewController *controller = [[pageViewController viewControllers] objectAtIndex:0];
-    int prima = [controller page];
+    CatalogViewController *controller = pageViewController.viewControllers[0];
+    int prima = controller.page;
     
-    CatalogViewController *c = [previousViewControllers objectAtIndex:0];
-    int dopo = [c page];
+    CatalogViewController *c = previousViewControllers[0];
+    int dopo = c.page;
 
     if(prima > dopo)
         page++;
@@ -115,7 +115,7 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    int valuePageField = [[textField text] intValue];
+    int valuePageField = textField.text.intValue;
     if (valuePageField > 0 && valuePageField < maxPage){
     
         if(page != valuePageField){
@@ -141,9 +141,9 @@
 		page = [[settings valueForKey:catalogPage] intValue];
 	}
 	
-	maxPage = (int)(([list count] + 5) / 6);
+	maxPage = (int)((list.count + 5) / 6);
 	
-	[pageField setText:[NSString stringWithFormat:@"%d", page]];
+	pageField.text = [NSString stringWithFormat:@"%d", page];
 	
 	[self setViewControllers:@[[self createCatalogViewControllerWithIndexPage:page]] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
 }
@@ -159,16 +159,16 @@
     [super viewWillAppear:animated];
     [self.navigationController setToolbarHidden:YES];
     
-    [self setDataSource:self];
-    [self setDelegate:self];
+    self.dataSource = self;
+    self.delegate = self;
 	
 	[self reloadPageViewController];
 	
 	if(client) {
 		NSString *totalString = [[AppDelegate sharedAppDelegate] getTotalOrderOf:client];
-		[totalButton setTitle:totalString];
+		totalButton.title = totalString;
 	} else {
-		[totalButton setTitle:@""];
+		totalButton.title = @"";
 	}
 }
 

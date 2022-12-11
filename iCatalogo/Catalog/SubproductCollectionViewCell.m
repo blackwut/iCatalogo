@@ -12,8 +12,8 @@
 
 - (void)setupWithSubproduct:(NSManagedObject *)subproduct
 {
-    [_subproductLabel setText:[subproduct valueForKey:@"subproduct"]];
-    [_priceLabel setText:[subproduct valueForKey:@"price"]];
+    _subproductLabel.text = [subproduct valueForKey:@"subproduct"];
+    _priceLabel.text = [subproduct valueForKey:@"price"];
 }
 
 @end

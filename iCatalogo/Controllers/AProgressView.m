@@ -64,7 +64,7 @@
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     [self updateText:@"Download..."];
     self.current = 0;
-    self.max = [response expectedContentLength];
+    self.max = response.expectedContentLength;
     [self my_updateProgress];
     
     NSURL * updateURL = [[[AppDelegate sharedAppDelegate] applicationDocumentsDirectory] URLByAppendingPathComponent:@"update.zip"];
@@ -74,8 +74,8 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
-    [self.stream write:[data bytes] maxLength:[data length]];
-    [self increment:[data length]];
+    [self.stream write:data.bytes maxLength:data.length];
+    [self increment:data.length];
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error

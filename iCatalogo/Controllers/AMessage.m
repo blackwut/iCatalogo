@@ -18,7 +18,7 @@ static const float opacity = 0.8f;
 static const float cornerRadius = 10.0f;
 static const CGSize offset = {4.0f, 4.0f};
 
-- (id)initWithFrame:(CGRect)frame
+- (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
@@ -27,7 +27,7 @@ static const CGSize offset = {4.0f, 4.0f};
     return self;
 }
 
-- (id)initWithMessage:(NSString *)message dismissWithin:(NSTimeInterval)interval delegate:(UIViewController *)del comeBack:(BOOL)back
+- (instancetype)initWithMessage:(NSString *)message dismissWithin:(NSTimeInterval)interval delegate:(UIViewController *)del comeBack:(BOOL)back
 {
     self.delegate = del;
     self.delay = interval;
@@ -42,10 +42,10 @@ static const CGSize offset = {4.0f, 4.0f};
     
     //Crea la label
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(padding, padding, size.width, size.height)];
-    [label setText:message];
-    [label setTextColor:[UIColor whiteColor]];
-    [label setBackgroundColor:[UIColor clearColor]];
-    [label setAlpha:1.0];
+    label.text = message;
+    label.textColor = [UIColor whiteColor];
+    label.backgroundColor = [UIColor clearColor];
+    label.alpha = 1.0;
     
     //Crea l'oggetto
     CGRect rect = CGRectMake(x, y, width, height);
@@ -55,17 +55,17 @@ static const CGSize offset = {4.0f, 4.0f};
     [self addSubview:label];
     
     //Personalizza la view da visualizzare
-    [self setBackgroundColor:[UIColor clearColor]];
-    [self.layer setBackgroundColor:[UIColor blackColor].CGColor];
-    [self.layer setOpacity:0.0];
-    [self.layer setShadowColor:[UIColor blackColor].CGColor];
-    [self.layer setShadowOffset:offset];
-    [self.layer setShadowOpacity:opacity];
-    [self.layer setCornerRadius:cornerRadius];
+    self.backgroundColor = [UIColor clearColor];
+    (self.layer).backgroundColor = [UIColor blackColor].CGColor;
+    (self.layer).opacity = 0.0;
+    (self.layer).shadowColor = [UIColor blackColor].CGColor;
+    (self.layer).shadowOffset = offset;
+    (self.layer).shadowOpacity = opacity;
+    (self.layer).cornerRadius = cornerRadius;
     
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(close)];
-    [tap setNumberOfTapsRequired:1];
+    tap.numberOfTapsRequired = 1;
     
     [self setUserInteractionEnabled:YES];
     [self addGestureRecognizer:tap];
@@ -90,7 +90,7 @@ static const CGSize offset = {4.0f, 4.0f};
                           delay:0.0
                         options:(UIViewAnimationOptionCurveEaseIn | UIViewAnimationOptionBeginFromCurrentState)
                      animations:^{
-                         [self.layer setOpacity:0.8f];
+                         (self.layer).opacity = 0.8f;
                      } completion:^(BOOL finished) {
                          [self performSelector:@selector(close) withObject:nil afterDelay:delay];
                      }];
@@ -102,7 +102,7 @@ static const CGSize offset = {4.0f, 4.0f};
                           delay:0.0
                         options:(UIViewAnimationOptionCurveEaseIn | UIViewAnimationOptionBeginFromCurrentState)
                      animations:^{
-                         [self.layer setOpacity:0.0f];
+                         (self.layer).opacity = 0.0f;
                      } completion:^(BOOL finished) {
                          [self removeFromSuperview];
                      }];

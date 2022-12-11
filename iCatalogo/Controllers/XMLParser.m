@@ -16,11 +16,11 @@
 bool _clientHidden;
 int _clientCounter;
 
-- (id)initWithProgressView:(AProgressView *)progress
+- (instancetype)initWithProgressView:(AProgressView *)progress
 {
     self = [super init];
     if(self){
-        context = [[AppDelegate sharedAppDelegate] managedObjectContext];
+        context = [AppDelegate sharedAppDelegate].managedObjectContext;
         progressView = progress;
         [progressView reset];
         
@@ -39,7 +39,7 @@ int _clientCounter;
     NSString *attribute = [TBXML textForElement:[TBXML childElementNamed:childElement parentElement:parent]];
     
     if(capitalized)
-        return [[self xmlToText:attribute] capitalizedString];
+        return [self xmlToText:attribute].capitalizedString;
     return [self xmlToText:attribute];
 }
 
@@ -48,9 +48,9 @@ int _clientCounter;
     NSString *attribute = [self getAttribute:childElement fromParent:parent capitalized:YES];
     
     if(decimal == 0)
-        return [NSString stringWithFormat:@"%d", [attribute intValue]];
+        return [NSString stringWithFormat:@"%d", attribute.intValue];
     
-    float value = [attribute floatValue];
+    float value = attribute.floatValue;
     float pow = powf(10.0f, (float)decimal);
     value = roundf(value * pow) / pow * 2;
 	
@@ -126,7 +126,7 @@ int _clientCounter;
             [object setValue:[self getAttribute:@"country" fromParent:Client capitalized:YES] forKey:@"country"];
             [object setValue:[self getAttribute:@"address" fromParent:Client capitalized:YES] forKey:@"address"];
             [object setValue:[self getAttribute:@"telephone" fromParent:Client capitalized:YES] forKey:@"telephone"];
-            [object setValue:[[self getAttribute:@"email" fromParent:Client capitalized:NO] lowercaseString] forKey:@"email"];
+            [object setValue:[self getAttribute:@"email" fromParent:Client capitalized:NO].lowercaseString forKey:@"email"];
         }
 
         if (++counter == 50) {
@@ -153,7 +153,7 @@ int _clientCounter;
         
         NSString * photoPath = [[[self getAttribute:@"photo" fromParent:Product capitalized:NO] stringByReplacingOccurrencesOfString:@"\\" withString:@"/"] stringByReplacingOccurrencesOfString:@":" withString:@""];
         
-        if ([photoPath length] <= 0) {
+        if (photoPath.length <= 0) {
             photoPath = @"imageNotFound.png";
         }
         
@@ -166,7 +166,7 @@ int _clientCounter;
         [[object valueForKey:@"subproducts"] addObjectsFromArray:subproducts];
         [subproducts setValue:object forKey:@"product"];
         
-        [progressView increment:(1 + [subproducts count])];
+        [progressView increment:(1 + subproducts.count)];
         
         Product = [TBXML nextSiblingNamed:@"Product" searchFromElement:Product];
     }
@@ -209,12 +209,12 @@ int _clientCounter;
     if(error)
         return @"Errore nel file XML.";
     
-    TBXMLElement *root = [xml rootXMLElement];
+    TBXMLElement *root = xml.rootXMLElement;
     
-    int rows = [[self getAttribute:@"rows" fromParent:root numberOfDecimal:0] intValue];
+    int rows = [self getAttribute:@"rows" fromParent:root numberOfDecimal:0].intValue;
     
-    [progressView setCurrent:0];
-    [progressView setMax:rows];
+    progressView.current = 0;
+    progressView.max = rows;
     [progressView updateProgress];
     
 

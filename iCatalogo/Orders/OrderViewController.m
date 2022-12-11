@@ -27,7 +27,7 @@
 
 - (IBAction)sendOrder:(id)sender
 {
-    if([self.list count]==0)
+    if((self.list).count==0)
         return;
     
 	PDFCreator *pdf = [[PDFCreator alloc] initWithNibName:@"PDFCreator" bundle:nil];
@@ -39,7 +39,7 @@
     NSData *data = [NSData dataWithContentsOfFile:pdfPath];
     
     MFMailComposeViewController *mail = [[MFMailComposeViewController alloc] init];
-    [mail setMailComposeDelegate:self];
+    mail.mailComposeDelegate = self;
     
     NSLog(@"email: %@", [client valueForKey:@"email"]);
     
@@ -69,7 +69,7 @@
 
 - (IBAction)previewOrder:(id)sender
 {
-    if([self.list count]==0)
+    if((self.list).count==0)
         return;
     
     PDFCreator *pdfCreator = [[PDFCreator alloc] initWithNibName:@"PDFCreator" bundle:nil];
@@ -80,7 +80,7 @@
     NSURL *urlPdf = [NSURL fileURLWithPath:[pdfCreator createPdfOfClient:client]];
     
     UIDocumentInteractionController *documentController = [UIDocumentInteractionController interactionControllerWithURL:urlPdf];
-    [documentController setDelegate:self];
+    documentController.delegate = self;
     [documentController presentPreviewAnimated:YES];
 }
 
@@ -109,45 +109,45 @@
     NSString *xPackage = [object valueForKey:@"xPackage"];
     NSString *xCartoon = [object valueForKey:@"xCartoon"];
 
-    if ([note length] > 0)
+    if (note.length > 0)
         [product appendFormat:@" - %@", note];
     
     //Se esistono valori per xSubproduct, xColor o xType allora non inserisce la misura.
-    if ([xSubproduct length] > 0){
+    if (xSubproduct.length > 0){
         [product appendFormat:@" - %@ x Misura", xSubproduct];
         subproduct = @"";
     }
-    if ([xColor length] > 0){
+    if (xColor.length > 0){
         [product appendFormat:@" - %@ x Colore", xColor];
         subproduct = @"";
     }
-    if ([xType length] > 0){
+    if (xType.length > 0){
         [product appendFormat:@" - %@ x Tipo", xType];
         subproduct = @"";
     }
     
-    if ([xPackage length] > 0)
+    if (xPackage.length > 0)
         [product appendFormat:@" - %@ x Confezione", xPackage];
-    if ([xCartoon length] > 0)
+    if (xCartoon.length > 0)
         [product appendFormat:@" - %@ x Cartone", xCartoon];
     
-    [productLabel setText:product];
-	[supplierLabel setText:supplier];
-    [subproductLabel setText:subproduct];
-    [quantityLabel setText:quantity];
+    productLabel.text = product;
+	supplierLabel.text = supplier;
+    subproductLabel.text = subproduct;
+    quantityLabel.text = quantity;
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if([[segue identifier] isEqualToString:@"catalogList"]){
-        CatalogListViewController *controller = [segue destinationViewController];
+    if([segue.identifier isEqualToString:@"catalogList"]){
+        CatalogListViewController *controller = segue.destinationViewController;
         controller.client = client;
         
-    } else if([[segue identifier] isEqualToString:@"product"]) {
-        ProductViewController *controller = [segue destinationViewController];
+    } else if([segue.identifier isEqualToString:@"product"]) {
+        ProductViewController *controller = segue.destinationViewController;
         controller.client = client;
         
-        NSManagedObject *order = [self.list objectAtIndex:[[self.tableView indexPathForSelectedRow] row]];
+        NSManagedObject *order = (self.list)[(self.tableView).indexPathForSelectedRow.row];
         controller.product = [[order valueForKey:@"subproduct"] valueForKey:@"product"];
         controller.order = order;
     }
@@ -155,29 +155,29 @@
 
 - (void)deleteObjectWithIndexPath:(NSIndexPath *)index
 {
-    NSManagedObject *object = [self.list objectAtIndex:[index row]];
+    NSManagedObject *object = (self.list)[index.row];
     [[AppDelegate sharedAppDelegate] deleteObject:object error:nil];
     [self.list removeObject:object];
     
-    [totalLabel setTitle:[[AppDelegate sharedAppDelegate] getTotalOrderOf:client]];
+    totalLabel.title = [[AppDelegate sharedAppDelegate] getTotalOrderOf:client];
 }
 
 #pragma Application
 
 - (void)configureView
 {
-    [self setTitle:[client valueForKey:@"client"]];
+    self.title = [client valueForKey:@"client"];
     [self setCanEdit:YES];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [self setDelegate:self];
+    self.delegate = self;
     [super viewWillAppear:animated];
     
     self.list = [NSMutableArray arrayWithArray:[[client valueForKey:@"orders"] allObjects]];
     NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"subproduct.product.product" ascending:YES];
-    [self.list sortUsingDescriptors:[NSArray arrayWithObject:sort]];
+    [self.list sortUsingDescriptors:@[sort]];
     
     [self.tableView reloadData];
     
@@ -188,7 +188,7 @@
     UIBarButtonItem *flexyLeft = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     UIBarButtonItem *flexyRight = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     
-    [self setToolbarItems:@[previewButton, flexyLeft, totalLabel, flexyRight, sendButton]];
+    self.toolbarItems = @[previewButton, flexyLeft, totalLabel, flexyRight, sendButton];
     [self.navigationController setToolbarHidden:NO];
 }
 

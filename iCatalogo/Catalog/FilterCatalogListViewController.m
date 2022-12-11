@@ -31,7 +31,7 @@
 
 - (IBAction)filterControlChangeValue:(id)sender
 {
-	switch ([filterControl selectedSegmentIndex]) {
+	switch (filterControl.selectedSegmentIndex) {
 		case categoryButtonIndex:
 			filterType = filterCategory;
 			break;
@@ -60,7 +60,7 @@
 	[filterControl setSelectedSegmentIndex:categoryButtonIndex];
 	[self filterControlChangeValue:filterControl];
 	
-	[self.tableView setSeparatorInset:UIEdgeInsetsZero];
+	(self.tableView).separatorInset = UIEdgeInsetsZero;
 }
 
 - (void)viewDidLoad {
@@ -79,35 +79,35 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [filterResult count];
+    return filterResult.count;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	UIColor * selectedColor = (indexPath.row % 2 == 0 ? lightBlue : [UIColor clearColor]);
-	[cell setBackgroundColor:selectedColor];
+	cell.backgroundColor = selectedColor;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	static NSString *cellIdentifier = @"categorySupplierCell";
 	
-	NSString * text = [[filterResult objectAtIndex:indexPath.row] valueForKey:filterType];
+	NSString * text = [filterResult[indexPath.row] valueForKey:filterType];
 
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
 	if (cell == nil) {
 		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
 	}
 
-	[[cell viewWithTag:1] setText:text];
+    [(UILabel *)[cell viewWithTag:1] setText:text];
 	
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	NSString * selectedText = [[filterResult objectAtIndex:indexPath.row] valueForKey:filterType];
-	[catalogListViewController setSearchText:selectedText forFilterType:[filterControl selectedSegmentIndex]];
+	NSString * selectedText = [filterResult[indexPath.row] valueForKey:filterType];
+	[catalogListViewController setSearchText:selectedText forFilterType:filterControl.selectedSegmentIndex];
 	[self dismissViewControllerAnimated:YES completion:^{
 	}];
 }

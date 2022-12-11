@@ -19,11 +19,11 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     NSFileManager * fileManager = [NSFileManager defaultManager];
-    NSURL * documentsURL = [[fileManager URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
-    NSString * notFoundPath = [[documentsURL URLByAppendingPathComponent:@"imageNotFound.png"] path];
+    NSURL * documentsURL = [fileManager URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask].lastObject;
+    NSString * notFoundPath = [documentsURL URLByAppendingPathComponent:@"imageNotFound.png"].path;
     
     if (![fileManager fileExistsAtPath:notFoundPath]) {
-        NSString * resourcePath = [[[[NSBundle mainBundle] resourceURL] URLByAppendingPathComponent:@"imageNotFound.png"] path];
+        NSString * resourcePath = [[NSBundle mainBundle].resourceURL URLByAppendingPathComponent:@"imageNotFound.png"].path;
         [fileManager copyItemAtPath:resourcePath toPath:notFoundPath error:nil];
     }
     
@@ -65,10 +65,10 @@
     NSError *error = nil;
     NSManagedObjectContext *managedObjectContext = self.managedObjectContext;
     if (managedObjectContext != nil) {
-        if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
+        if (managedObjectContext.hasChanges && ![managedObjectContext save:&error]) {
              // Replace this implementation with code to handle the error appropriately.
              // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. 
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+            NSLog(@"Unresolved error %@, %@", error, error.userInfo);
             abort();
         } 
     }
@@ -84,10 +84,10 @@
         return _managedObjectContext;
     }
     
-    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
+    NSPersistentStoreCoordinator *coordinator = self.persistentStoreCoordinator;
     if (coordinator != nil) {
         _managedObjectContext = [[NSManagedObjectContext alloc] init];
-        [_managedObjectContext setPersistentStoreCoordinator:coordinator];
+        _managedObjectContext.persistentStoreCoordinator = coordinator;
     }
     return _managedObjectContext;
 }
@@ -115,7 +115,7 @@
     NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"iCatalogo.sqlite"];
     
     NSError *error = nil;
-    _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
+    _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:self.managedObjectModel];
     if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error]) {
         /*
          Replace this implementation with code to handle the error appropriately.
@@ -154,41 +154,41 @@
 // Returns the URL to the application's Documents directory.
 - (NSURL *)applicationDocumentsDirectory
 {
-    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+    return [[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask].lastObject;
 }
 
 + (NSURL *)absoluteURLWithFilePath:(NSString *)filePath;
 {
     NSFileManager * fileManager = [NSFileManager defaultManager];
-    NSURL * documentsURL = [[fileManager URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+    NSURL * documentsURL = [fileManager URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask].lastObject;
     return [documentsURL URLByAppendingPathComponent:filePath];
 }
 
 - (NSString *)absolutePathWithFilePath:(NSString *)filePath;
 {
-    return [[AppDelegate absoluteURLWithFilePath:filePath] path];
+    return [AppDelegate absoluteURLWithFilePath:filePath].path;
 }
 
 + (AppDelegate *)sharedAppDelegate
 {
-    return (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    return (AppDelegate *)[UIApplication sharedApplication].delegate;
 }
 
 - (NSMutableArray *)searchEntity:(NSString *)entity withPredicate:(NSPredicate *)predicate sortedBy:(NSString *)attribute
 {
-    NSManagedObjectContext *context = [self managedObjectContext];
+    NSManagedObjectContext *context = self.managedObjectContext;
     
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entityDescription = [NSEntityDescription entityForName:entity inManagedObjectContext:context];
     
-    [fetchRequest setEntity:entityDescription];
+    fetchRequest.entity = entityDescription;
     
     if(predicate != nil)
-        [fetchRequest setPredicate:predicate];
+        fetchRequest.predicate = predicate;
     
     if(attribute != nil){
         NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:attribute ascending:YES];
-        [fetchRequest setSortDescriptors:[NSArray arrayWithObject: sortDescriptor]];
+        fetchRequest.sortDescriptors = @[sortDescriptor];
     }
     
     return [NSMutableArray arrayWithArray:[context executeFetchRequest:fetchRequest error:nil]];
@@ -196,24 +196,24 @@
 
 - (NSMutableArray *)searchEntity:(NSString *)entity withPredicate:(NSPredicate *)predicate sortedByArray:(NSArray *)attributes
 {
-    NSManagedObjectContext *context = [self managedObjectContext];
+    NSManagedObjectContext *context = self.managedObjectContext;
     
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entityDescription = [NSEntityDescription entityForName:entity inManagedObjectContext:context];
     
-    [fetchRequest setEntity:entityDescription];
+    fetchRequest.entity = entityDescription;
     
     if(predicate != nil)
-        [fetchRequest setPredicate:predicate];
+        fetchRequest.predicate = predicate;
     
-    if([attributes count] > 0){
+    if(attributes.count > 0){
         NSMutableArray *sortDescriptors = [[NSMutableArray alloc] init];
         
         for(NSString *attribute in attributes){
             NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:attribute ascending:YES];
             [sortDescriptors addObject:descriptor];
         }
-        [fetchRequest setSortDescriptors:sortDescriptors];
+        fetchRequest.sortDescriptors = sortDescriptors;
     }
     
     return [NSMutableArray arrayWithArray:[context executeFetchRequest:fetchRequest error:nil]];
@@ -221,25 +221,25 @@
 
 - (NSArray *)searchEntity:(NSString *)entity withDistinctSelectedAttribute:(NSString *)attribute
 {
-    NSManagedObjectContext *context = [self managedObjectContext];
+    NSManagedObjectContext *context = self.managedObjectContext;
     
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entityDescription = [NSEntityDescription entityForName:entity inManagedObjectContext:context];
     
-    [fetchRequest setEntity:entityDescription];
-	[fetchRequest setResultType:NSDictionaryResultType];
-    [fetchRequest setPropertiesToFetch:[NSArray arrayWithObject:[[entityDescription propertiesByName] objectForKey:attribute]]];
+    fetchRequest.entity = entityDescription;
+	fetchRequest.resultType = NSDictionaryResultType;
+    fetchRequest.propertiesToFetch = @[entityDescription.propertiesByName[attribute]];
     [fetchRequest setReturnsDistinctResults:YES];
 	
 	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:attribute ascending:YES];
-	[fetchRequest setSortDescriptors:@[sortDescriptor]];
+	fetchRequest.sortDescriptors = @[sortDescriptor];
     
     return [context executeFetchRequest:fetchRequest error:nil];
 }
 
 - (BOOL)deleteObject:(NSManagedObject *)object error:(NSError **)error
 {
-    NSManagedObjectContext *context = [self managedObjectContext];
+    NSManagedObjectContext *context = self.managedObjectContext;
     [context lock];
     
     //Cancella l'oggetto dal database
@@ -253,7 +253,7 @@
 
 - (BOOL)deleteObjects:(NSArray *)objects error:(NSError **)error
 {
-     NSManagedObjectContext *context = [self managedObjectContext];
+     NSManagedObjectContext *context = self.managedObjectContext;
     [context lock];
     
     //Cancella gli objects dal database
@@ -269,11 +269,11 @@
 
 - (BOOL)deleteDatabase:(NSError **)error
 {
-    NSManagedObjectContext *context = [self managedObjectContext];
+    NSManagedObjectContext *context = self.managedObjectContext;
     [context lock];
     
     //Trova le entities del database
-	NSArray *entities = [[_managedObjectModel entities] valueForKey:@"name"];
+	NSArray *entities = [_managedObjectModel.entities valueForKey:@"name"];
     
 	for(NSString *entity in entities){
         //Trova gli oggetti della entity
@@ -293,7 +293,7 @@
 - (NSString *)getTotalOrderOf:(NSManagedObject *)client
 {
     NSNumberFormatter * numberFormatter = [[NSNumberFormatter alloc] init];
-    [numberFormatter setDecimalSeparator:@","];
+    numberFormatter.decimalSeparator = @",";
     
     float total = 0.0f;
     const NSArray *orders = [[client valueForKey:@"orders"] allObjects];
@@ -303,7 +303,7 @@
         NSManagedObject *subproduct = [order valueForKey:@"subproduct"];
         
         //Informazioni su subproduct
-        const float price = [[numberFormatter numberFromString:[subproduct valueForKey:@"price"]] floatValue];
+        const float price = [numberFormatter numberFromString:[subproduct valueForKey:@"price"]].floatValue;
         const int quantityPackage = [[subproduct valueForKey:@"quantityPackage"] intValue];
         const int quantityCartoon = [[subproduct valueForKey:@"quantityCartoon"] intValue];
         //int quantityColor = [[subproduct valueForKey:@"quantityColor"] intValue];

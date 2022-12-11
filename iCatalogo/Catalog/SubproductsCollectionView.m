@@ -20,8 +20,8 @@
 
 - (void)configure
 {
-    [self setDataSource:self];
-    [self setDelegate:self];
+    self.dataSource = self;
+    self.delegate = self;
 }
 
 - (instancetype)init
@@ -60,13 +60,13 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return [_subproductsArray count];
+    return _subproductsArray.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     SubproductCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"SubproductCollectionViewCell" forIndexPath:indexPath];
-    [cell setupWithSubproduct:[_subproductsArray objectAtIndex:indexPath.row]];
+    [cell setupWithSubproduct:_subproductsArray[indexPath.row]];
     return cell;
 }
 

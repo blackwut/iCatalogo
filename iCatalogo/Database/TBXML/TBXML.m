@@ -37,8 +37,8 @@
 + (NSError *) errorWithCode:(int)code userInfo:(NSDictionary *)userInfo;
 - (void) decodeBytes;
 - (void) allocateBytesOfLength:(long)length error:(NSError **)error;
-- (TBXMLElement*) nextAvailableElement;
-- (TBXMLAttribute*) nextAvailableAttribute;
+@property (NS_NONATOMIC_IOSONLY, readonly) TBXMLElement *nextAvailableElement;
+@property (NS_NONATOMIC_IOSONLY, readonly) TBXMLAttribute *nextAvailableAttribute;
 @end
 
 // ================================================================================================
@@ -52,7 +52,7 @@
 	return [[TBXML alloc] initWithXMLString:aXMLString];
 }
 
-+ (id)tbxmlWithXMLString:(NSString*)aXMLString error:(NSError *__autoreleasing *)error {
++ (instancetype)tbxmlWithXMLString:(NSString*)aXMLString error:(NSError *__autoreleasing *)error {
 	return [[TBXML alloc] initWithXMLString:aXMLString error:error];
 }
 
@@ -60,7 +60,7 @@
 	return [[TBXML alloc] initWithXMLData:aData];
 }
 
-+ (id)tbxmlWithXMLData:(NSData*)aData error:(NSError *__autoreleasing *)error {
++ (instancetype)tbxmlWithXMLData:(NSData*)aData error:(NSError *__autoreleasing *)error {
 	return [[TBXML alloc] initWithXMLData:aData error:error];
 }
 
@@ -68,7 +68,7 @@
 	return [[TBXML alloc] initWithXMLFile:aXMLFile];
 }
 
-+ (id)tbxmlWithXMLFile:(NSString*)aXMLFile error:(NSError *__autoreleasing *)error {
++ (instancetype)tbxmlWithXMLFile:(NSString*)aXMLFile error:(NSError *__autoreleasing *)error {
 	return [[TBXML alloc] initWithXMLFile:aXMLFile error:error];
 }
 
@@ -76,11 +76,11 @@
 	return [[TBXML alloc] initWithXMLFile:aXMLFile fileExtension:aFileExtension];
 }
 
-+ (id)tbxmlWithXMLFile:(NSString*)aXMLFile fileExtension:(NSString*)aFileExtension error:(NSError *__autoreleasing *)error {
++ (instancetype)tbxmlWithXMLFile:(NSString*)aXMLFile fileExtension:(NSString*)aFileExtension error:(NSError *__autoreleasing *)error {
 	return [[TBXML alloc] initWithXMLFile:aXMLFile fileExtension:aFileExtension error:error];
 }
 
-- (id)init {
+- (instancetype)init {
 	self = [super init];
 	if (self != nil) {
 		rootXMLElement = nil;
@@ -100,7 +100,7 @@
     return [self initWithXMLString:aXMLString error:nil];
 }
 
-- (id)initWithXMLString:(NSString*)aXMLString error:(NSError *__autoreleasing *)error {
+- (instancetype)initWithXMLString:(NSString*)aXMLString error:(NSError *__autoreleasing *)error {
 	self = [self init];
 	if (self != nil) {
 		
@@ -133,7 +133,7 @@
     return [self initWithXMLData:aData error:nil];
 }
 
-- (id)initWithXMLData:(NSData*)aData error:(NSError **)error {
+- (instancetype)initWithXMLData:(NSData*)aData error:(NSError **)error {
     self = [self init];
     if (self != nil) {
 		// decode aData
@@ -147,9 +147,9 @@
     return [self initWithXMLFile:aXMLFile error:nil];
 }
 
-- (id)initWithXMLFile:(NSString*)aXMLFile error:(NSError **)error {
-    NSString * filename = [aXMLFile stringByDeletingPathExtension];
-    NSString * extension = [aXMLFile pathExtension];
+- (instancetype)initWithXMLFile:(NSString*)aXMLFile error:(NSError **)error {
+    NSString * filename = aXMLFile.stringByDeletingPathExtension;
+    NSString * extension = aXMLFile.pathExtension;
     
     self = [self initWithXMLFile:filename fileExtension:extension error:error];
 	if (self != nil) {
@@ -162,7 +162,7 @@
     return [self initWithXMLFile:aXMLFile fileExtension:aFileExtension error:nil];
 }
 
-- (id)initWithXMLFile:(NSString*)aXMLFile fileExtension:(NSString*)aFileExtension error:(NSError **)error {
+- (instancetype)initWithXMLFile:(NSString*)aXMLFile fileExtension:(NSString*)aFileExtension error:(NSError **)error {
 	self = [self init];
 	if (self != nil) {
         
@@ -173,11 +173,11 @@
         
         //Edited by Albertomac
         NSArray *searchPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString *bundlePath = [[searchPaths objectAtIndex:0] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.%@", aXMLFile, aFileExtension]];
+        NSString *bundlePath = [searchPaths[0] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.%@", aXMLFile, aFileExtension]];
                 
         if (!bundlePath) {
             if (error) {
-                NSDictionary * userInfo = [NSDictionary dictionaryWithObjectsAndKeys:[aXMLFile stringByAppendingPathExtension:aFileExtension], NSFilePathErrorKey, nil];
+                NSDictionary * userInfo = @{NSFilePathErrorKey: [aXMLFile stringByAppendingPathExtension:aFileExtension]};
                 *error = [TBXML errorWithCode:D_TBXML_FILE_NOT_FOUND_IN_BUNDLE userInfo:userInfo];
             }
         } else {
@@ -214,7 +214,7 @@
 - (void) decodeData:(NSData*)data withError:(NSError **)error {
     
     // allocate memory for byte array
-    [self allocateBytesOfLength:[data length] error:error];
+    [self allocateBytesOfLength:data.length error:error];
 
     // if an error occured, return
     if (error && *error)
@@ -248,7 +248,7 @@
 
 + (NSString*) elementName:(TBXMLElement*)aXMLElement {
 	if (nil == aXMLElement->name) return @"";
-	return [NSString stringWithCString:&aXMLElement->name[0] encoding:NSUTF8StringEncoding];
+	return @(&aXMLElement->name[0]);
 }
 
 + (NSString*) elementName:(TBXMLElement*)aXMLElement error:(NSError **)error {
@@ -264,12 +264,12 @@
         return @"";
     }
     
-	return [NSString stringWithCString:&aXMLElement->name[0] encoding:NSUTF8StringEncoding];
+	return @(&aXMLElement->name[0]);
 }
 
 + (NSString*) attributeName:(TBXMLAttribute*)aXMLAttribute {
 	if (nil == aXMLAttribute->name) return @"";
-	return [NSString stringWithCString:&aXMLAttribute->name[0] encoding:NSUTF8StringEncoding];
+	return @(&aXMLAttribute->name[0]);
 }
 
 + (NSString*) attributeName:(TBXMLAttribute*)aXMLAttribute error:(NSError **)error {
@@ -285,13 +285,13 @@
         return @"";
     }
     
-	return [NSString stringWithCString:&aXMLAttribute->name[0] encoding:NSUTF8StringEncoding];
+	return @(&aXMLAttribute->name[0]);
 }
 
 
 + (NSString*) attributeValue:(TBXMLAttribute*)aXMLAttribute {
 	if (nil == aXMLAttribute->value) return @"";
-	return [NSString stringWithCString:&aXMLAttribute->value[0] encoding:NSUTF8StringEncoding];
+	return @(&aXMLAttribute->value[0]);
 }
 
 + (NSString*) attributeValue:(TBXMLAttribute*)aXMLAttribute error:(NSError **)error {
@@ -301,12 +301,12 @@
         return @"";
     }
     
-	return [NSString stringWithCString:&aXMLAttribute->value[0] encoding:NSUTF8StringEncoding];
+	return @(&aXMLAttribute->value[0]);
 }
 
 + (NSString*) textForElement:(TBXMLElement*)aXMLElement {
 	if (nil == aXMLElement->text) return @"";
-	return [NSString stringWithCString:&aXMLElement->text[0] encoding:NSUTF8StringEncoding];
+	return @(&aXMLElement->text[0]);
 }
 
 + (NSString*) textForElement:(TBXMLElement*)aXMLElement error:(NSError **)error {
@@ -322,7 +322,7 @@
         return @"";
     }
     
-	return [NSString stringWithCString:&aXMLElement->text[0] encoding:NSUTF8StringEncoding];
+	return @(&aXMLElement->text[0]);
 }
 
 + (NSString*) valueOfAttributeNamed:(NSString *)aName forElement:(TBXMLElement*)aXMLElement {
@@ -331,7 +331,7 @@
 	TBXMLAttribute * attribute = aXMLElement->firstAttribute;
 	while (attribute) {
 		if (strlen(attribute->name) == strlen(name) && memcmp(attribute->name,name,strlen(name)) == 0) {
-			value = [NSString stringWithCString:&attribute->value[0] encoding:NSUTF8StringEncoding];
+			value = @(&attribute->value[0]);
 			break;
 		}
 		attribute = attribute->next;
@@ -359,7 +359,7 @@
 	while (attribute) {
 		if (strlen(attribute->name) == strlen(name) && memcmp(attribute->name,name,strlen(name)) == 0) {
             if (attribute->value[0])
-                value = [NSString stringWithCString:&attribute->value[0] encoding:NSUTF8StringEncoding];
+                value = @(&attribute->value[0]);
             else
                 value = @"";
             
@@ -463,7 +463,7 @@
     
     // navigate down
     for (NSInteger i=0; i < components.count; ++i) {
-        NSString *iTagName = [components objectAtIndex:i];
+        NSString *iTagName = components[i];
         
         if ([iTagName isEqualToString:@"*"]) {
             currTBXMLElement = currTBXMLElement->firstChild;
@@ -488,7 +488,7 @@
     
     if (currTBXMLElement) {
         // enumerate
-        NSString *childTagName = [components lastObject];
+        NSString *childTagName = components.lastObject;
         
         if ([childTagName isEqualToString:@"*"]) {
             childTagName = nil;
@@ -554,7 +554,7 @@
 
 + (NSError *) errorWithCode:(int)code {
     
-    NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:[TBXML errorTextForCode:code], NSLocalizedDescriptionKey, nil];
+    NSDictionary *userInfo = @{NSLocalizedDescriptionKey: [TBXML errorTextForCode:code]};
     
     return [NSError errorWithDomain:D_TBXML_DOMAIN 
                                code:code 

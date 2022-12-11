@@ -20,17 +20,17 @@
     UILabel *address = (UILabel *)[cell viewWithTag:3];
     UILabel *telephone = (UILabel *)[cell viewWithTag:4];
     
-    [client setText:[object valueForKey:@"client"]];
-    [country setText:[object valueForKey:@"country"]];
-    [address setText:[object valueForKey:@"address"]];
-    [telephone setText:[object valueForKey:@"telephone"]];
+    client.text = [object valueForKey:@"client"];
+    country.text = [object valueForKey:@"country"];
+    address.text = [object valueForKey:@"address"];
+    telephone.text = [object valueForKey:@"telephone"];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if([[segue identifier] isEqualToString:@"order"]){
-        OrderViewController *orderViewController = [segue destinationViewController];
-        orderViewController.client = [self.list objectAtIndex:[[self.tableView indexPathForSelectedRow] row]];
+    if([segue.identifier isEqualToString:@"order"]){
+        OrderViewController *orderViewController = segue.destinationViewController;
+        orderViewController.client = (self.list)[(self.tableView).indexPathForSelectedRow.row];
     }
 }
 
@@ -39,7 +39,7 @@
 - (void)searchList;
 {
     NSString *attribute;
-    NSString *text = [self.search text];
+    NSString *text = (self.search).text;
     
     switch (self.search.selectedScopeButtonIndex) {
         case 0:
@@ -51,8 +51,8 @@
             break;
     }
     
-    if([text length] > 0)
-        [self setPredicate:[NSPredicate predicateWithFormat:@"%K BEGINSWITH[cd] %@", attribute, text]];
+    if(text.length > 0)
+        self.predicate = [NSPredicate predicateWithFormat:@"%K BEGINSWITH[cd] %@", attribute, text];
     else [self setPredicate:nil];
     
     [self loadList];
@@ -62,14 +62,14 @@
 
 - (void)configureView
 {
-    [self setTitle:@"Clienti"];
-    [self setEntity:@"Clients"];
-    [self setSortedAttribute:@"client"];
+    self.title = @"Clienti";
+    self.entity = @"Clients";
+    self.sortedAttribute = @"client";
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [self setDelegate:self];
+    self.delegate = self;
     [super viewWillAppear:animated];
 }
 

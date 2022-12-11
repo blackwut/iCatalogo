@@ -22,7 +22,7 @@
 @property NSURLSession *_session;
 @property NSURLSessionConfiguration *_configuration;
 
-- (id)initWithDelegate:(id)delegate timeoutInterval:(NSTimeInterval)interval;
+- (instancetype)initWithDelegate:(id)delegate timeoutInterval:(NSTimeInterval)interval NS_DESIGNATED_INITIALIZER;
 - (void)downloadFromUrlString:(NSString *)urlString;
 - (void)downloadFromUrl:(NSURL *)url;
 

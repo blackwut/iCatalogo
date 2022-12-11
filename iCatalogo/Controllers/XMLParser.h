@@ -16,7 +16,7 @@
 @property (nonatomic, strong) NSManagedObjectContext *context;
 @property (nonatomic, strong) AProgressView *progressView;
 
-- (id)initWithProgressView:(AProgressView *)progress;
+- (instancetype)initWithProgressView:(AProgressView *)progress NS_DESIGNATED_INITIALIZER;
 - (NSString *)parseFile:(NSString *)fileName;
 
 @end

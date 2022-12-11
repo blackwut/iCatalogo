@@ -47,8 +47,8 @@
     while (temp_addr != NULL) {
       if (temp_addr->ifa_addr->sa_family == AF_INET) {
         // Check if interface is en0 which is the wifi connection on the iPhone
-        if ([[NSString stringWithUTF8String:temp_addr->ifa_name] isEqualToString:@"en0"]) {
-          broadcastAddress = [NSString stringWithUTF8String:inet_ntoa(((struct sockaddr_in *)temp_addr->ifa_addr)->sin_addr)];
+        if ([@(temp_addr->ifa_name) isEqualToString:@"en0"]) {
+          broadcastAddress = @(inet_ntoa(((struct sockaddr_in *)temp_addr->ifa_addr)->sin_addr));
         }
       }
 
@@ -78,8 +78,8 @@
     while (temp_addr != NULL) {
       if (temp_addr->ifa_addr->sa_family == AF_INET) {
         // Check if interface is en0 which is the wifi connection on the iPhone
-        if ([[NSString stringWithUTF8String:temp_addr->ifa_name] isEqualToString:@"en0"]) {
-          broadcastAddress = [NSString stringWithUTF8String:inet_ntoa(((struct sockaddr_in *)temp_addr->ifa_netmask)->sin_addr)];
+        if ([@(temp_addr->ifa_name) isEqualToString:@"en0"]) {
+          broadcastAddress = @(inet_ntoa(((struct sockaddr_in *)temp_addr->ifa_netmask)->sin_addr));
         }
       }
 
@@ -107,7 +107,7 @@
     networkPrefix.s_addr = host.s_addr & mask.s_addr;
 
     if (inet_ntop(AF_INET, &networkPrefix, networkPrefix_address, INET_ADDRSTRLEN) != NULL) {
-      networkPrefixAddress = [NSString stringWithCString:networkPrefix_address encoding:NSUTF8StringEncoding];
+      networkPrefixAddress = @(networkPrefix_address);
     }
   }
 
@@ -128,7 +128,7 @@
     networkPrefix.s_addr = host.s_addr | ~mask.s_addr;
 
     if (inet_ntop(AF_INET, &networkPrefix, networkPrefix_address, INET_ADDRSTRLEN) != NULL) {
-      networkPrefixAddress = [NSString stringWithCString:networkPrefix_address encoding:NSUTF8StringEncoding];
+      networkPrefixAddress = @(networkPrefix_address);
     }
   }
   

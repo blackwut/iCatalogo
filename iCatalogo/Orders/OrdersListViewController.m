@@ -18,7 +18,7 @@
 - (void)deleteObjectWithIndexPath:(NSIndexPath *)index
 {
     
-    NSManagedObject *client = [self.list objectAtIndex:[index row]];
+    NSManagedObject *client = (self.list)[index.row];
     NSArray *orders = [[client valueForKey:@"orders"] allObjects];
     
     //Elimina gli ordini del cliente dall'entity Orders
@@ -32,15 +32,15 @@
     UILabel *client = (UILabel *)[cell viewWithTag:1];
     UILabel *total = (UILabel *)[cell viewWithTag:2];
     
-    [client setText:[object valueForKey:@"client"]];
-    [total setText:[[AppDelegate sharedAppDelegate] getTotalOrderOf:object]];
+    client.text = [object valueForKey:@"client"];
+    total.text = [[AppDelegate sharedAppDelegate] getTotalOrderOf:object];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if([[segue identifier] isEqualToString:@"order"]){
-        OrderViewController *controller = [segue destinationViewController];
-        controller.client =  [self.list objectAtIndex:[[self.tableView indexPathForSelectedRow] row]];
+    if([segue.identifier isEqualToString:@"order"]){
+        OrderViewController *controller = segue.destinationViewController;
+        controller.client =  (self.list)[(self.tableView).indexPathForSelectedRow.row];
     }
 }
 
@@ -48,17 +48,17 @@
 
 - (void)configureView
 {
-    [self setTitle:@"Ordini"];
-    [self setEntity:@"Clients"];
-    [self setSortedAttribute:@"client"];
-    [self setPredicate:[NSPredicate predicateWithFormat:@"ANY orders != nil"]];
+    self.title = @"Ordini";
+    self.entity = @"Clients";
+    self.sortedAttribute = @"client";
+    self.predicate = [NSPredicate predicateWithFormat:@"ANY orders != nil"];
     
     [self setCanEdit:YES];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [self setDelegate:self];
+    self.delegate = self;
     [super viewWillAppear:animated];
 }
 

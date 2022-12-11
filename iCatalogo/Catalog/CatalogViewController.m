@@ -26,21 +26,21 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if([[segue identifier] isEqualToString:@"product"]){
+    if([segue.identifier isEqualToString:@"product"]){
         int indexProduct = (int)(6*(page-1) + [sender tag]);
         
-        ProductViewController *controller = [segue destinationViewController];
-        [controller setClient:client];
-        [controller setProduct:[list objectAtIndex:indexProduct]];
+        ProductViewController *controller = segue.destinationViewController;
+        controller.client = client;
+        controller.product = list[indexProduct];
     }
 }
 
 - (void)customizeImageButton:(UIButton *)button
 {
-    [[button layer] setBorderWidth:1.0f];
-    [[button layer] setBorderColor:[UIColor blackColor].CGColor];
-    [[button layer] setCornerRadius:10.0f];
-    [[button layer] setMasksToBounds:YES];
+    button.layer.borderWidth = 1.0f;
+    button.layer.borderColor = [UIColor blackColor].CGColor;
+    button.layer.cornerRadius = 10.0f;
+    [button.layer setMasksToBounds:YES];
 }
 
 - (void)viewDidLoad
@@ -48,10 +48,10 @@
     [super viewDidLoad];
     [self.navigationController setToolbarHidden:YES];
     
-    _images = [NSArray arrayWithObjects:_imageOne, _imageTwo, _imageThree, _imageFour, _imageFive, _imageSix, nil];
-    _labels = [NSArray arrayWithObjects:_labelOne, _labelTwo, _labelThree, _labelFour, _labelFive, _labelSix, nil];
-    _suppliers = [NSArray arrayWithObjects:_supplierOne, _supplierTwo, _supplierThree, _supplierFour, _supplierFive, _supplierSix, nil];
-    _subproductsViews = [NSArray arrayWithObjects:_subproductsOne, _subproductsTwo, _subproductsThree, _subproductsFour, _subproductsFive, _subproductsSix, nil];
+    _images = @[_imageOne, _imageTwo, _imageThree, _imageFour, _imageFive, _imageSix];
+    _labels = @[_labelOne, _labelTwo, _labelThree, _labelFour, _labelFive, _labelSix];
+    _suppliers = @[_supplierOne, _supplierTwo, _supplierThree, _supplierFour, _supplierFive, _supplierSix];
+    _subproductsViews = @[_subproductsOne, _subproductsTwo, _subproductsThree, _subproductsFour, _subproductsFive, _subproductsSix];
     
     for (UIButton * b in _images) {
         [self customizeImageButton:b];
@@ -69,19 +69,19 @@
         
         int indexProduct = (6 * (page - 1) + i);
 
-        UIButton * image = [_images objectAtIndex:i];
-        UILabel * label = [_labels objectAtIndex:i];
-		UILabel * supplierLabel = [_suppliers objectAtIndex:i];
-        SubproductsCollectionView * subproductsView = [_subproductsViews objectAtIndex:i];
+        UIButton * image = _images[i];
+        UILabel * label = _labels[i];
+		UILabel * supplierLabel = _suppliers[i];
+        SubproductsCollectionView * subproductsView = _subproductsViews[i];
 
-        if (indexProduct < [list count]) {
-            NSManagedObject * object = [list objectAtIndex:indexProduct];
+        if (indexProduct < list.count) {
+            NSManagedObject * object = list[indexProduct];
 			NSURL *photoURL = [AppDelegate absoluteURLWithFilePath:[object valueForKey:@"photo"]];
 			UIImage *photo = [UIImage imageWithData:[NSData dataWithContentsOfURL:photoURL]];
 			
             [image setBackgroundImage:photo forState:UIControlStateNormal];
-            [label setText:[object valueForKey:@"product"]];
-			[supplierLabel setText:[object valueForKey:@"supplier"]];
+            label.text = [object valueForKey:@"product"];
+			supplierLabel.text = [object valueForKey:@"supplier"];
             
 			if (showSubproductsCollectionView) {
             	[subproductsView setupWithProduct:object];
@@ -92,8 +92,8 @@
         } else {
             [image setEnabled:NO];
             [image setHidden:YES];
-            [label setText:@""];
-            [supplierLabel setText:@""];
+            label.text = @"";
+            supplierLabel.text = @"";
             [subproductsView setHidden:YES];
         }
     }

@@ -24,7 +24,7 @@
 
 - (void)openPhoto
 {
-	UIImage *img = [image image];
+	UIImage *img = image.image;
 	
 	if (img) {
 		APhoto *photo = [[APhoto alloc] initWithImage:img delegate:self];
@@ -43,7 +43,7 @@
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
     //Controlla e sistema l'input
-    NSString *toCompare = [NSString stringWithFormat:@"%@%@",[textField text], string];
+    NSString *toCompare = [NSString stringWithFormat:@"%@%@",textField.text, string];
     NSString *regex = @"^$|^0$|^[1-9]{1}[0-9]{0,}$";
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
     
@@ -53,7 +53,7 @@
         if(![predicate evaluateWithObject:string])
             return NO;
         
-        [textField setText:string];
+        textField.text = string;
         return NO;
     }
     
@@ -61,22 +61,22 @@
     //(es. Se viene inserita la quantità in xType, il TextField quantity viene impostato a 0,
     // se viene inserito il valore in quantity, i TextFields "x" verranno impostati a 0)
     if(textField == quantity){
-        [xSubproduct setText:@""];
-        [xType setText:@""];
-        [xColor setText:@""];
-        [xPackage setText:@""];
-        [xCartoon setText:@""];
+        xSubproduct.text = @"";
+        xType.text = @"";
+        xColor.text = @"";
+        xPackage.text = @"";
+        xCartoon.text = @"";
         
     } else if(textField == xSubproduct){
-        [quantity setText:@""];
-        [xType setText:@""];
+        quantity.text = @"";
+        xType.text = @"";
         
     } else if(textField == xType){
-        [quantity setText:@""];
-        [xSubproduct setText:@""];
+        quantity.text = @"";
+        xSubproduct.text = @"";
         
     } else {
-        [quantity setText:@""];
+        quantity.text = @"";
     }
 
     return YES;
@@ -84,15 +84,15 @@
 
 - (void)setInputTextFieldsEnabled:(BOOL)boolean
 {
-    [xSubproduct setEnabled:boolean];
-    [xType setEnabled:boolean];
-    [xColor setEnabled:boolean];
-    [xPackage setEnabled:boolean];
-    [xCartoon setEnabled:boolean];
-    [quantity setEnabled:boolean];
+    xSubproduct.enabled = boolean;
+    xType.enabled = boolean;
+    xColor.enabled = boolean;
+    xPackage.enabled = boolean;
+    xCartoon.enabled = boolean;
+    quantity.enabled = boolean;
     
     for (int i = 0; i<7; i++){
-        [(UIButton *)[self.view viewWithTag:i+14] setEnabled:boolean];
+        ((UIButton *)[self.view viewWithTag:i+14]).enabled = boolean;
     }
 }
 
@@ -101,24 +101,24 @@
 - (IBAction)selectStandardQuantity:(id)sender
 {
     //Permette la selezione di una determinata quantità grazie ai Buttons nello storyboards
-    [xSubproduct setText:@""];
-    [xType setText:@""];
-    [xColor setText:@""];
-    [xPackage setText:@""];
-    [xCartoon setText:@""];
+    xSubproduct.text = @"";
+    xType.text = @"";
+    xColor.text = @"";
+    xPackage.text = @"";
+    xCartoon.text = @"";
     
-    [quantity setText:[[sender titleLabel] text]];
+    quantity.text = [sender titleLabel].text;
 }
 
 - (IBAction)insertProducts:(id)sender
 {
     //Controlla se almeno in un campo delle quantità c'è una quantità
-    if([[quantity text] intValue] == 0 &&
-       [[xSubproduct text] intValue] == 0 &&
-       [[xType text] intValue] == 0 &&
-       [[xColor text] intValue] == 0 &&
-       [[xPackage text] intValue] == 0 &&
-       [[xCartoon text] intValue] == 0){
+    if(quantity.text.intValue == 0 &&
+       xSubproduct.text.intValue == 0 &&
+       xType.text.intValue == 0 &&
+       xColor.text.intValue == 0 &&
+       xPackage.text.intValue == 0 &&
+       xCartoon.text.intValue == 0){
         
         AMessage *message = [[AMessage alloc] initWithMessage:@"Inserisci bene i campi" dismissWithin:1.5f delegate:self comeBack:NO];
         [message show];
@@ -128,24 +128,24 @@
     //Fa sparire la tastiera
     //[self.view endEditing:YES];
     
-    NSArray *indexPaths = [self.table indexPathsForSelectedRows];
+    NSArray *indexPaths = (self.table).indexPathsForSelectedRows;
     BOOL boolMessage = NO;
     
     for(NSIndexPath *index in indexPaths){
-        NSManagedObject *object = [self.list objectAtIndex:index.row];
+        NSManagedObject *object = (self.list)[index.row];
         boolMessage = [self insertSubproduct:object] || boolMessage;
     }
     
     NSString *messageText;
     if(boolMessage){
         
-        if([indexPaths count] > 1)
+        if(indexPaths.count > 1)
             messageText = @"Articoli Modificati";
         else messageText = @"Articolo Modificato";
             
     } else {
         
-        if([indexPaths count] > 1)
+        if(indexPaths.count > 1)
             messageText = @"Articoli Inseriti";
         else messageText = @"Articolo Inserito";
     }
@@ -153,7 +153,7 @@
     AMessage *message = [[AMessage alloc] initWithMessage:messageText dismissWithin:1.0 delegate:self comeBack:YES];
     [message show];
 	
-	if (goBackAfterInsert || [self.list count] == 1) {
+	if (goBackAfterInsert || (self.list).count == 1) {
     	[self.navigationController popViewControllerAnimated:YES];
 	} else {
 		[self.table reloadData];
@@ -165,32 +165,32 @@
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"subproduct = %@ AND client = %@", subproduct, client];
     NSArray *orders = [[AppDelegate sharedAppDelegate] searchEntity:@"Orders" withPredicate:predicate sortedBy:nil];
     
-    NSManagedObjectContext *context = [[AppDelegate sharedAppDelegate] managedObjectContext];
+    NSManagedObjectContext *context = [AppDelegate sharedAppDelegate].managedObjectContext;
     NSManagedObject *object;
     
-    if([orders count] > 0)
-        object = [orders objectAtIndex:0];
+    if(orders.count > 0)
+        object = orders[0];
     else object = [NSEntityDescription insertNewObjectForEntityForName:@"Orders" inManagedObjectContext:context];
     
     [[client valueForKey:@"orders"] addObject:object];
 
     [object setValue:client forKey:@"client"];
     [object setValue:subproduct forKey:@"subproduct"];
-    [object setValue:[note text] forKey:@"note"];
-    [object setValue:[quantity text] forKey:@"quantity"];
-    [object setValue:[xSubproduct text] forKey:@"xSubproduct"];
-    [object setValue:[xColor text] forKey:@"xColor"];
-    [object setValue:[xType text] forKey:@"xType"];
-    [object setValue:[xPackage text] forKey:@"xPackage"];
-    [object setValue:[xCartoon text] forKey:@"xCartoon"];
+    [object setValue:note.text forKey:@"note"];
+    [object setValue:quantity.text forKey:@"quantity"];
+    [object setValue:xSubproduct.text forKey:@"xSubproduct"];
+    [object setValue:xColor.text forKey:@"xColor"];
+    [object setValue:xType.text forKey:@"xType"];
+    [object setValue:xPackage.text forKey:@"xPackage"];
+    [object setValue:xCartoon.text forKey:@"xCartoon"];
     
     
-     if([orders count] == 0)
+     if(orders.count == 0)
          [context insertObject:object];
     
     [context save:nil];
     
-    return [orders count]>0;
+    return orders.count>0;
 }
 
 #pragma TableView
@@ -202,7 +202,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [list count];
+    return list.count;
 }
 
 //- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -215,12 +215,12 @@
 {
     UITableViewCell *cell = [self.table dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
 	
-	[cell setSelectionStyle:UITableViewCellSelectionStyleDefault];
+	cell.selectionStyle = UITableViewCellSelectionStyleDefault;
 	UIView * selectedBackgroundView = [[UIView alloc] init];
 	[selectedBackgroundView setBackgroundColor:lightGreen];
-	[cell setSelectedBackgroundView:selectedBackgroundView];
+	cell.selectedBackgroundView = selectedBackgroundView;
 	 
-    NSManagedObject *object = [list objectAtIndex:[indexPath row]];
+    NSManagedObject *object = list[indexPath.row];
     
     [self configureCell:cell withObject:object];
     
@@ -237,33 +237,33 @@
     UILabel *price = (UILabel *)[cell viewWithTag:6];
     UILabel *profit = (UILabel *)[cell viewWithTag:7];
     
-    [barcode setText:[object valueForKey:@"barcode"]];
+    barcode.text = [object valueForKey:@"barcode"];
     
     NSMutableString *subproductString = [[object valueForKey:@"subproduct"] mutableCopy];
     NSString *noteString = [object valueForKey:@"note"];
     
-    if ([noteString length] > 0 )
+    if (noteString.length > 0 )
         [subproductString appendFormat:@" - %@", noteString];
     
-    [sub setText:subproductString];
-    [quantityPackage setText:[object valueForKey:@"quantityPackage"]];
-    [quantityCartoon setText:[object valueForKey:@"quantityCartoon"]];
-    [quantityStock setText:[object valueForKey:@"quantity"]];
-    [price setText:[NSString stringWithFormat:@"€ %@", [object valueForKey:@"price"]]];
-    [profit setText:[object valueForKey:@"profit"]];
+    sub.text = subproductString;
+    quantityPackage.text = [object valueForKey:@"quantityPackage"];
+    quantityCartoon.text = [object valueForKey:@"quantityCartoon"];
+    quantityStock.text = [object valueForKey:@"quantity"];
+    price.text = [NSString stringWithFormat:@"€ %@", [object valueForKey:@"price"]];
+    profit.text = [object valueForKey:@"profit"];
 }
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willDeselectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if([[self.table indexPathsForSelectedRows] count]-1 == 0){
+    if((self.table).indexPathsForSelectedRows.count-1 == 0){
         
-        [xSubproduct setBackgroundColor:[UIColor clearColor]];
-        [xColor setBackgroundColor:[UIColor clearColor]];
-        [xType setBackgroundColor:[UIColor clearColor]];
-        [xPackage setBackgroundColor:[UIColor clearColor]];
-        [xCartoon setBackgroundColor:[UIColor clearColor]];
+        xSubproduct.backgroundColor = [UIColor clearColor];
+        xColor.backgroundColor = [UIColor clearColor];
+        xType.backgroundColor = [UIColor clearColor];
+        xPackage.backgroundColor = [UIColor clearColor];
+        xCartoon.backgroundColor = [UIColor clearColor];
         
-        [quantity setText:@""];
+        quantity.text = @"";
         
         [add setEnabled:NO];
         
@@ -280,24 +280,24 @@
     
     UIColor *red = [UIColor colorWithRed:1.0f green:0.0f blue:0.0f alpha:0.5f];
     
-    NSManagedObject *subproduct = [list objectAtIndex:[indexPath row]];
+    NSManagedObject *subproduct = list[indexPath.row];
     
     //xColor
     if([[subproduct valueForKey:@"quantityColor"] integerValue] > 0)
-        [xColor setBackgroundColor:[UIColor clearColor]];
-    else [xColor setBackgroundColor:red];
+        xColor.backgroundColor = [UIColor clearColor];
+    else xColor.backgroundColor = red;
     
     //xPackage
     if([[subproduct valueForKey:@"quantityPackage"] integerValue] > 0)
-        [xPackage setBackgroundColor:[UIColor clearColor]];
-    else [xPackage setBackgroundColor:red];
+        xPackage.backgroundColor = [UIColor clearColor];
+    else xPackage.backgroundColor = red;
     
     //xCartoon
     if([[subproduct valueForKey:@"quantityCartoon"] integerValue] > 0)
-        [xCartoon setBackgroundColor:[UIColor clearColor]];
-    else [xCartoon setBackgroundColor:red];
+        xCartoon.backgroundColor = [UIColor clearColor];
+    else xCartoon.backgroundColor = red;
     
-    [quantity setText:[subproduct valueForKey:@"quantityPackage"]];
+    quantity.text = [subproduct valueForKey:@"quantityPackage"];
 }
 
 #pragma Application
@@ -332,12 +332,12 @@
     [self setInputTextFieldsEnabled:NO];
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(openPhoto)];
-    [tap setNumberOfTouchesRequired:1];
+    tap.numberOfTouchesRequired = 1;
     [image addGestureRecognizer:tap];
         
-    [image setImage:[UIImage imageWithContentsOfFile:[[AppDelegate sharedAppDelegate] absolutePathWithFilePath:[product valueForKey:@"photo"]]]];
-    [productLabel setText:[product valueForKey:@"product"]];
-    [supplierLabel setText:[product valueForKey:@"supplier"]];
+    image.image = [UIImage imageWithContentsOfFile:[[AppDelegate sharedAppDelegate] absolutePathWithFilePath:[product valueForKey:@"photo"]]];
+    productLabel.text = [product valueForKey:@"product"];
+    supplierLabel.text = [product valueForKey:@"supplier"];
     
     self.list = [[product valueForKey:@"subproducts"] allObjects];
     NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"subproduct" ascending:YES];
@@ -355,15 +355,15 @@
         [self.table selectRowAtIndexPath:index animated:NO scrollPosition:UITableViewScrollPositionNone];
         [self tableView:self.table didSelectRowAtIndexPath:index];
         
-        [quantity setText:[order valueForKey:@"quantity"]];
-        [note setText:[order valueForKey:@"note"]];
-        [xSubproduct setText:[order valueForKey:@"xSubproduct"]];
-        [xColor setText:[order valueForKey:@"xColor"]];
-        [xType setText:[order valueForKey:@"xType"]];
-        [xPackage setText:[order valueForKey:@"xPackage"]];
-        [xCartoon setText:[order valueForKey:@"xCartoon"]];
+        quantity.text = [order valueForKey:@"quantity"];
+        note.text = [order valueForKey:@"note"];
+        xSubproduct.text = [order valueForKey:@"xSubproduct"];
+        xColor.text = [order valueForKey:@"xColor"];
+        xType.text = [order valueForKey:@"xType"];
+        xPackage.text = [order valueForKey:@"xPackage"];
+        xCartoon.text = [order valueForKey:@"xCartoon"];
 	} else {
-		if (selectAutomatic && [list count] == 1) {
+		if (selectAutomatic && list.count == 1) {
 			NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
 			[self.table selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
 			[self tableView:self.table didSelectRowAtIndexPath:indexPath];
@@ -382,7 +382,7 @@
         if (client == nil) [self.table setAllowsSelection:NO]; // revert if no client is selected
     }
 	
-	[self.table setSeparatorInset:UIEdgeInsetsZero];
+	(self.table).separatorInset = UIEdgeInsetsZero;
 //	[self.table setSeparatorColor:[UIColor clearColor]];
 }
 

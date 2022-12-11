@@ -15,7 +15,7 @@
 @property (nonatomic, assign) NSTimeInterval delay;
 @property (nonatomic, assign) BOOL comeBack;
 
-- (id)initWithMessage:(NSString *)message dismissWithin:(NSTimeInterval)interval delegate:(UIViewController *)del comeBack:(BOOL)back;
+- (instancetype)initWithMessage:(NSString *)message dismissWithin:(NSTimeInterval)interval delegate:(UIViewController *)del comeBack:(BOOL)back NS_DESIGNATED_INITIALIZER;
 - (void)show;
 
 @end

@@ -55,9 +55,9 @@
 	UIBarButtonItem * resetButton = [[UIBarButtonItem alloc] initWithTitle:@"Reset" style:UIBarButtonItemStylePlain target:self action:@selector(resetButtonTouched:)];
 	self.navigationItem.leftBarButtonItem = resetButton;
 	
-	[self.subproductsTable setSeparatorInset:UIEdgeInsetsZero];
-	[self.categoriesTable setSeparatorInset:UIEdgeInsetsZero];
-	[self.suppliersTable setSeparatorInset:UIEdgeInsetsZero];
+	(self.subproductsTable).separatorInset = UIEdgeInsetsZero;
+	(self.categoriesTable).separatorInset = UIEdgeInsetsZero;
+	(self.suppliersTable).separatorInset = UIEdgeInsetsZero;
 	
 }
 
@@ -69,7 +69,7 @@
 	NSArray * subArray = [list valueForKeyPath:@"subproducts.subproduct"];
 	NSMutableArray * subSet = [[NSMutableArray alloc] init];
 	for (NSSet * s in subArray) {
-		[subSet addObjectsFromArray:[s allObjects]];
+		[subSet addObjectsFromArray:s.allObjects];
 	}
 	subproductsList = [[subSet valueForKeyPath:@"@distinctUnionOfObjects.self"] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
 	
@@ -103,51 +103,51 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	if (tableView == subproductsTable) return [subproductsList count];
-	if (tableView == categoriesTable) return [categoriesList count];
-	return [suppliersList count];
+	if (tableView == subproductsTable) return subproductsList.count;
+	if (tableView == categoriesTable) return categoriesList.count;
+	return suppliersList.count;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	UIColor * selectedColor = (indexPath.row % 2 == 0 ? lightBlue : [UIColor clearColor]);
-	[cell setBackgroundColor:selectedColor];
+	cell.backgroundColor = selectedColor;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	static NSString *subproductCellIdentifier = @"subproductCell";
-	static NSString *categoryCellIdentifier = @"categoryCell";
-	static NSString *supplierCellIdentifier = @"supplierCell";
-	
-	NSString * cellIdentifier = @"";
-	NSString * text = @"";
-	
-	if (tableView == subproductsTable) {
-		cellIdentifier = subproductCellIdentifier;
-		text = [subproductsList objectAtIndex:indexPath.row];
-		
-	} else if (tableView == categoriesTable) {
-		cellIdentifier = categoryCellIdentifier;
-		text = [categoriesList objectAtIndex:indexPath.row];
-		
-	} else {
-		cellIdentifier = supplierCellIdentifier;
-		text = [suppliersList objectAtIndex:indexPath.row];
-	}
-	
-	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-	
-	if (cell == nil) {
-		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-	}
-	
-	if ([subproductsFilter containsObject:text] || [categoriesFilter containsObject:text] || [suppliersFilter containsObject:text]) {
-		[cell setAccessoryType:UITableViewCellAccessoryCheckmark];
-	} else {
-		[cell setAccessoryType:UITableViewCellAccessoryNone];
-	}
-	
-	[[cell viewWithTag:1] setText:text];
+    static NSString *subproductCellIdentifier = @"subproductCell";
+    static NSString *categoryCellIdentifier = @"categoryCell";
+    static NSString *supplierCellIdentifier = @"supplierCell";
+    
+    NSString * cellIdentifier = @"";
+    NSString * text = @"";
+    
+    if (tableView == subproductsTable) {
+        cellIdentifier = subproductCellIdentifier;
+        text = subproductsList[indexPath.row];
+        
+    } else if (tableView == categoriesTable) {
+        cellIdentifier = categoryCellIdentifier;
+        text = categoriesList[indexPath.row];
+        
+    } else {
+        cellIdentifier = supplierCellIdentifier;
+        text = suppliersList[indexPath.row];
+    }
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+    }
+    
+    if ([subproductsFilter containsObject:text] || [categoriesFilter containsObject:text] || [suppliersFilter containsObject:text]) {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    } else {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
+    
+    [(UILabel *)[cell viewWithTag:1] setText:text];
 
 	return cell;
 }
@@ -159,19 +159,19 @@
 	
 	if (cell.accessoryType == UITableViewCellAccessoryNone) {
 		if (tableView == subproductsTable) {
-			[subproductsFilter addObject:[subproductsList objectAtIndex:indexPath.row]];
+			[subproductsFilter addObject:subproductsList[indexPath.row]];
 		} else if (tableView == categoriesTable) {
-			[categoriesFilter addObject:[categoriesList objectAtIndex:indexPath.row]];
+			[categoriesFilter addObject:categoriesList[indexPath.row]];
 		} else {
-			[suppliersFilter addObject:[suppliersList objectAtIndex:indexPath.row]];
+			[suppliersFilter addObject:suppliersList[indexPath.row]];
 		}
 	} else {
 		if (tableView == subproductsTable) {
-			[subproductsFilter removeObject:[subproductsList objectAtIndex:indexPath.row]];
+			[subproductsFilter removeObject:subproductsList[indexPath.row]];
 		} else if (tableView == categoriesTable) {
-			[categoriesFilter removeObject:[categoriesList objectAtIndex:indexPath.row]];
+			[categoriesFilter removeObject:categoriesList[indexPath.row]];
 		} else {
-			[suppliersFilter removeObject:[suppliersList objectAtIndex:indexPath.row]];
+			[suppliersFilter removeObject:suppliersList[indexPath.row]];
 		}
 	}
 
@@ -215,9 +215,9 @@
 	
 	NSArray * values = catalogPageViewController.originalList;
 
-	if ([subproductsFilter count] > 0) values = [values filteredArrayUsingPredicate:subproductsPredicate];
-	if ([categoriesFilter count] > 0) values = [values filteredArrayUsingPredicate:categoriesPredicate];
-	if ([suppliersFilter count] > 0) values = [values filteredArrayUsingPredicate:suppliersPredicate];
+	if (subproductsFilter.count > 0) values = [values filteredArrayUsingPredicate:subproductsPredicate];
+	if (categoriesFilter.count > 0) values = [values filteredArrayUsingPredicate:categoriesPredicate];
+	if (suppliersFilter.count > 0) values = [values filteredArrayUsingPredicate:suppliersPredicate];
 	
 	NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
 	[settings setBool:YES forKey:searchChanged];

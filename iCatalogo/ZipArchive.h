@@ -39,10 +39,10 @@
 -(BOOL) CreateZipFile2:(NSString*) zipFile;
 -(BOOL) CreateZipFile2:(NSString*) zipFile Password:(NSString*) password;
 -(BOOL) addFileToZip:(NSString*) file newname:(NSString*) newname;
--(BOOL) CloseZipFile2;
+@property (NS_NONATOMIC_IOSONLY, readonly) BOOL CloseZipFile2;
 
 -(BOOL) UnzipOpenFile:(NSString*) zipFile;
 -(BOOL) UnzipOpenFile:(NSString*) zipFile Password:(NSString*) password;
 -(BOOL) UnzipFileTo:(NSString*) path overWrite:(BOOL) overwrite;
--(BOOL) UnzipCloseFile;
+@property (NS_NONATOMIC_IOSONLY, readonly) BOOL UnzipCloseFile;
 @end

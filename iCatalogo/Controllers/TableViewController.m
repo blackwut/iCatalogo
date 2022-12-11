@@ -32,14 +32,14 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [list count];
+    return list.count;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	if(coloredTable){
 		UIColor * selectedColor = (indexPath.row % 2 == 0 ? lightBlue : [UIColor clearColor]);
-		[cell setBackgroundColor:selectedColor];
+		cell.backgroundColor = selectedColor;
 	}
 }
 
@@ -47,7 +47,7 @@
 {
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     
-    NSManagedObject *object = [list objectAtIndex:[indexPath row]];
+    NSManagedObject *object = list[indexPath.row];
     
     [self.delegate configureCell:cell withObject:object];
     
@@ -69,7 +69,7 @@
         
         } else {
             
-            NSManagedObject *object = [self.list objectAtIndex:[indexPath row]];
+            NSManagedObject *object = (self.list)[indexPath.row];
             [[AppDelegate sharedAppDelegate] deleteObject:object error:nil];
             [self.list removeObject:object];
         }
@@ -93,7 +93,7 @@
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
-    [search setText:@""];
+    search.text = @"";
 	
     if([self.delegate respondsToSelector:@selector(searchList)])
         [self.delegate searchList];
@@ -112,9 +112,9 @@
 {
     [super viewWillAppear:animated];
 	
-	[self.tableView setSeparatorInset:UIEdgeInsetsZero];
+	(self.tableView).separatorInset = UIEdgeInsetsZero;
 
-    [self.search setDelegate:self];
+    (self.search).delegate = self;
     
     [self.navigationController setToolbarHidden:YES];
     [self setCanEdit:NO];

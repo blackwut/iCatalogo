@@ -14,7 +14,7 @@
 
 #pragma mark ObjectMethods
 
-- (id)init
+- (instancetype)init
 {
     self = [super init];
     if(self){
@@ -38,11 +38,11 @@
     //Creazione Data di Oggi
 	NSDate *today = [NSDate date];
 	NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-	[formatter setDateFormat:@"dd-MM-yyyy HH-mm"];
+	formatter.dateFormat = @"dd-MM-yyyy HH-mm";
     
     //Creazione dei paths necessari
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsPath = [paths objectAtIndex:0];
+    NSString *documentsPath = paths[0];
     
     //Xml da esportare nella cartella documents
     NSString *xmlPath = [documentsPath stringByAppendingPathComponent:fileName];
@@ -85,7 +85,7 @@
 
 - (void)addTag:(NSString *)tag withValue:(NSString *)value
 {
-	if ([value length] > 0)
+	if (value.length > 0)
 		[content appendFormat:@"\t<%@>%@</%@>\n", tag, [self textToXml:value], tag];
 	else [content appendFormat:@"\t<%@></%@>\n", tag, tag];
 }
@@ -129,7 +129,7 @@
         [self addSingleTag:@"product"];
         // substr(21) C/Videogest 2022/FOTO
         NSString *photo = [product valueForKey:@"photo"];
-        if ([photo length] > 21) {
+        if (photo.length > 21) {
             photo =[[photo substringFromIndex:21] stringByReplacingOccurrencesOfString:@"/" withString:@"\\"];
         } else {
             photo = @"";
@@ -143,7 +143,7 @@
     
     //Creazione dei paths necessari
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsPath = [paths objectAtIndex:0];
+    NSString *documentsPath = paths[0];
     NSString *xmlPath = [documentsPath stringByAppendingPathComponent:filename];
     
     //Crea la directory se non esiste e poi il file di backup
@@ -189,7 +189,7 @@
         
         NSString *quantity = [object valueForKey:@"quantity"];
         
-        if([quantity length]==0)
+        if(quantity.length==0)
             quantity = @"0";
         
         //Sistemo la descrizione del prodotto
@@ -202,26 +202,26 @@
         NSString *xPackage = [object valueForKey: @"xPackage"];
         NSString *xCartoon = [object valueForKey: @"xCartoon"];
 		
-        if ([note length] > 0)
+        if (note.length > 0)
 			[supplier appendFormat:@" - %@", note];
 		
         //Se esistono valori per xSubproduct, xColor o xType allora non inserisce la misura.
-        if ([xSubproduct length] > 0){
+        if (xSubproduct.length > 0){
 			[supplier appendFormat:@"- %@ xMisura", xSubproduct];
             subproduct = @" ";
         }
-		if ([xColor length] > 0){
+		if (xColor.length > 0){
 			[supplier appendFormat:@"- %@ xColore", xColor];
             subproduct = @" ";
         }
-		if ([xType length] > 0){
+		if (xType.length > 0){
 			[supplier appendFormat:@"- %@ xTipo", xType];
             subproduct = @" ";
         }
 		
-        if ([xPackage length] > 0)
+        if (xPackage.length > 0)
 			[supplier appendFormat:@"- %@ xConfezione", xPackage];
-        if ([xCartoon length] > 0)
+        if (xCartoon.length > 0)
 			[supplier appendFormat:@"- %@ xCartone", xCartoon];
 		
         

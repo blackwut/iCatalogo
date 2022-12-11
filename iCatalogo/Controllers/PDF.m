@@ -40,17 +40,17 @@ static const CGSize priceSize = {60, heightFild};
 
     [product appendString:subproduct];
     
-    if ([note length] > 0)
+    if (note.length > 0)
         [product appendFormat:@" - %@", note];
-    if ([xSubproduct length] > 0)
+    if (xSubproduct.length > 0)
         [product appendFormat:@" - %@ x Misura", xSubproduct];
-    if ([xColor length] > 0)
+    if (xColor.length > 0)
         [product appendFormat:@" - %@ x Colore", xColor];
-    if ([xType length] > 0)
+    if (xType.length > 0)
         [product appendFormat:@" - %@ x Tipo", xType];
-    if ([xPackage length] > 0)
+    if (xPackage.length > 0)
         [product appendFormat:@" - %@ x Confezione", xPackage];
-    if ([xCartoon length] > 0)
+    if (xCartoon.length > 0)
         [product appendFormat:@" - %@ x Cartone", xCartoon];
     
     return product;
@@ -199,7 +199,7 @@ static const CGSize priceSize = {60, heightFild};
     NSString *fileName = @"Ordine.pdf";
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *documentsDirectory = paths[0];
     NSString *pdfFileName = [documentsDirectory stringByAppendingPathComponent:fileName];
     
     UIGraphicsBeginPDFContextToFile(pdfFileName, CGRectZero, nil);
@@ -209,7 +209,7 @@ static const CGSize priceSize = {60, heightFild};
     
     NSArray *orders = [[client valueForKey:@"orders"] allObjects];
     NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"subproduct.product.product" ascending:YES];
-    [orders sortedArrayUsingDescriptors:[NSArray arrayWithObject:sort]];
+    [orders sortedArrayUsingDescriptors:@[sort]];
     
     //44 righe per ogni foglio
     
@@ -228,16 +228,16 @@ static const CGSize priceSize = {60, heightFild};
         
         for (int i = 0; i<45; i++){
             
-            NSManagedObject *order = [orders objectAtIndex:index++];
+            NSManagedObject *order = orders[index++];
             [self drawLineOrderWithDescription:[self descriptionOfOrder:order] quantity:[self quantityOfOrder:order] price:[self priceOfOrder:order] withSizeFont:10];
             
-            if(index == [orders count])
+            if(index == orders.count)
                 break;
         }
         
         [self drawPage:page withSizeFont:10];
         
-        if(index == [orders count]){
+        if(index == orders.count){
             
             NSString *total = [NSString stringWithFormat:@"Totale previsto %@", [[AppDelegate sharedAppDelegate] getTotalOrderOf:client]];
             [self drawString:total withSizeFont:12];

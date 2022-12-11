@@ -23,7 +23,7 @@
     
     //Creazione dei paths necessari
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsPath = [paths objectAtIndex:0];
+    NSString *documentsPath = paths[0];
     
     //Xml da esportare nella cartella documents
     NSString *backupPath = [documentsPath stringByAppendingPathComponent:@"Backup"];
@@ -35,7 +35,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self setTitle:@"iCatalogo"];
+    self.title = @"iCatalogo";
 }
 
 - (void)didReceiveMemoryWarning

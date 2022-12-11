@@ -146,10 +146,10 @@ typedef void (^TBXMLIterateAttributeBlock)(TBXMLAttribute *, NSString*, NSString
 
 @property (nonatomic, readonly) TBXMLElement * rootXMLElement;
 
-+ (id)tbxmlWithXMLString:(NSString*)aXMLString error:(NSError **)error;
-+ (id)tbxmlWithXMLData:(NSData*)aData error:(NSError **)error;
-+ (id)tbxmlWithXMLFile:(NSString*)aXMLFile error:(NSError **)error;
-+ (id)tbxmlWithXMLFile:(NSString*)aXMLFile fileExtension:(NSString*)aFileExtension error:(NSError **)error;
++ (instancetype)tbxmlWithXMLString:(NSString*)aXMLString error:(NSError **)error;
++ (instancetype)tbxmlWithXMLData:(NSData*)aData error:(NSError **)error;
++ (instancetype)tbxmlWithXMLFile:(NSString*)aXMLFile error:(NSError **)error;
++ (instancetype)tbxmlWithXMLFile:(NSString*)aXMLFile fileExtension:(NSString*)aFileExtension error:(NSError **)error;
 
 + (id)tbxmlWithXMLString:(NSString*)aXMLString __attribute__((deprecated));
 + (id)tbxmlWithXMLData:(NSData*)aData __attribute__((deprecated));
@@ -157,10 +157,10 @@ typedef void (^TBXMLIterateAttributeBlock)(TBXMLAttribute *, NSString*, NSString
 + (id)tbxmlWithXMLFile:(NSString*)aXMLFile fileExtension:(NSString*)aFileExtension __attribute__((deprecated));
 
 
-- (id)initWithXMLString:(NSString*)aXMLString error:(NSError **)error;
-- (id)initWithXMLData:(NSData*)aData error:(NSError **)error;
-- (id)initWithXMLFile:(NSString*)aXMLFile error:(NSError **)error;
-- (id)initWithXMLFile:(NSString*)aXMLFile fileExtension:(NSString*)aFileExtension error:(NSError **)error;
+- (instancetype)initWithXMLString:(NSString*)aXMLString error:(NSError **)error;
+- (instancetype)initWithXMLData:(NSData*)aData error:(NSError **)error;
+- (instancetype)initWithXMLFile:(NSString*)aXMLFile error:(NSError **)error;
+- (instancetype)initWithXMLFile:(NSString*)aXMLFile fileExtension:(NSString*)aFileExtension error:(NSError **)error;
 
 - (id)initWithXMLString:(NSString*)aXMLString __attribute__((deprecated));
 - (id)initWithXMLData:(NSData*)aData __attribute__((deprecated));

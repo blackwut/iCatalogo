@@ -30,23 +30,23 @@
     UILabel *category = (UILabel *)[cell viewWithTag:2];
     UILabel *supplier = (UILabel *)[cell viewWithTag:3];
     
-    [product setText:[object valueForKey:@"product"]];
-    [category setText:[object valueForKey:@"category"]];
-    [supplier setText:[object valueForKey:@"supplier"]];
+    product.text = [object valueForKey:@"product"];
+    category.text = [object valueForKey:@"category"];
+    supplier.text = [object valueForKey:@"supplier"];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if([[segue identifier]  isEqualToString: @"catalogPage"] ){
-        CatalogPageViewController *controller = [segue destinationViewController];
+    if([segue.identifier  isEqualToString: @"catalogPage"] ){
+        CatalogPageViewController *controller = segue.destinationViewController;
         controller.client = client;
 		controller.originalList = self.list;
         controller.list = self.list;
         
-    } else if([[segue identifier] isEqualToString:@"product"]) {
-        ProductViewController *controller = [segue destinationViewController];
+    } else if([segue.identifier isEqualToString:@"product"]) {
+        ProductViewController *controller = segue.destinationViewController;
         controller.client = client;
-        controller.product = [self.list objectAtIndex:[[self.tableView indexPathForSelectedRow] row]];
+        controller.product = (self.list)[(self.tableView).indexPathForSelectedRow.row];
         controller.barcodeText = self.barcodeText;
     }
 }
@@ -77,18 +77,18 @@
 
 - (void)changeSort
 {
-    NSInteger selectedSort = [segmented selectedSegmentIndex];
+    NSInteger selectedSort = segmented.selectedSegmentIndex;
     switch (selectedSort) {
         case 0:
-            [self setSortedAttribute:@"product"];
+            self.sortedAttribute = @"product";
             break;
             
         case 1:
-            [self setSortedAttribute:@"category"];
+            self.sortedAttribute = @"category";
             break;
             
         case 2:
-            [self setSortedAttribute:@"supplier"];
+            self.sortedAttribute = @"supplier";
             break;
     }
     NSUserDefaults *options = [NSUserDefaults standardUserDefaults];
@@ -104,10 +104,10 @@
     dispatch_once(&onceToken, ^{ _attributes = @[@"product", @"category", @"supplier", @"subproducts.barcode"]; });
     
     NSString * attribute = _attributes[attributeID];
-    NSArray * argumentArray = [NSArray arrayWithObjects:attribute, text, nil];
+    NSArray * argumentArray = @[attribute, text];
     
     self.predicate = nil;
-    if ([text length] > 0) {
+    if (text.length > 0) {
         if (attributeID == 3) { // barcode = 3
             self.barcodeText = text;
             self.predicate = [NSPredicate predicateWithFormat:@"ANY %K ENDSWITH[cd] %@" argumentArray:argumentArray];
@@ -119,8 +119,8 @@
 
 - (void)searchList
 {
-    NSString *text = [self.search text];
-    NSInteger selectedColumn = [self.search selectedScopeButtonIndex];
+    NSString *text = (self.search).text;
+    NSInteger selectedColumn = (self.search).selectedScopeButtonIndex;
     [self updatePredicateWith:text andAttributeID:selectedColumn];
     
     NSUserDefaults *options = [NSUserDefaults standardUserDefaults];
@@ -135,26 +135,26 @@
 {
     NSUserDefaults *options = [NSUserDefaults standardUserDefaults];
     
-    [self.search setText:[options stringForKey:searchText]];
-    [self.search setSelectedScopeButtonIndex:[options integerForKey:searchColumn]];
-    [self.segmented setSelectedSegmentIndex:[options integerForKey:searchSortAttribute]];
+    (self.search).text = [options stringForKey:searchText];
+    (self.search).selectedScopeButtonIndex = [options integerForKey:searchColumn];
+    (self.segmented).selectedSegmentIndex = [options integerForKey:searchSortAttribute];
     
-    switch ([segmented selectedSegmentIndex]) {
+    switch (segmented.selectedSegmentIndex) {
         case 0:
-            [self setSortedAttribute:@"product"];
+            self.sortedAttribute = @"product";
             break;
             
         case 1:
-            [self setSortedAttribute:@"category"];
+            self.sortedAttribute = @"category";
             break;
             
         case 2:
-            [self setSortedAttribute:@"supplier"];
+            self.sortedAttribute = @"supplier";
             break;
     }
     
-    NSString *text = [self.search text];
-    NSInteger selectedColumn = [self.search selectedScopeButtonIndex];
+    NSString *text = (self.search).text;
+    NSInteger selectedColumn = (self.search).selectedScopeButtonIndex;
     [self updatePredicateWith:text andAttributeID:selectedColumn];
 }
 
@@ -162,29 +162,29 @@
 
 - (void)configureView
 {
-    [self setTitle:@"Catalogo"];
-    [self setEntity:@"Products"];
+    self.title = @"Catalogo";
+    self.entity = @"Products";
     
     UIBarButtonItem *flexyLeft = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     UIBarButtonItem *flexyRight = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     
     //Crea la segmented per la modifica dell'ordinamento della lista
     segmented = [[UISegmentedControl alloc] initWithItems:@[@"Descrizione", @"Categoria", @"Fornitore"]];
-    [segmented setSelectedSegmentIndex:0];
+    segmented.selectedSegmentIndex = 0;
     [segmented addTarget:self action:@selector(changeSort) forControlEvents:UIControlEventValueChanged];
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:segmented];
 	
 	filterButton = [[UIBarButtonItem alloc] initWithTitle:@"Ricerca" style:UIBarButtonItemStylePlain target:self action:@selector(filterButtonTouched:)];
     
     [self.navigationController setToolbarHidden:NO];
-    [self setToolbarItems:@[flexyLeft, item, flexyRight, filterButton]];
+    self.toolbarItems = @[flexyLeft, item, flexyRight, filterButton];
 
     [self restoreSearch];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [self setDelegate:self];
+    self.delegate = self;
     [super viewWillAppear:animated];
 }
 
@@ -198,8 +198,8 @@
 
 - (void)setSearchText:(NSString *)searchText forFilterType:(NSInteger)type
 {
-	[self.search setSelectedScopeButtonIndex:type + 1]; //+1 because the first index is the product description
-	[self.search setText:searchText];
+	(self.search).selectedScopeButtonIndex = type + 1; //+1 because the first index is the product description
+	(self.search).text = searchText;
 	[self searchList];
 }
 
