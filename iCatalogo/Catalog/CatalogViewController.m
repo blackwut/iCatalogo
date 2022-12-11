@@ -10,13 +10,17 @@
 #import "ProductViewController.h"
 
 @interface CatalogViewController ()
+@property (nonatomic, strong) NSArray * images;
+@property (nonatomic, strong) NSArray * labels;
+@property (nonatomic, strong) NSArray * suppliers;
+@property (nonatomic, strong) NSArray * subproductsViews;
 @end
 
 @implementation CatalogViewController
 
-@synthesize imageOne, imageTwo, imageThree, imageFour, imageFive, imageSix;
-@synthesize labelOne, labelTwo, labelThree, labelFour, labelFive, labelSix;
-@synthesize supplierOne, supplierTwo, supplierThree, supplierFour, supplierFive, supplierSix;
+//@synthesize imageOne, imageTwo, imageThree, imageFour, imageFive, imageSix;
+//@synthesize labelOne, labelTwo, labelThree, labelFour, labelFive, labelSix;
+//@synthesize supplierOne, supplierTwo, supplierThree, supplierFour, supplierFive, supplierSix;
 @synthesize client, list, page;
 
 
@@ -31,6 +35,29 @@
     }
 }
 
+- (void)customizeImageButton:(UIButton *)button
+{
+    [[button layer] setBorderWidth:1.0f];
+    [[button layer] setBorderColor:[UIColor blackColor].CGColor];
+    [[button layer] setCornerRadius:10.0f];
+    [[button layer] setMasksToBounds:YES];
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    [self.navigationController setToolbarHidden:YES];
+    
+    _images = [NSArray arrayWithObjects:_imageOne, _imageTwo, _imageThree, _imageFour, _imageFive, _imageSix, nil];
+    _labels = [NSArray arrayWithObjects:_labelOne, _labelTwo, _labelThree, _labelFour, _labelFive, _labelSix, nil];
+    _suppliers = [NSArray arrayWithObjects:_supplierOne, _supplierTwo, _supplierThree, _supplierFour, _supplierFive, _supplierSix, nil];
+    _subproductsViews = [NSArray arrayWithObjects:_subproductsOne, _subproductsTwo, _subproductsThree, _subproductsFour, _subproductsFive, _subproductsSix, nil];
+    
+    for (UIButton * b in _images) {
+        [self customizeImageButton:b];
+    }
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -38,45 +65,36 @@
 	NSUserDefaults *options = [NSUserDefaults standardUserDefaults];
 	BOOL showSubproductsCollectionView = [options boolForKey:showSubproductsOption];
     
-    [self.navigationController setToolbarHidden:YES];
-    
-    NSArray *images = [NSArray arrayWithObjects:imageOne, imageTwo, imageThree, imageFour, imageFive, imageSix, nil];
-    NSArray *subproducts = [NSArray arrayWithObjects:_subproductsOne, _subproductsTwo, _subproductsThree, _subproductsFour, _subproductsFive, _subproductsSix, nil];
-    NSArray *labels = [NSArray arrayWithObjects:labelOne, labelTwo, labelThree, labelFour, labelFive, labelSix, nil];
-	NSArray *supplierLabels = [NSArray arrayWithObjects:supplierOne, supplierTwo, supplierThree, supplierFour, supplierFive, supplierSix, nil];
-    
-    for (int i = 0; i < 6; ++i){
-        
-        UIButton *image = [images objectAtIndex:i];
-        SubproductsCollectionView *subproductsView = [subproducts objectAtIndex:i];
-        UILabel *label = [labels objectAtIndex:i];
-		UILabel *supplierLabel = [supplierLabels objectAtIndex:i];
+    for (int i = 0; i < 6; ++i) {
         
         int indexProduct = (6 * (page - 1) + i);
-        
-        if(indexProduct < [list count]){
-            NSManagedObject *object = [list objectAtIndex:indexProduct];
-			NSString *imagePath = [object valueForKey:@"photo"];
-            //UIImage *img = [UIImage imageWithContentsOfFile:imagePath];
-			UIImage *img = [UIImage imageWithData:[NSData dataWithContentsOfFile:imagePath]];
+
+        UIButton * image = [_images objectAtIndex:i];
+        UILabel * label = [_labels objectAtIndex:i];
+		UILabel * supplierLabel = [_suppliers objectAtIndex:i];
+        SubproductsCollectionView * subproductsView = [_subproductsViews objectAtIndex:i];
+
+        if (indexProduct < [list count]) {
+            NSManagedObject * object = [list objectAtIndex:indexProduct];
+			NSURL *photoURL = [AppDelegate absoluteURLWithFilePath:[object valueForKey:@"photo"]];
+			UIImage *photo = [UIImage imageWithData:[NSData dataWithContentsOfURL:photoURL]];
 			
-            [image setBackgroundImage:img forState:UIControlStateNormal];
+            [image setBackgroundImage:photo forState:UIControlStateNormal];
             [label setText:[object valueForKey:@"product"]];
 			[supplierLabel setText:[object valueForKey:@"supplier"]];
             
-            [[image layer] setBorderWidth:1.0f];
-            [[image layer] setBorderColor:[UIColor blackColor].CGColor];
-            [[image layer] setCornerRadius:10.0f];
-            [[image layer] setMasksToBounds:YES];
-            
-			if ( showSubproductsCollectionView ) {
+			if (showSubproductsCollectionView) {
             	[subproductsView setupWithProduct:object];
 			} else {
 				[subproductsView setHidden:YES];
 			}
 
         } else {
-            [image setEnabled:false];
+            [image setEnabled:NO];
+            [image setHidden:YES];
+            [label setText:@""];
+            [supplierLabel setText:@""];
+            [subproductsView setHidden:YES];
         }
     }
 }

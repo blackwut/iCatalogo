@@ -18,6 +18,15 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    NSFileManager * fileManager = [NSFileManager defaultManager];
+    NSURL * documentsURL = [[fileManager URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+    NSString * notFoundPath = [[documentsURL URLByAppendingPathComponent:@"imageNotFound.png"] path];
+    
+    if (![fileManager fileExistsAtPath:notFoundPath]) {
+        NSString * resourcePath = [[[[NSBundle mainBundle] resourceURL] URLByAppendingPathComponent:@"imageNotFound.png"] path];
+        [fileManager copyItemAtPath:resourcePath toPath:notFoundPath error:nil];
+    }
+    
     return YES;
 }
 
@@ -131,7 +140,9 @@
          Lightweight migration will only work for a limited set of schema changes; consult "Core Data Model Versioning and Data Migration Programming Guide" for details.
          
          */
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+//        [[NSFileManager defaultManager] removeItemAtURL:storeURL error:nil];
+        
+//        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();
     }    
     
@@ -144,6 +155,18 @@
 - (NSURL *)applicationDocumentsDirectory
 {
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+}
+
++ (NSURL *)absoluteURLWithFilePath:(NSString *)filePath;
+{
+    NSFileManager * fileManager = [NSFileManager defaultManager];
+    NSURL * documentsURL = [[fileManager URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+    return [documentsURL URLByAppendingPathComponent:filePath];
+}
+
+- (NSString *)absolutePathWithFilePath:(NSString *)filePath;
+{
+    return [[AppDelegate absoluteURLWithFilePath:filePath] path];
 }
 
 + (AppDelegate *)sharedAppDelegate
@@ -214,7 +237,7 @@
     return [context executeFetchRequest:fetchRequest error:nil];
 }
 
-- (void)deleteObject:(NSManagedObject *)object error:(NSError **)error
+- (BOOL)deleteObject:(NSManagedObject *)object error:(NSError **)error
 {
     NSManagedObjectContext *context = [self managedObjectContext];
     [context lock];
@@ -223,11 +246,12 @@
     [context deleteObject:object];
     
     //Salva i cambiamenti
-    [context save:error];
+    BOOL isError = [context save:error];
     [context unlock];
+    return isError;
 }
 
-- (void)deleteObjects:(NSArray *)objects error:(NSError **)error
+- (BOOL)deleteObjects:(NSArray *)objects error:(NSError **)error
 {
      NSManagedObjectContext *context = [self managedObjectContext];
     [context lock];
@@ -237,12 +261,13 @@
         [context deleteObject:object];
     
     //Salva i cambiamenti
-    [context save:error];
+    BOOL isError = [context save:error];
     [context unlock];
+    return isError;
 }
 
 
-- (void)deleteDatabase:(NSError **)error
+- (BOOL)deleteDatabase:(NSError **)error
 {
     NSManagedObjectContext *context = [self managedObjectContext];
     [context lock];
@@ -253,15 +278,16 @@
 	for(NSString *entity in entities){
         //Trova gli oggetti della entity
         NSArray *list = [self searchEntity:entity withPredicate:nil sortedBy:nil];
-        
+                
         //Cancella gli oggetti della entity dal database
         for(NSManagedObject *object in list)
             [context deleteObject:object];
     }
     
     //Salva i cambiamenti
-    [context save:error];
+    BOOL isError = [context save:error];
     [context unlock];
+    return isError;
 }
 
 - (NSString *)getTotalOrderOf:(NSManagedObject *)client

@@ -334,8 +334,8 @@
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(openPhoto)];
     [tap setNumberOfTouchesRequired:1];
     [image addGestureRecognizer:tap];
-    
-    [image setImage:[UIImage imageWithContentsOfFile:[product valueForKey:@"photo"]]];
+        
+    [image setImage:[UIImage imageWithContentsOfFile:[[AppDelegate sharedAppDelegate] absolutePathWithFilePath:[product valueForKey:@"photo"]]]];
     [productLabel setText:[product valueForKey:@"product"]];
     [supplierLabel setText:[product valueForKey:@"supplier"]];
     

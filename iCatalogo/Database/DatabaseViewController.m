@@ -18,7 +18,24 @@
 @synthesize showSubproducts, goBackInsert, selectAutomatic;
 @synthesize clientHiddenLabel, clientHidden;
 
+#pragma -mark UpdataDatabaseWithHash
 
+- (void)updateDatabaseWithHash:(NSTimeInterval)timeoutInterval
+{
+    XMLCreator *xmlCreator = [[XMLCreator alloc] init];
+    [xmlCreator createXMLPhotoHash:@"photo_hash.xml"];
+    
+    NSString *stringUrl = [NSString stringWithFormat:@"http:/%@/updateWithHash.php", [ipField text]];
+    NSURL *url = [NSURL URLWithString:stringUrl];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
+    [request setHTTPMethod:@"POST"];
+    [request setTimeoutInterval:timeoutInterval];
+    [request setValue:@"text/html; charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPBody:[xmlCreator data]];
+    [request setCachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData];
+    
+    [progressView startDownloadWithRequest:request timeoutInterval:timeoutInterval];
+}
 
 #pragma -mark ServerMethods
 
@@ -66,7 +83,7 @@
                                           otherButtonTitles:nil, nil];
     [alert show];
     
-    [broadcaster scanWithPort:80 timeoutInterval:4 completionHandler:^(NSArray * _Nonnull hosts) {
+    [broadcaster scanWithPort:80 timeoutInterval:2 completionHandler:^(NSArray * _Nonnull hosts) {
         [self updateServersWithArray:hosts];
         [alert dismissWithClickedButtonIndex:0 animated:YES];
         [updateButton setUserInteractionEnabled:YES];
@@ -77,6 +94,7 @@
 {
     NSInteger index = [segmented selectedSegmentIndex];
     [ipField setText:[[servers objectAtIndex:index] valueForKey:@"ip"]];
+    [[NSUserDefaults standardUserDefaults] setObject:[ipField text] forKey:@"ip"];
 }
 
 #pragma -mark ButtonsMethods
@@ -123,8 +141,9 @@
 
 - (void)updateFromNet
 {
-    NSString *stringUrl = [NSString stringWithFormat:@"http:/%@/getDatabase.php", [ipField text]];
-    [progressView startDownloadFromUrl:stringUrl timeInterval:120];
+//    NSString *stringUrl = [NSString stringWithFormat:@"http:/%@/getDatabase.php", [ipField text]];
+//    [progressView startDownloadFromUrl:stringUrl timeInterval:120];
+    [self updateDatabaseWithHash:120];
 }
 
 - (void)progressviewDidFailDownload
@@ -149,7 +168,11 @@
         NSString *filePath = [documentsPath stringByAppendingPathComponent:@"update.zip"];
         
         ZipArchive *zipArchive = [[ZipArchive alloc] init];
-        [zipArchive UnzipOpenFile:filePath];
+        if (![zipArchive UnzipOpenFile:filePath]) {
+            [self updateProgressLabelWithText:@"File Zip corrotto!"];
+            [self setInteractionEnabled:YES];
+            return;
+        }
         [zipArchive UnzipFileTo:documentsPath overWrite:YES];
         [zipArchive UnzipCloseFile];
 

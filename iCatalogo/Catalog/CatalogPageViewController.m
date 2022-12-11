@@ -15,6 +15,7 @@
 @interface CatalogPageViewController ()
 @property (nonatomic, assign) BOOL isAnimating;
 @property (nonatomic, strong) FilterCatalogViewController * filterCatalogViewController;
+@property (nonatomic, strong) NSMutableArray * controllers;
 @end
 
 @implementation CatalogPageViewController
@@ -44,27 +45,45 @@
 
 - (CatalogViewController *)createCatalogViewControllerWithIndexPage:(int)indexPage
 {
-    CatalogViewController *controller = [[self storyboard] instantiateViewControllerWithIdentifier:@"catalog"];
+    CatalogViewController * controller = nil;
+    for (CatalogViewController * c in _controllers) {
+        if ([c parentViewController] == nil) {
+            controller = c;
+        }
+    }
+    
+    if (controller == nil) {
+        controller = [[self storyboard] instantiateViewControllerWithIdentifier:@"catalog"];
+        [_controllers addObject:controller];
+    }
+
     [controller setClient:client];
     [controller setList:list];
     [controller setPage:indexPage];
-    
+
     return controller;
+    
+    //    CatalogViewController *controller = [[self storyboard] instantiateViewControllerWithIdentifier:@"catalog"];
+    //    [controller setClient:client];
+    //    [controller setList:list];
+    //    [controller setPage:indexPage];
+    //
+    //    return controller;
 }
 
 -  (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController
 {
-    if(page < maxPage && !isAnimating)
-        return [self createCatalogViewControllerWithIndexPage:page+1];
-
+    if(page < maxPage && !isAnimating) {
+        return [self createCatalogViewControllerWithIndexPage:page + 1];
+    }
     return nil;
 }
 
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController
 {
-    if(page > 1 && !isAnimating)
-        return [self createCatalogViewControllerWithIndexPage:page-1];
-    
+    if(page > 1 && !isAnimating) {
+        return [self createCatalogViewControllerWithIndexPage:page - 1];
+    }
     return nil;
 }
 
@@ -97,7 +116,7 @@
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     int valuePageField = [[textField text] intValue];
-    if(valuePageField != 0 && valuePageField < [self maxPage]){
+    if (valuePageField > 0 && valuePageField < maxPage){
     
         if(page != valuePageField){
             int direction = (page > valuePageField) ? UIPageViewControllerNavigationDirectionReverse : UIPageViewControllerNavigationDirectionForward;
@@ -127,6 +146,12 @@
 	[pageField setText:[NSString stringWithFormat:@"%d", page]];
 	
 	[self setViewControllers:@[[self createCatalogViewControllerWithIndexPage:page]] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    _controllers = [[NSMutableArray alloc] init];
 }
 
 - (void)viewWillAppear:(BOOL)animated

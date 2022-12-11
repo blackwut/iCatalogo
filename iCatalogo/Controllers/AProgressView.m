@@ -12,85 +12,84 @@
 @implementation AProgressView
 
 @synthesize delegate, label;
-@synthesize url, receivedData, current, max;
+@synthesize url, receivedData, stream, current, max;
 
-
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
-    self = [super initWithCoder:aDecoder];
-    
-    if(self){
-        [self reset];
-    }
-    return self;
-}
 
 - (void)reset
 {
-    self.receivedData = [[NSMutableData alloc] initWithCapacity:0];
     self.current = 0;
-    self.max = 0;
-    self.progress = 0;
+    self.max = 1;
+    [self my_updateProgress];
 }
 
-- (void)increment
+- (void)my_updateProgress
 {
-    [self incrementOf:1];
+    float value = (float) self.current / self.max;
+    [self setProgress:value animated:NO];
 }
 
-- (void)incrementOf:(long)increment
+- (void)updateProgress
 {
-    self.current += increment;
-    self.progress = (float) self.current / self.max;
+    [self performSelectorInBackground:@selector(my_updateProgress) withObject:nil];
 }
 
-- (void)updateAssociatedLabelWithText:(NSString *)text
+- (void)updateText:(NSString *)text
 {
-    [label performSelectorInBackground:@selector(setText:) withObject:text];
+    [self.label performSelectorInBackground:@selector(setText:) withObject:text];
+}
+
+- (void)increment:(long)value
+{
+    self.current += value;
+    [self updateProgress];
 }
 
 - (void)startDownloadFromUrl:(NSString *)string timeInterval:(NSTimeInterval)interval
 {
-    //self.receivedData = [[NSMutableData alloc] initWithCapacity:0];
-    [self updateAssociatedLabelWithText:@"Richiesta file..."];
-    self.url = [NSURL URLWithString:string];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:interval];
+    [self updateText:@"Richiesta file..."];
+    NSURLRequest * request = [NSURLRequest requestWithURL:[NSURL URLWithString:string] cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:interval];
+    NSURLConnection * connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:NO];
+    [connection start];
+}
+
+- (void)startDownloadWithRequest:(NSMutableURLRequest *)request timeoutInterval:(NSTimeInterval)interval
+{
+    [self updateText:@"Richiesta file..."];
     NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:NO];
     [connection start];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
-    [self updateAssociatedLabelWithText:@"Download..."];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    [self updateText:@"Download..."];
+    self.current = 0;
     self.max = [response expectedContentLength];
+    [self my_updateProgress];
+    
+    NSURL * updateURL = [[[AppDelegate sharedAppDelegate] applicationDocumentsDirectory] URLByAppendingPathComponent:@"update.zip"];
+    self.stream = [[NSOutputStream alloc] initWithURL:updateURL append:NO];
+    [self.stream open];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
-    [receivedData appendData:data];
-    [self incrementOf:[data length]];
+    [self.stream write:[data bytes] maxLength:[data length]];
+    [self increment:[data length]];
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
-    [self updateAssociatedLabelWithText:@"Connessione fallita."];
+    [self updateText:@"Connessione fallita."];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     [delegate progressviewDidFailDownload];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    [self updateAssociatedLabelWithText:@"Salvataggio file..."];
-    
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsPath = [paths objectAtIndex:0];
-    NSString *filePath = [documentsPath stringByAppendingPathComponent:@"update.zip"];
-    
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    
-    [receivedData writeToFile:filePath atomically:YES];
-    
+    [self updateText:@"Salvataggio file..."];
+    [self.stream close];
     [delegate progressViewDidSaveFile];
 }
 

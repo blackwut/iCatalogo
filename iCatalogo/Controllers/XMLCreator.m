@@ -117,6 +117,40 @@
 	
 }
 
+- (void)createXMLPhotoHash:(NSString *)filename
+{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"ANY photo_hash != nil"];
+    NSArray *products = [[AppDelegate sharedAppDelegate] searchEntity:@"Products" withPredicate:predicate sortedBy:@"photo"];
+//    NSArray *products = [[AppDelegate sharedAppDelegate] searchEntity:@"Products" withPredicate:nil sortedBy:@"photo"];
+    
+    [self addSingleTag:@"Products"];
+    
+    for (NSManagedObject * product in products) {
+        [self addSingleTag:@"product"];
+        // substr(21) C/Videogest 2022/FOTO
+        NSString *photo = [product valueForKey:@"photo"];
+        if ([photo length] > 21) {
+            photo =[[photo substringFromIndex:21] stringByReplacingOccurrencesOfString:@"/" withString:@"\\"];
+        } else {
+            photo = @"";
+        }
+        [self addTag:@"photo" withValue:photo];
+        [self addTag:@"photo_hash" withValue:[product valueForKey:@"photo_hash"]];
+        [self endSingleTag:@"product"];
+    }
+    
+    [self endSingleTag:@"Products"];
+    
+    //Creazione dei paths necessari
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsPath = [paths objectAtIndex:0];
+    NSString *xmlPath = [documentsPath stringByAppendingPathComponent:filename];
+    
+    //Crea la directory se non esiste e poi il file di backup
+    NSFileManager *fm = [NSFileManager defaultManager];
+    [fm createFileAtPath:xmlPath contents:[self data] attributes:nil];
+}
+
 - (void)addClients:(NSArray *)clients
 {
     

@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		701F065528B26EE1008B054E /* imageNotFound.png in Resources */ = {isa = PBXBuildFile; fileRef = 701F065428B26EE1008B054E /* imageNotFound.png */; };
+		701F066728B289D0008B054E /* Products+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 701F065928B289D0008B054E /* Products+CoreDataClass.m */; };
+		701F066828B289D0008B054E /* Products+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 701F065A28B289D0008B054E /* Products+CoreDataProperties.m */; };
+		701F066928B289D0008B054E /* Orders+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 701F065D28B289D0008B054E /* Orders+CoreDataClass.m */; };
+		701F066A28B289D0008B054E /* Orders+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 701F065E28B289D0008B054E /* Orders+CoreDataProperties.m */; };
+		701F066B28B289D0008B054E /* Subproducts+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 701F066128B289D0008B054E /* Subproducts+CoreDataClass.m */; };
+		701F066C28B289D0008B054E /* Subproducts+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 701F066228B289D0008B054E /* Subproducts+CoreDataProperties.m */; };
+		701F066D28B289D0008B054E /* Clients+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 701F066528B289D0008B054E /* Clients+CoreDataClass.m */; };
+		701F066E28B289D0008B054E /* Clients+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 701F066628B289D0008B054E /* Clients+CoreDataProperties.m */; };
 		F30BF045187D7DC200CA97EF /* PDFCreator.m in Sources */ = {isa = PBXBuildFile; fileRef = F30BF043187D7DC200CA97EF /* PDFCreator.m */; };
 		F30BF046187D7DC200CA97EF /* PDFCreator.xib in Resources */ = {isa = PBXBuildFile; fileRef = F30BF044187D7DC200CA97EF /* PDFCreator.xib */; };
 		F334846C18574C5300D7511C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F334846B18574C5300D7511C /* MessageUI.framework */; };
@@ -72,6 +81,23 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		701F065428B26EE1008B054E /* imageNotFound.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = imageNotFound.png; sourceTree = "<group>"; };
+		701F065728B289D0008B054E /* Products+CoreDataProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Products+CoreDataProperties.h"; sourceTree = "<group>"; };
+		701F065828B289D0008B054E /* Products+CoreDataClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Products+CoreDataClass.h"; sourceTree = "<group>"; };
+		701F065928B289D0008B054E /* Products+CoreDataClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "Products+CoreDataClass.m"; sourceTree = "<group>"; };
+		701F065A28B289D0008B054E /* Products+CoreDataProperties.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "Products+CoreDataProperties.m"; sourceTree = "<group>"; };
+		701F065B28B289D0008B054E /* Orders+CoreDataProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Orders+CoreDataProperties.h"; sourceTree = "<group>"; };
+		701F065C28B289D0008B054E /* Orders+CoreDataClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Orders+CoreDataClass.h"; sourceTree = "<group>"; };
+		701F065D28B289D0008B054E /* Orders+CoreDataClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "Orders+CoreDataClass.m"; sourceTree = "<group>"; };
+		701F065E28B289D0008B054E /* Orders+CoreDataProperties.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "Orders+CoreDataProperties.m"; sourceTree = "<group>"; };
+		701F065F28B289D0008B054E /* Subproducts+CoreDataProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Subproducts+CoreDataProperties.h"; sourceTree = "<group>"; };
+		701F066028B289D0008B054E /* Subproducts+CoreDataClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Subproducts+CoreDataClass.h"; sourceTree = "<group>"; };
+		701F066128B289D0008B054E /* Subproducts+CoreDataClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "Subproducts+CoreDataClass.m"; sourceTree = "<group>"; };
+		701F066228B289D0008B054E /* Subproducts+CoreDataProperties.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "Subproducts+CoreDataProperties.m"; sourceTree = "<group>"; };
+		701F066328B289D0008B054E /* Clients+CoreDataProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Clients+CoreDataProperties.h"; sourceTree = "<group>"; };
+		701F066428B289D0008B054E /* Clients+CoreDataClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Clients+CoreDataClass.h"; sourceTree = "<group>"; };
+		701F066528B289D0008B054E /* Clients+CoreDataClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "Clients+CoreDataClass.m"; sourceTree = "<group>"; };
+		701F066628B289D0008B054E /* Clients+CoreDataProperties.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "Clients+CoreDataProperties.m"; sourceTree = "<group>"; };
 		F30BF042187D7DC200CA97EF /* PDFCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PDFCreator.h; path = Controllers/PDFCreator.h; sourceTree = "<group>"; };
 		F30BF043187D7DC200CA97EF /* PDFCreator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PDFCreator.m; path = Controllers/PDFCreator.m; sourceTree = "<group>"; };
 		F30BF044187D7DC200CA97EF /* PDFCreator.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PDFCreator.xib; path = Controllers/PDFCreator.xib; sourceTree = "<group>"; };
@@ -195,6 +221,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		701F065628B28992008B054E /* ManagedObjects */ = {
+			isa = PBXGroup;
+			children = (
+				701F065728B289D0008B054E /* Products+CoreDataProperties.h */,
+				701F065828B289D0008B054E /* Products+CoreDataClass.h */,
+				701F065928B289D0008B054E /* Products+CoreDataClass.m */,
+				701F065A28B289D0008B054E /* Products+CoreDataProperties.m */,
+				701F065B28B289D0008B054E /* Orders+CoreDataProperties.h */,
+				701F065C28B289D0008B054E /* Orders+CoreDataClass.h */,
+				701F065D28B289D0008B054E /* Orders+CoreDataClass.m */,
+				701F065E28B289D0008B054E /* Orders+CoreDataProperties.m */,
+				701F065F28B289D0008B054E /* Subproducts+CoreDataProperties.h */,
+				701F066028B289D0008B054E /* Subproducts+CoreDataClass.h */,
+				701F066128B289D0008B054E /* Subproducts+CoreDataClass.m */,
+				701F066228B289D0008B054E /* Subproducts+CoreDataProperties.m */,
+				701F066328B289D0008B054E /* Clients+CoreDataProperties.h */,
+				701F066428B289D0008B054E /* Clients+CoreDataClass.h */,
+				701F066528B289D0008B054E /* Clients+CoreDataClass.m */,
+				701F066628B289D0008B054E /* Clients+CoreDataProperties.m */,
+			);
+			path = ManagedObjects;
+			sourceTree = "<group>";
+		};
 		F34C626617FADD4F004FCD9B /* Catalog */ = {
 			isa = PBXGroup;
 			children = (
@@ -373,6 +422,7 @@
 		F3CEAF8C17F99692006C4898 /* iCatalogo */ = {
 			isa = PBXGroup;
 			children = (
+				701F065628B28992008B054E /* ManagedObjects */,
 				F37C7B6E1801537700FE7BF8 /* Controllers */,
 				F3CEAFBB17F99A9D006C4898 /* Clients */,
 				F34C626617FADD4F004FCD9B /* Catalog */,
@@ -383,6 +433,7 @@
 				F3CEAF9517F99692006C4898 /* AppDelegate.h */,
 				F3CEAF9617F99692006C4898 /* AppDelegate.m */,
 				F3B1D4AF187193F1006DF03F /* Constants.h */,
+				701F065428B26EE1008B054E /* imageNotFound.png */,
 				F3CEAFB917F9979A006C4898 /* Storyboard.storyboard */,
 				F3CEAF9817F99692006C4898 /* iCatalogo.xcdatamodeld */,
 				F3CEAF9B17F99692006C4898 /* Images.xcassets */,
@@ -478,6 +529,7 @@
 				TargetAttributes = {
 					F3CEAF8017F99692006C4898 = {
 						DevelopmentTeam = 563CG33K5N;
+						ProvisioningStyle = Automatic;
 					};
 					F3CEAFA017F99692006C4898 = {
 						TestTargetID = F3CEAF8017F99692006C4898;
@@ -512,6 +564,7 @@
 				F3CEAF9C17F99692006C4898 /* Images.xcassets in Resources */,
 				F3CEAFBA17F9979A006C4898 /* Storyboard.storyboard in Resources */,
 				F30BF046187D7DC200CA97EF /* PDFCreator.xib in Resources */,
+				701F065528B26EE1008B054E /* imageNotFound.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -536,14 +589,17 @@
 				F377660717FC8F3800CFC8F8 /* OrderViewController.m in Sources */,
 				F371D4AE21E12FA6000E4A6D /* YLTCPUtils.m in Sources */,
 				F3CEAF9A17F99692006C4898 /* iCatalogo.xcdatamodeld in Sources */,
+				701F066728B289D0008B054E /* Products+CoreDataClass.m in Sources */,
 				F379091818684E0D00F7AA81 /* XMLParser.m in Sources */,
 				F379091B1868580D00F7AA81 /* XMLCreator.m in Sources */,
 				F371D4AF21E12FA6000E4A6D /* YLTCPSocket.m in Sources */,
 				F356C66B18AA3912006E8C32 /* AMSessionManager.m in Sources */,
 				F34C626B17FADE8B004FCD9B /* OrdersListViewController.m in Sources */,
+				701F066E28B289D0008B054E /* Clients+CoreDataProperties.m in Sources */,
 				F357CB271827076C007960B6 /* zip.c in Sources */,
 				F3FE44E517FD765B0081E554 /* CatalogPageViewController.m in Sources */,
 				F37C7B71180153A100FE7BF8 /* TableViewController.m in Sources */,
+				701F066B28B289D0008B054E /* Subproducts+CoreDataClass.m in Sources */,
 				F354258A1BC17154004A18CD /* SubproductCollectionViewCell.m in Sources */,
 				F371D4B021E12FA6000E4A6D /* YLTCPBroadcaster.m in Sources */,
 				F357CB251827076C007960B6 /* mztools.c in Sources */,
@@ -552,7 +608,10 @@
 				F3CEAFBE17F99AE4006C4898 /* ClientsViewController.m in Sources */,
 				F357CB241827076C007960B6 /* ioapi.c in Sources */,
 				F357CB281827076C007960B6 /* ZipArchive.mm in Sources */,
+				701F066C28B289D0008B054E /* Subproducts+CoreDataProperties.m in Sources */,
+				701F066828B289D0008B054E /* Products+CoreDataProperties.m in Sources */,
 				F30BF045187D7DC200CA97EF /* PDFCreator.m in Sources */,
+				701F066D28B289D0008B054E /* Clients+CoreDataClass.m in Sources */,
 				F3FE44EB17FD9A2B0081E554 /* CatalogViewController.m in Sources */,
 				F3E1466D2121984000FA358F /* FilterCatalogListViewController.m in Sources */,
 				F3627D8C18645B8500A3CF68 /* AProgressView.m in Sources */,
@@ -560,10 +619,12 @@
 				F3602E5E18531FB300E555A6 /* APhoto.m in Sources */,
 				F352BDC7185479080046D0BB /* PDF.m in Sources */,
 				F35203A6184E64A600CEF096 /* AMessage.m in Sources */,
+				701F066A28B289D0008B054E /* Orders+CoreDataProperties.m in Sources */,
 				F3951CB817FB403400C7E86E /* CatalogListViewController.m in Sources */,
 				F3543D961800426800B7DA43 /* ProductViewController.m in Sources */,
 				F34C626E17FAEBDA004FCD9B /* DatabaseViewController.m in Sources */,
 				F38C222917F9B2CE00BF727A /* RootViewController.m in Sources */,
+				701F066928B289D0008B054E /* Orders+CoreDataClass.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -686,8 +747,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 563CG33K5N;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iCatalogo/iCatalogo-Prefix.pch";
@@ -696,6 +758,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = it.Albertomac.iCatalogo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 2;
 				WRAPPER_EXTENSION = app;
 			};
@@ -706,8 +769,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 563CG33K5N;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iCatalogo/iCatalogo-Prefix.pch";
@@ -716,6 +780,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = it.Albertomac.iCatalogo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 2;
 				WRAPPER_EXTENSION = app;
 			};

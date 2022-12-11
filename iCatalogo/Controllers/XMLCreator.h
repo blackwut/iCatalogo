@@ -17,5 +17,6 @@
 - (NSData *)data;
 - (void)createXMLOrders;
 - (BOOL)saveWithFileName:(NSString *)fileName;
+- (void)createXMLPhotoHash:(NSString *)filename;
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AppDelegate.h"
 
 @protocol AProgressViewDelegate <NSObject>
 @required
@@ -22,12 +23,16 @@
 
 @property (nonatomic, strong) NSURL *url;
 @property (nonatomic, strong) NSMutableData *receivedData;
+@property (nonatomic, strong) NSOutputStream * stream;
 @property (nonatomic, assign) long long current;
 @property (nonatomic, assign) long long max;
 
 - (void)reset;
-- (void)increment;
+- (void)increment:(long)value;
+- (void)updateProgress;
+- (void)updateText:(NSString *)text;
 - (void)startDownloadFromUrl:(NSString *)string timeInterval:(NSTimeInterval)interval;
+- (void)startDownloadWithRequest:(NSMutableURLRequest *)request timeoutInterval:(NSTimeInterval)interval;
 
 @end
 

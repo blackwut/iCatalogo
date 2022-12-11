@@ -106,10 +106,11 @@ int _clientCounter;
 	TBXMLElement *Clients = [TBXML childElementNamed:@"Clients" parentElement:root];
 	TBXMLElement *Client = [TBXML childElementNamed:@"Client" parentElement:Clients];
 	
+    long counter = 0;
 	while (Client != nil){
         
         if (_clientHidden) {
-        // Masks all clients info except id to avoid to expose semsible data
+        // Masks all clients info except id to not expose sensible data
             _clientCounter++;
             NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:@"Clients" inManagedObjectContext:context];
             [object setValue:[self getAttribute:@"id" fromParent:Client capitalized:YES] forKey:@"id"];
@@ -128,32 +129,36 @@ int _clientCounter;
             [object setValue:[[self getAttribute:@"email" fromParent:Client capitalized:NO] lowercaseString] forKey:@"email"];
         }
 
-        [progressView performSelectorInBackground:@selector(increment) withObject:nil];
+        if (++counter == 50) {
+            counter = 0;
+            [progressView increment:50];
+        }
         
         Client = [TBXML nextSiblingNamed:@"Client" searchFromElement:Client];
 	}
+    
+    [progressView increment:counter];
 }
 
 - (void)importProducts:(TBXMLElement *)root
 {
-    NSString *documents = [[[AppDelegate sharedAppDelegate] applicationDocumentsDirectory] path];
-    
 	TBXMLElement *Products = [TBXML childElementNamed:@"Products" parentElement:root];
 	TBXMLElement *Product = [TBXML childElementNamed:@"Product" parentElement:Products];
-	
+	    
 	while (Product != nil){
         
         NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:@"Products" inManagedObjectContext:context];
         [object setValue:[self getAttribute:@"id" fromParent:Product capitalized:YES] forKey:@"id"];
         [object setValue:[self getAttribute:@"product" fromParent:Product capitalized:YES] forKey:@"product"];
         
-        NSString *photo = [documents stringByAppendingPathComponent:[[[self getAttribute:@"photo" fromParent:Product capitalized:NO] stringByReplacingOccurrencesOfString:@"\\" withString:@"/"] stringByReplacingOccurrencesOfString:@":" withString:@""]];
+        NSString * photoPath = [[[self getAttribute:@"photo" fromParent:Product capitalized:NO] stringByReplacingOccurrencesOfString:@"\\" withString:@"/"] stringByReplacingOccurrencesOfString:@":" withString:@""];
         
-        BOOL isDirectory;
-		if (![[NSFileManager defaultManager] fileExistsAtPath:photo isDirectory:&isDirectory] || isDirectory)
-            photo = [documents stringByAppendingPathComponent:@"NotFound.png"];
+        if ([photoPath length] <= 0) {
+            photoPath = @"imageNotFound.png";
+        }
         
-        [object setValue:photo forKey:@"photo"];
+        [object setValue:photoPath forKey:@"photo"];
+        [object setValue:[self getAttribute:@"photo_hash" fromParent:Product capitalized:YES] forKey:@"photo_hash"];
         [object setValue:[self getAttribute:@"category" fromParent:Product capitalized:YES] forKey:@"category"];
         [object setValue:[self getAttribute:@"supplier" fromParent:Product capitalized:YES] forKey:@"supplier"];
         
@@ -161,7 +166,7 @@ int _clientCounter;
         [[object valueForKey:@"subproducts"] addObjectsFromArray:subproducts];
         [subproducts setValue:object forKey:@"product"];
         
-        [progressView performSelectorInBackground:@selector(increment) withObject:nil];
+        [progressView increment:(1 + [subproducts count])];
         
         Product = [TBXML nextSiblingNamed:@"Product" searchFromElement:Product];
     }
@@ -189,9 +194,7 @@ int _clientCounter;
         [object setValue:[self getAttribute:@"note" fromParent:Subproduct capitalized:YES] forKey:@"note"];
         
         [subproducts addObject:object];
-		
-        [progressView performSelectorInBackground:@selector(increment) withObject:nil];
-        
+		        
         Subproduct = [TBXML nextSiblingNamed:@"Subproduct" searchFromElement:Subproduct];
 	}
     
@@ -210,11 +213,21 @@ int _clientCounter;
     
     int rows = [[self getAttribute:@"rows" fromParent:root numberOfDecimal:0] intValue];
     
+    [progressView setCurrent:0];
     [progressView setMax:rows];
+    [progressView updateProgress];
     
+
     [self importClients:root];
     [self importProducts:root];
     
+//    dispatch_group_t group = dispatch_group_create();
+//    dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+//        [self importClients:root];
+//        [self importProducts:root];
+//    });
+//    dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
+        
     if([context save:&error])
         return @"Aggiornamento database completato.";
     else return @"Problema aggiornamento database!";

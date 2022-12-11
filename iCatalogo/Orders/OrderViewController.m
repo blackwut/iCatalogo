@@ -41,6 +41,8 @@
     MFMailComposeViewController *mail = [[MFMailComposeViewController alloc] init];
     [mail setMailComposeDelegate:self];
     
+    NSLog(@"email: %@", [client valueForKey:@"email"]);
+    
     if([MFMailComposeViewController canSendMail]){
         
         NSString *email = [client valueForKey:@"email"];

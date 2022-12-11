@@ -10,67 +10,73 @@
 
 @implementation APhoto
 
-@synthesize delegate, imageView;
+@synthesize delegate, scrollView, imageView;
 
-//static const float padding = 20.0f;
-//static const float opacity = 0.8f;
-//static const float cornerRadius = 10.0f;
-//static const CGSize offset = {4.0f, 4.0f};
-
-- (id)initWithFrame:(CGRect)frame
+- (id)initWithImage:(UIImage *)image delegate:(UIViewController *)delegate
 {
-    self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code
-    }
-    return self;
-}
-
-- (id)initWithImage:(UIImage *)image delegate:(UIViewController *)del
-{
-    self.delegate = del;
+    self.delegate = delegate;
+        
+    CGSize viewSize = CGSizeMake(delegate.view.bounds.size.width,
+                                 delegate.view.bounds.size.height);
+    CGSize scrollSize = CGSizeMake(image.size.width * (viewSize.height / image.size.height),
+                                  viewSize.height);
+    CGPoint scrollOrigin = CGPointMake((viewSize.width - scrollSize.width) / 2,
+                                       (viewSize.height - scrollSize.height) / 2);
     
-    //Crea le misure da utilizzare
-    float width = delegate.view.bounds.size.width;
-    float height = delegate.view.bounds.size.height;
+    CGRect imageRect = CGRectMake(0, 0, scrollSize.width, scrollSize.height);
+    CGRect scrollRect = CGRectMake(scrollOrigin.x, scrollOrigin.y,
+                                  scrollSize.width, scrollSize.height);
     
-    //float widthImage = 3 * image.size.width;
-    //float heightImage = 3 * image.size.height;
+    self.scrollView = [[UIScrollView alloc] initWithFrame:scrollRect];
     
-    float widthImage = image.size.width * (height / image.size.height);
-    float heightImage = height;
+    self.imageView = [[UIImageView alloc] initWithImage:image];
+    [self.imageView setFrame:imageRect];
     
-    float x = (width - widthImage)/2;
-    float y = (height - heightImage)/2;
+    [self.scrollView addSubview:imageView];
+    [self.scrollView setContentSize:imageRect.size];
+    [self.scrollView setDelegate:self];
+    [self.scrollView setScrollEnabled:YES];
+    [self.scrollView setMinimumZoomScale:1.0];
+    [self.scrollView setMaximumZoomScale:3.0];
+    [self.scrollView setUserInteractionEnabled:YES];
     
-    
-    //Crea la ImageView
-    imageView = [[UIImageView alloc] initWithImage:image];
-    //[imageView setBounds:CGRectMake(x, y, widthImage, heightImage)];
-    [imageView setFrame:CGRectMake(x, y, widthImage, heightImage)];
-    
-    //Crea l'oggetto
-    CGRect rect = CGRectMake(0, 0, width, height);
-    self = [super initWithFrame:rect];
-    
-    //Aggiunge la label
-    [self addSubview:imageView];
-    
-    //Personalizza la view da visualizzare
+    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapTwice:)];
+    [doubleTap setNumberOfTapsRequired:2];
+    [self.scrollView addGestureRecognizer:doubleTap];
+        
+    self = [super initWithFrame:CGRectMake(0, 0, viewSize.width, viewSize.height)];
     [self setBackgroundColor:[UIColor clearColor]];
     [self.layer setBackgroundColor:[UIColor blackColor].CGColor];
     [self.layer setOpacity:0.0];
     
+    [self addSubview:self.scrollView];
+
     return self;
+}
+
+- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
+{
+    return self.imageView;
+}
+
+- (void)tapTwice:(UITapGestureRecognizer *)gestureRecognizer
+{
+    if ([self.scrollView zoomScale] < 1.75) {
+        [self.scrollView setZoomScale:[self.scrollView maximumZoomScale] animated:YES];
+    } else {
+        [self.scrollView setZoomScale:[self.scrollView minimumZoomScale] animated:YES];
+    }
+    
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    UITouch *touch = [[touches allObjects] objectAtIndex:0];
+    UITouch * touch = [[touches allObjects] objectAtIndex:0];
     CGPoint point = [touch locationInView:self];
-    
-    if(!CGRectContainsPoint(self.imageView.frame, point))
+
+    if(!CGRectContainsPoint(self.scrollView.frame, point)) {
         [self close];
+    }
 }
 
 - (void)show

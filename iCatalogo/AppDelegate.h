@@ -18,6 +18,8 @@
 
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
++ (NSURL *)absoluteURLWithFilePath:(NSString *)filePath;
+- (NSString *)absolutePathWithFilePath:(NSString *)filePath;
 
 //Ritorna l'istanza di AppDelegate
 + (AppDelegate *)sharedAppDelegate;
@@ -29,11 +31,11 @@
 //Ritorna un NSArray contenente i valori distinti dell'attribute (in SQL equivale: "SELECT DISTINCT attribute FROM entity")
 - (NSArray *)searchEntity:(NSString *)entity withDistinctSelectedAttribute:(NSString *)attribute;
 //Elimina dal database l'object passato
-- (void)deleteObject:(NSManagedObject *)object error:(NSError **)error;
+- (BOOL)deleteObject:(NSManagedObject *)object error:(NSError **)error;
 //Elimina dal database gli objects passati
-- (void)deleteObjects:(NSArray *)objects error:(NSError **)error;
+- (BOOL)deleteObjects:(NSArray *)objects error:(NSError **)error;
 //Elimina tutti gli oggetti dal database
-- (void)deleteDatabase:(NSError **)error;
+- (BOOL)deleteDatabase:(NSError **)error;
 //Ritorna il totale dell'ordine di un determinato cliente
 - (NSString *)getTotalOrderOf:(NSManagedObject *)client;
 
