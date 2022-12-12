@@ -30,7 +30,8 @@
 
 - (void)updateProgress
 {
-    [self performSelectorInBackground:@selector(my_updateProgress) withObject:nil];
+//    [self performSelectorInBackground:@selector(my_updateProgress) withObject:nil];
+    [self my_updateProgress];
 }
 
 - (void)updateText:(NSString *)text

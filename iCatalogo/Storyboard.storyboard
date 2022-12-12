@@ -12,8 +12,8 @@
             <objects>
                 <viewController storyboardIdentifier="root" id="uW3-VN-oGg" customClass="RootViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="KjI-7e-Ekz"/>
-                        <viewControllerLayoutGuide type="bottom" id="0HB-Vh-oQ4"/>
+                        <viewControllerLayoutGuide type="top" id="YNp-18-CTj"/>
+                        <viewControllerLayoutGuide type="bottom" id="wSR-Ja-VvG"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Zo4-tl-nqY">
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="698"/>
@@ -26,6 +26,15 @@
                                 <state key="normal" title="Clienti">
                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <buttonConfiguration key="configuration" style="tinted" cornerStyle="medium">
+                                    <attributedString key="attributedTitle">
+                                        <fragment content="Clienti">
+                                            <attributes>
+                                                <font key="NSFont" metaFont="system" size="64"/>
+                                            </attributes>
+                                        </fragment>
+                                    </attributedString>
+                                </buttonConfiguration>
                                 <connections>
                                     <segue destination="PQE-Hs-Rig" kind="push" identifier="clients" id="YqK-00-EnN"/>
                                 </connections>
@@ -34,9 +43,19 @@
                                 <rect key="frame" x="522" y="20" width="482" height="332"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="64"/>
+                                <color key="tintColor" systemColor="systemGreenColor"/>
                                 <state key="normal" title="Catalogo">
                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <buttonConfiguration key="configuration" style="tinted" cornerStyle="medium">
+                                    <attributedString key="attributedTitle">
+                                        <fragment content="Catalogo">
+                                            <attributes>
+                                                <font key="NSFont" metaFont="system" size="64"/>
+                                            </attributes>
+                                        </fragment>
+                                    </attributedString>
+                                </buttonConfiguration>
                                 <connections>
                                     <segue destination="L4O-ti-al6" kind="push" identifier="catalogList" id="b6p-Nl-KEF"/>
                                 </connections>
@@ -45,9 +64,19 @@
                                 <rect key="frame" x="20" y="372" width="482" height="332"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="64"/>
+                                <color key="tintColor" systemColor="systemMintColor"/>
                                 <state key="normal" title="Ordini">
                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <buttonConfiguration key="configuration" style="tinted" cornerStyle="medium">
+                                    <attributedString key="attributedTitle">
+                                        <fragment content="Ordini">
+                                            <attributes>
+                                                <font key="NSFont" metaFont="system" size="64"/>
+                                            </attributes>
+                                        </fragment>
+                                    </attributedString>
+                                </buttonConfiguration>
                                 <connections>
                                     <segue destination="RzP-FJ-RLU" kind="push" identifier="ordersList" id="hJa-qm-ZAm"/>
                                 </connections>
@@ -56,9 +85,19 @@
                                 <rect key="frame" x="522" y="372" width="482" height="332"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="64"/>
+                                <color key="tintColor" systemColor="systemOrangeColor"/>
                                 <state key="normal" title="Preferenze">
                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <buttonConfiguration key="configuration" style="tinted" cornerStyle="medium">
+                                    <attributedString key="attributedTitle">
+                                        <fragment content="Preferenze">
+                                            <attributes>
+                                                <font key="NSFont" metaFont="system" size="64"/>
+                                            </attributes>
+                                        </fragment>
+                                    </attributedString>
+                                </buttonConfiguration>
                                 <connections>
                                     <segue destination="L9u-ur-sA1" kind="push" identifier="database" id="FIL-rG-DJt"/>
                                 </connections>
@@ -68,7 +107,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="Nr7-na-FK4"/>
                     <nil key="simulatedStatusBarMetrics"/>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" translucent="NO" prompted="NO"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iDI-zS-e8H" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -270,113 +309,119 @@
             <objects>
                 <viewController storyboardIdentifier="database" id="L9u-ur-sA1" customClass="DatabaseViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="t9w-6G-LDl"/>
-                        <viewControllerLayoutGuide type="bottom" id="hn8-F1-6dp"/>
+                        <viewControllerLayoutGuide type="top" id="8rw-z3-oLo"/>
+                        <viewControllerLayoutGuide type="bottom" id="tyB-OS-PjC"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="pKu-25-Keh">
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="698"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" tag="4" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oaf-5y-FgK">
-                                <rect key="frame" x="788" y="136" width="156" height="30"/>
+                                <rect key="frame" x="64" y="600" width="192" height="64"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" systemColor="systemRedColor"/>
                                 <state key="normal" title="Elimina Database">
                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <buttonConfiguration key="configuration" style="tinted" title="Elimina Database">
+                                    <color key="baseBackgroundColor" systemColor="systemRedColor"/>
+                                </buttonConfiguration>
                                 <connections>
                                     <action selector="operationButtonClicked:" destination="L9u-ur-sA1" eventType="touchUpInside" id="NSL-fV-QVK"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7gk-eh-d2Q">
-                                <rect key="frame" x="763" y="20" width="241" height="30"/>
+                                <rect key="frame" x="64" y="300" width="192" height="64"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Aggiornamento completo dalla rete">
+                                <state key="normal" title="Aggiorna Completo">
                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <buttonConfiguration key="configuration" style="tinted" title="Aggiorna Completo"/>
                                 <connections>
                                     <action selector="operationButtonClicked:" destination="L9u-ur-sA1" eventType="touchUpInside" id="Lbe-gq-gQ8"/>
                                 </connections>
                             </button>
                             <button opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qbb-PX-fzX">
-                                <rect key="frame" x="316" y="136" width="156" height="30"/>
+                                <rect key="frame" x="64" y="400" width="192" height="64"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Aggiorna da File">
                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <buttonConfiguration key="configuration" style="tinted" title="Aggiorna da File"/>
                                 <connections>
                                     <action selector="operationButtonClicked:" destination="L9u-ur-sA1" eventType="touchUpInside" id="WV1-eQ-8y2"/>
                                 </connections>
                             </button>
                             <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IHy-I6-zDg">
-                                <rect key="frame" x="80" y="136" width="156" height="30"/>
+                                <rect key="frame" x="64" y="200" width="192" height="64"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Aggiorna dalla Rete">
+                                <state key="normal" title="Aggiorna Veloce">
                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <buttonConfiguration key="configuration" style="tinted" title="Aggiorna Veloce"/>
                                 <connections>
                                     <action selector="operationButtonClicked:" destination="L9u-ur-sA1" eventType="touchUpInside" id="A9N-Fm-RaE"/>
                                 </connections>
                             </button>
                             <button opaque="NO" tag="3" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KHJ-jy-fC9">
-                                <rect key="frame" x="552" y="136" width="156" height="30"/>
+                                <rect key="frame" x="64" y="500" width="192" height="64"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" systemColor="systemRedColor"/>
                                 <state key="normal" title="Elimina Ordini">
                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <buttonConfiguration key="configuration" style="tinted" title="Elimina Ordini">
+                                    <color key="baseBackgroundColor" systemColor="systemRedColor"/>
+                                </buttonConfiguration>
                                 <connections>
                                     <action selector="operationButtonClicked:" destination="L9u-ur-sA1" eventType="touchUpInside" id="P9N-V0-hA2"/>
                                 </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lDd-sP-PiQ">
-                                <rect key="frame" x="80" y="196" width="864" height="21"/>
+                                <rect key="frame" x="64" y="131" width="896" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" systemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" tag="4" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lPU-aF-fif">
-                                <rect key="frame" x="80" y="261" width="156" height="30"/>
+                                <rect key="frame" x="768" y="200" width="192" height="64"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" systemColor="systemGreenColor"/>
                                 <state key="normal" title="Invia ordini">
                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <buttonConfiguration key="configuration" style="tinted" title="Invia ordini">
+                                    <color key="baseBackgroundColor" systemColor="systemGreenColor"/>
+                                </buttonConfiguration>
                                 <connections>
                                     <action selector="sendOrders:" destination="L9u-ur-sA1" eventType="touchUpInside" id="9RT-FY-Qbr"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oYG-F8-Ggv">
-                                <rect key="frame" x="316" y="261" width="156" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Crea file ordini">
-                                    <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="createOrders:" destination="L9u-ur-sA1" eventType="touchUpInside" id="9wG-jg-h3R"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Indirizzo IP:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HYT-pM-aCF">
-                                <rect key="frame" x="80" y="69" width="89" height="21"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Server IP:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HYT-pM-aCF">
+                                <rect key="frame" x="64" y="69" width="89" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" systemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1FG-Ls-lyG">
-                                <rect key="frame" x="177" y="65" width="125" height="30"/>
+                                <rect key="frame" x="161" y="64" width="128" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" textContentType="url"/>
                                 <connections>
                                     <outlet property="delegate" destination="L9u-ur-sA1" id="DFr-0j-Dog"/>
                                 </connections>
                             </textField>
-                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progressViewStyle="bar" translatesAutoresizingMaskIntoConstraints="NO" id="4ny-El-Cto" customClass="AProgressView">
-                                <rect key="frame" x="80" y="225" width="864" height="3"/>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4ny-El-Cto" customClass="AProgressView">
+                                <rect key="frame" x="64" y="158" width="896" height="5"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="progressTintColor" systemColor="linkColor"/>
                                 <color key="trackTintColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </progressView>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="4E0-8A-34A">
-                                <rect key="frame" x="310" y="66" width="300" height="29"/>
+                                <rect key="frame" x="297" y="63" width="512" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <segments>
                                     <segment title="Disabilitato" enabled="NO"/>
@@ -387,64 +432,65 @@
                                 </connections>
                             </segmentedControl>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MPs-XT-XH1">
-                                <rect key="frame" x="618" y="66" width="75" height="30"/>
+                                <rect key="frame" x="817" y="56" width="143" height="48"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Aggiorna"/>
+                                <buttonConfiguration key="configuration" style="tinted" title="Cerca Server"/>
                                 <connections>
                                     <action selector="searchServers:" destination="L9u-ur-sA1" eventType="touchUpInside" id="a6v-Zm-DDE"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Visualizza Misure" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6ga-Gm-AZ2">
-                                <rect key="frame" x="540" y="266" width="349" height="21"/>
+                                <rect key="frame" x="540" y="467" width="349" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xt8-oS-Bva">
-                                <rect key="frame" x="897" y="261" width="49" height="31"/>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" title="Visualizza" translatesAutoresizingMaskIntoConstraints="NO" id="xt8-oS-Bva">
+                                <rect key="frame" x="897" y="462" width="49" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <connections>
                                     <action selector="showSubproductValueChanged:" destination="L9u-ur-sA1" eventType="valueChanged" id="jyA-KN-CwK"/>
                                 </connections>
                             </switch>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="clb-Oh-Q6v">
-                                <rect key="frame" x="897" y="300" width="49" height="31"/>
+                                <rect key="frame" x="897" y="501" width="49" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <connections>
                                     <action selector="goBackInsertValueChanged:" destination="L9u-ur-sA1" eventType="valueChanged" id="AIe-Zj-dgD"/>
                                 </connections>
                             </switch>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Vai indietro dopo inserimento articolo" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v2J-Wq-9rq">
-                                <rect key="frame" x="540" y="305" width="349" height="21"/>
+                                <rect key="frame" x="540" y="506" width="349" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="X6A-tL-TNK">
-                                <rect key="frame" x="897" y="339" width="49" height="31"/>
+                                <rect key="frame" x="897" y="540" width="49" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <connections>
                                     <action selector="selectAutomaticValueChanged:" destination="L9u-ur-sA1" eventType="valueChanged" id="9zC-yu-Ufj"/>
                                 </connections>
                             </switch>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Seleziona automaticamente articolo" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G46-y0-mUA">
-                                <rect key="frame" x="540" y="344" width="349" height="21"/>
+                                <rect key="frame" x="540" y="545" width="349" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xo7-S7-JB3">
-                                <rect key="frame" x="897" y="378" width="49" height="31"/>
+                                <rect key="frame" x="897" y="579" width="49" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <connections>
                                     <action selector="clientHiddenValueChanged:" destination="L9u-ur-sA1" eventType="valueChanged" id="w7W-tD-kr0"/>
                                 </connections>
                             </switch>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Clienti Nascosti" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WLi-wy-XJ0">
-                                <rect key="frame" x="540" y="383" width="349" height="21"/>
+                                <rect key="frame" x="540" y="584" width="349" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -458,6 +504,20 @@
                                 </state>
                                 <connections>
                                     <action selector="showHiddenPreferences:" destination="L9u-ur-sA1" eventType="touchUpInside" id="xY6-Tk-CHF"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oYG-F8-Ggv">
+                                <rect key="frame" x="768" y="300" width="192" height="64"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" systemColor="systemGreenColor"/>
+                                <state key="normal" title="Crea file ordini">
+                                    <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <buttonConfiguration key="configuration" style="tinted" title="Crea file ordini">
+                                    <color key="baseBackgroundColor" systemColor="systemGreenColor"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="createOrders:" destination="L9u-ur-sA1" eventType="touchUpInside" id="9wG-jg-h3R"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -479,7 +539,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="j36-8d-gJ3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1892" y="754"/>
+            <point key="canvasLocation" x="1891.9921874999998" y="753.90625"/>
         </scene>
         <!--Order View Controller-->
         <scene sceneID="QEu-EF-lsN">
@@ -554,8 +614,8 @@
             <objects>
                 <viewController storyboardIdentifier="filterCatalogListViewController" id="WRQ-5A-VhB" customClass="FilterCatalogListViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="CvH-eU-gap"/>
-                        <viewControllerLayoutGuide type="bottom" id="qXi-lf-u35"/>
+                        <viewControllerLayoutGuide type="top" id="vYr-oM-G4W"/>
+                        <viewControllerLayoutGuide type="bottom" id="n6P-FI-fb6"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="2Hp-9i-j97">
                         <rect key="frame" x="0.0" y="0.0" width="540" height="544"/>
@@ -607,27 +667,41 @@
             <objects>
                 <viewController storyboardIdentifier="filterCatalogViewController" id="FAp-9o-zuG" customClass="FilterCatalogViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="JDB-gU-nIU"/>
-                        <viewControllerLayoutGuide type="bottom" id="NQe-xR-0px"/>
+                        <viewControllerLayoutGuide type="top" id="fFK-D6-jFB"/>
+                        <viewControllerLayoutGuide type="bottom" id="uHx-Of-6ew"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="HnL-Cz-Y1C">
                         <rect key="frame" x="0.0" y="0.0" width="704" height="672"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Misure" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4ZT-Af-Y2z">
+                                <rect key="frame" x="20" y="20" width="209" height="27"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Fornitori" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WoB-yP-ak1">
+                                <rect key="frame" x="472" y="20" width="212" height="27"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsMultipleSelection="YES" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="gUf-7J-DBy">
-                                <rect key="frame" x="20" y="12" width="209" height="640"/>
+                                <rect key="frame" x="19" y="55" width="210" height="597"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="subproductCell" id="92t-D4-fWh">
-                                        <rect key="frame" x="0.0" y="50" width="209" height="44"/>
+                                        <rect key="frame" x="0.0" y="50" width="210" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="92t-D4-fWh" id="Tjc-KN-URk">
-                                            <rect key="frame" x="0.0" y="0.0" width="209" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="210" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VwI-Uq-mjT">
-                                                    <rect key="frame" x="7" y="-13" width="210" height="49"/>
+                                                    <rect key="frame" x="7" y="-13" width="211" height="49"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -643,7 +717,7 @@
                                 </connections>
                             </tableView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsMultipleSelection="YES" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="8Bp-HQ-hHp">
-                                <rect key="frame" x="472" y="12" width="212" height="640"/>
+                                <rect key="frame" x="471" y="55" width="212" height="597"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -670,22 +744,8 @@
                                     <outlet property="delegate" destination="FAp-9o-zuG" id="Sbs-jv-GXi"/>
                                 </connections>
                             </tableView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Misure" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4ZT-Af-Y2z">
-                                <rect key="frame" x="20" y="-23" width="230" height="27"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Fornitori" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WoB-yP-ak1">
-                                <rect key="frame" x="518" y="-23" width="230" height="27"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsMultipleSelection="YES" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="abN-k6-dwK">
-                                <rect key="frame" x="268" y="13" width="166" height="639"/>
+                                <rect key="frame" x="268" y="55" width="166" height="597"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -713,7 +773,7 @@
                                 </connections>
                             </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Categorie" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gT8-aV-dRZ">
-                                <rect key="frame" x="268" y="-23" width="230" height="27"/>
+                                <rect key="frame" x="268" y="20" width="166" height="27"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <nil key="textColor"/>
@@ -732,22 +792,22 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aHi-3W-cbv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4777.34375" y="-1188.28125"/>
+            <point key="canvasLocation" x="4777.1484375" y="-1188.28125"/>
         </scene>
         <!--Product View Controller-->
         <scene sceneID="w9R-ME-OWJ">
             <objects>
                 <viewController storyboardIdentifier="product" id="zWB-sm-tjN" customClass="ProductViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="K8W-ZI-j1G"/>
-                        <viewControllerLayoutGuide type="bottom" id="grh-hk-W2w"/>
+                        <viewControllerLayoutGuide type="top" id="B6A-43-9rZ"/>
+                        <viewControllerLayoutGuide type="bottom" id="G5m-sd-DTJ"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="c1K-X7-hef">
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="698"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fpb-Py-YlK">
-                                <rect key="frame" x="20" y="20" width="315" height="258"/>
+                                <rect key="frame" x="19" y="20" width="316" height="258"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <gestureRecognizers/>
                             </imageView>
@@ -930,15 +990,15 @@
                                 </connections>
                             </textField>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsMultipleSelection="YES" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="shp-Mx-KDX">
-                                <rect key="frame" x="20" y="352" width="984" height="322"/>
+                                <rect key="frame" x="19" y="352" width="985" height="322"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" id="0RT-We-Xne">
-                                        <rect key="frame" x="0.0" y="50" width="984" height="44"/>
+                                        <rect key="frame" x="0.0" y="50" width="985" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0RT-We-Xne" id="Boe-Ct-maO">
-                                            <rect key="frame" x="0.0" y="0.0" width="984" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="985" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Barcode" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dt2-pT-YxZ">
@@ -1114,8 +1174,8 @@
             <objects>
                 <viewController storyboardIdentifier="catalog" id="XdN-kV-7Nb" customClass="CatalogViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="fCD-zN-Fmd"/>
-                        <viewControllerLayoutGuide type="bottom" id="sUM-A7-iIn"/>
+                        <viewControllerLayoutGuide type="top" id="kSy-tn-DaK"/>
+                        <viewControllerLayoutGuide type="bottom" id="0V4-hC-Ywb"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="f3s-Dd-HMJ">
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="698"/>
@@ -1652,6 +1712,21 @@
     <resources>
         <systemColor name="darkTextColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="linkColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemGreenColor">
+            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemMintColor">
+            <color red="0.0" green="0.7803921568627451" blue="0.74509803921568629" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemOrangeColor">
+            <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

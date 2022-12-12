@@ -20,7 +20,7 @@ int _clientCounter;
 {
     self = [super init];
     if(self){
-        context = [AppDelegate sharedAppDelegate].managedObjectContext;
+        context = [[AppDelegate sharedAppDelegate] managedObjectContext];
         progressView = progress;
         [progressView reset];
         

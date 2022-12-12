@@ -18,15 +18,6 @@ static const float opacity = 0.8f;
 static const float cornerRadius = 10.0f;
 static const CGSize offset = {4.0f, 4.0f};
 
-- (instancetype)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code
-    }
-    return self;
-}
-
 - (instancetype)initWithMessage:(NSString *)message dismissWithin:(NSTimeInterval)interval delegate:(UIViewController *)del comeBack:(BOOL)back
 {
     self.delegate = del;
@@ -92,7 +83,7 @@ static const CGSize offset = {4.0f, 4.0f};
                      animations:^{
                          (self.layer).opacity = 0.8f;
                      } completion:^(BOOL finished) {
-                         [self performSelector:@selector(close) withObject:nil afterDelay:delay];
+                         [self performSelector:@selector(close) withObject:nil afterDelay:self->delay];
                      }];
 }
 

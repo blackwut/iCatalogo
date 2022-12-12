@@ -185,7 +185,7 @@
 		
 		NSArray * subList = [evaluatedObject valueForKeyPath:@"subproducts.subproduct"];
 		for (NSString * s in subList) {
-			for (NSString * f in subproductsFilter) {
+            for (NSString * f in self->subproductsFilter) {
 				if ([s compare:f] == NSOrderedSame)
 					return YES;
 			}
@@ -196,7 +196,7 @@
 	NSPredicate * categoriesPredicate = [NSPredicate predicateWithBlock:^BOOL(id  _Nullable evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
 		
 		NSString * s = [evaluatedObject valueForKeyPath:@"category"];
-		for (NSString * f in categoriesFilter) {
+        for (NSString * f in self->categoriesFilter) {
 			if ([s compare:f] == NSOrderedSame)
 				return YES;
 		}
@@ -206,7 +206,7 @@
 	NSPredicate * suppliersPredicate = [NSPredicate predicateWithBlock:^BOOL(id  _Nullable evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
 		
 		NSString * s = [evaluatedObject valueForKeyPath:@"supplier"];
-		for (NSString * f in suppliersFilter) {
+        for (NSString * f in self->suppliersFilter) {
 			if ([s compare:f] == NSOrderedSame)
 				return YES;
 		}

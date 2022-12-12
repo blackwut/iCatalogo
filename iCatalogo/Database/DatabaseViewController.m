@@ -86,7 +86,7 @@
     [broadcaster scanWithPort:80 timeoutInterval:2 completionHandler:^(NSArray * _Nonnull hosts) {
         [self updateServersWithArray:hosts];
         [alert dismissWithClickedButtonIndex:0 animated:YES];
-        [updateButton setUserInteractionEnabled:YES];
+        [self->updateButton setUserInteractionEnabled:YES];
     }];
 }
 
