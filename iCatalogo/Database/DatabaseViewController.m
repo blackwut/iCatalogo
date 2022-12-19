@@ -101,6 +101,17 @@
 
 - (IBAction)operationButtonClicked:(id)sender
 {
+//    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Attenzione!"
+//                                                                   message:@"Perderai tutti gli ordini se non li hai scaricati!"
+//                                                            preferredStyle:UIAlertControllerStyleAlert];
+//    [alert addAction:[UIAlertAction actionWithTitle:@"Annulla" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//    }]];
+//    [alert addAction:[UIAlertAction actionWithTitle:@"Procedi" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+////        [self alertv]
+//    }]];
+//
+//    [self presentViewController:alert animated:YES completion:nil];
+    
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Attenzione!" message:@"Perderai tutti gli ordini se non li hai scaricati!" delegate:self cancelButtonTitle:@"Annulla" otherButtonTitles:@"Procedi" , nil];
 	alert.tag = [sender tag];
 	[alert show];
