@@ -86,7 +86,8 @@
     
     NSPersistentStoreCoordinator *coordinator = self.persistentStoreCoordinator;
     if (coordinator != nil) {
-        _managedObjectContext = [[NSManagedObjectContext alloc] init];
+//        _managedObjectContext = [[NSManagedObjectContext alloc] init];
+        _managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
         _managedObjectContext.persistentStoreCoordinator = coordinator;
     }
     return _managedObjectContext;
@@ -239,56 +240,109 @@
 
 - (BOOL)deleteObject:(NSManagedObject *)object error:(NSError **)error
 {
+    __block NSError *_error = nil;
+    __block BOOL isError = false;
     NSManagedObjectContext *context = self.managedObjectContext;
-    [context lock];
-    
-    //Cancella l'oggetto dal database
-    [context deleteObject:object];
-    
-    //Salva i cambiamenti
-    BOOL isError = [context save:error];
-    [context unlock];
+    [context performBlockAndWait:^{
+        [context deleteObject:object];
+        isError = [context save:&_error];
+    }];
+        
+    *error = _error;
     return isError;
 }
 
 - (BOOL)deleteObjects:(NSArray *)objects error:(NSError **)error
 {
-     NSManagedObjectContext *context = self.managedObjectContext;
-    [context lock];
+    __block NSError *_error = nil;
+    __block BOOL isError = false;
+    NSManagedObjectContext *context = self.managedObjectContext;
+    [context performBlockAndWait:^{
+        for (NSManagedObject *object in objects) {
+            [context deleteObject:object];
+        }
+        isError = [context save:&_error];
+    }];
     
-    //Cancella gli objects dal database
-    for(NSManagedObject *object in objects)
-        [context deleteObject:object];
-    
-    //Salva i cambiamenti
-    BOOL isError = [context save:error];
-    [context unlock];
+    *error = _error;
     return isError;
 }
-
 
 - (BOOL)deleteDatabase:(NSError **)error
 {
     NSManagedObjectContext *context = self.managedObjectContext;
-    [context lock];
+    __block NSError *_error = nil;
+    __block BOOL isError = false;
+    [context performBlockAndWait:^{
+        NSArray *entities = [_managedObjectModel.entities valueForKey:@"name"];
+        for(NSString *entity in entities){
+            NSArray *list = [self searchEntity:entity withPredicate:nil sortedBy:nil];
+                    
+            for(NSManagedObject *object in list)
+                [context deleteObject:object];
+        }
+
+        isError = [context save:&_error];
+    }];
     
-    //Trova le entities del database
-	NSArray *entities = [_managedObjectModel.entities valueForKey:@"name"];
-    
-	for(NSString *entity in entities){
-        //Trova gli oggetti della entity
-        NSArray *list = [self searchEntity:entity withPredicate:nil sortedBy:nil];
-                
-        //Cancella gli oggetti della entity dal database
-        for(NSManagedObject *object in list)
-            [context deleteObject:object];
-    }
-    
-    //Salva i cambiamenti
-    BOOL isError = [context save:error];
-    [context unlock];
+    *error = _error;
     return isError;
 }
+
+
+
+//- (BOOL)deleteObject:(NSManagedObject *)object error:(NSError **)error
+//{
+//    NSManagedObjectContext *context = self.managedObjectContext;
+//    [context lock];
+//
+//    //Cancella l'oggetto dal database
+//    [context deleteObject:object];
+//
+//    //Salva i cambiamenti
+//    BOOL isError = [context save:error];
+//    [context unlock];
+//    return isError;
+//}
+
+//- (BOOL)deleteObjects:(NSArray *)objects error:(NSError **)error
+//{
+//     NSManagedObjectContext *context = self.managedObjectContext;
+//    [context lock];
+//
+//    //Cancella gli objects dal database
+//    for(NSManagedObject *object in objects)
+//        [context deleteObject:object];
+//
+//    //Salva i cambiamenti
+//    BOOL isError = [context save:error];
+//    [context unlock];
+//    return isError;
+//}
+
+
+//- (BOOL)deleteDatabase:(NSError **)error
+//{
+//    NSManagedObjectContext *context = self.managedObjectContext;
+//    [context lock];
+//
+//    //Trova le entities del database
+//	NSArray *entities = [_managedObjectModel.entities valueForKey:@"name"];
+//
+//	for(NSString *entity in entities){
+//        //Trova gli oggetti della entity
+//        NSArray *list = [self searchEntity:entity withPredicate:nil sortedBy:nil];
+//
+//        //Cancella gli oggetti della entity dal database
+//        for(NSManagedObject *object in list)
+//            [context deleteObject:object];
+//    }
+//
+//    //Salva i cambiamenti
+//    BOOL isError = [context save:error];
+//    [context unlock];
+//    return isError;
+//}
 
 - (NSString *)getTotalOrderOf:(NSManagedObject *)client
 {
