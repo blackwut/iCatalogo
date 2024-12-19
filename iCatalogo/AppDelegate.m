@@ -247,8 +247,10 @@
         [context deleteObject:object];
         isError = [context save:&_error];
     }];
-        
-    *error = _error;
+    
+    if (error) {
+        *error = _error;
+    }
     return isError;
 }
 
@@ -264,7 +266,9 @@
         isError = [context save:&_error];
     }];
     
-    *error = _error;
+    if (error) {
+        *error = _error;
+    }
     return isError;
 }
 
@@ -285,7 +289,9 @@
         isError = [context save:&_error];
     }];
     
-    *error = _error;
+    if (error) {
+        *error = _error;
+    }
     return isError;
 }
 
